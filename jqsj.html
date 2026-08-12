@@ -106,7 +106,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f0f4f
       ⏱ 限时 <b>60 分钟</b>，倒计时结束自动交卷<br>
       ✅ 每题提交后<b>立即判分</b>，答错自动显示标准解析<br>
       📊 全部完成后显示<b>总分 / 用时 / 正确率</b>，并自动整理<b>错题集</b>（可打印）<br>
-      🔄 点"再练一次"会<b>重新打乱题目和选项顺序</b>，每次都是新的一套<br>
+      🔄 点"再练一次"会<b>重新打乱题目顺序</b>（每道题的选项A/B/C/D固定不变），每次都是新的一套<br>
       💾 答题进度自动保存，中途关闭页面可继续
     </div>
     <input type="text" id="stuName" placeholder="请输入你的姓名（可选）" maxlength="20">
@@ -152,7 +152,7 @@ body { font-family:"Microsoft YaHei","PingFang SC",sans-serif; background:#f0f4f
     <div id="wrongList"></div>
 
     <div class="actions" style="margin-top:24px;">
-      <button class="btn green" onclick="restartQuiz()">🔄 再练一次（重新打乱）</button>
+      <button class="btn green" onclick="restartQuiz()">🔄 再练一次（打乱题目）</button>
       <button class="btn gray" onclick="window.print()">🖨 打印错题集</button>
       <button class="btn gray" onclick="backHome()">🏠 返回首页</button>
     </div>
@@ -181,24 +181,14 @@ function shuffle(arr) {
   return arr;
 }
 
-// 构建答题用题目: 深拷贝 + 打乱选项(重映射答案)
+// 构建答题用题目: 打乱题目顺序, 每题选项A/B/C/D固定, 答案与题目捆绑
 function buildQuiz() {
   order = shuffle([...Array(QUESTIONS.length).keys()]);
   current = 0;
   answers = new Array(QUESTIONS.length).fill(null);
-  // 每题的选项打乱方案: 存 {map: [原选项下标打乱], ans: 新答案串}
-  quizItems = QUESTIONS.map(function (q, idx) {
-    const orig = q.opts;
-    const idxs = shuffle([...Array(orig.length).keys()]);
-    const opts = idxs.map(i => ({ k: orig[i].k, t: orig[i].t }));
-    // 重映射答案: 原答案字母 -> 新位置字母
-    const ansSet = new Set(q.ans.split(''));
-    let newAns = '';
-    idxs.forEach(function (ni, pos) {
-      if (ansSet.has(orig[ni].k)) newAns += String.fromCharCode(65 + pos);
-    });
-    newAns = newAns.split('').sort().join('');
-    return { q: q, opts: opts, ans: newAns };
+  // 只打乱题目顺序; 每题的选项 A/B/C/D 固定不变, 答案与题目捆绑
+  quizItems = QUESTIONS.map(function (q) {
+    return { q: q, opts: q.opts, ans: q.ans };
   });
 }
 
@@ -411,7 +401,7 @@ function startQuiz() {
 }
 
 function restartQuiz() {
-  if (!confirm('重新开始将打乱题目和选项顺序，本套成绩将被清除。确定？')) return;
+  if (!confirm('重新开始将打乱题目顺序（每道题的选项A/B/C/D固定不变），本套成绩将被清除。确定？')) return;
   document.getElementById('resultPage').style.display = 'none';
   document.getElementById('quizPage').style.display = '';
   document.getElementById('topbar').style.display = 'flex';
@@ -458,13 +448,7 @@ function loadProgress() {
 }
 function buildOne(idx) {
   const q = QUESTIONS[idx];
-  const orig = q.opts;
-  const idxs = shuffle([...Array(orig.length).keys()]);
-  const opts = idxs.map(i => ({ k: orig[i].k, t: orig[i].t }));
-  const ansSet = new Set(q.ans.split(''));
-  let newAns = '';
-  idxs.forEach(function (ni, pos) { if (ansSet.has(orig[ni].k)) newAns += String.fromCharCode(65 + pos); });
-  return { q: q, opts: opts, ans: newAns.split('').sort().join('') };
+  return { q: q, opts: q.opts, ans: q.ans };
 }
 
 window.onload = function () {
