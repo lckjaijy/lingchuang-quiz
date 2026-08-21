@@ -1,0 +1,27 @@
+【AI视频展示网页 · 部署说明】
+
+一、这是什么
+  两个 AI 视频（飞跃湛江 / 寻迹鹏城温情）的在线展示页，
+  二维码指向这里，培训老师扫码即可观看。
+
+二、如何上线（GitHub Pages，与在线刷题系统同一套流程）
+  1. 打开 https://github.com/lckjaijy/lingchuang-quiz
+  2. Add file → Upload files
+  3. 新建文件夹：在文件名输入框先输入  aivideo/  （斜杠结尾自动建文件夹）
+  4. 上传本文件夹内所有文件：
+     - index.html / feiyue.html / xunji.html
+     - feiyue_poster.jpg / xunji_poster.jpg
+     - video/ 里的 2 个视频（需先进入 video/ 再上传）
+  5. Commit changes，等 1-2 分钟
+  6. 访问验证：https://lckjaijy.github.io/lingchuang-quiz/aivideo/index.html
+
+三、二维码
+  桌面已有三个二维码：
+    - 二维码_飞跃湛江.png   -> feiyue.html
+    - 二维码_寻迹鹏城温情.png -> xunji.html
+    - 二维码_视频列表.png   -> index.html
+  PPT 里用前两个即可；上传完成后扫码生效。
+
+四、注意
+  - 寻迹鹏城已压缩为 720p 网页版（33MB，原片 166MB 留档在 E 盘）
+  - 若地址有变，告诉我重新生成二维码即可。
