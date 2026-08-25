@@ -1,0 +1,4140 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>编程基础训练营 · 鼠标 & 键盘</title>
+<style>
+
+
+:root,[data-theme="light"]{
+  --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef4;
+  --border:#cbd5e1;--primary:#0ea5e9;--primary-glow:rgba(14,165,233,0.2);
+  --secondary:#8b5cf6;--accent:#10b981;--warn:#f59e0b;--danger:#ef4444;
+  --text:#1e293b;--text2:#475569;--text3:#94a3b8;
+  --shadow:0 4px 20px rgba(0,0,0,0.08);--shadow-md:0 8px 32px rgba(0,0,0,0.12);
+  --header-bg:rgba(255,255,255,0.97);
+  --radius:14px;--radius-sm:8px;
+}
+[data-theme="dark"]{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1f2937;
+  --border:#2d3748;--primary:#38bdf8;--primary-glow:rgba(56,189,248,0.2);
+  --secondary:#a78bfa;--accent:#34d399;--warn:#fbbf24;--danger:#f87171;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);--shadow-md:0 8px 32px rgba(0,0,0,0.5);
+  --header-bg:rgba(22,27,34,0.97);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);color:var(--text);
+  overflow:hidden;transition:background 0.3s,color 0.3s;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 10%,rgba(14,165,233,0.08),transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 90%,rgba(139,92,246,0.08),transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 100%,rgba(16,185,129,0.06),transparent 60%);
+}
+[data-theme="dark"] body::before{
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 10%,rgba(56,189,248,0.10),transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 90%,rgba(167,139,250,0.10),transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 100%,rgba(52,211,153,0.08),transparent 60%);
+}
+
+/* ============================================================
+   HOMEPAGE
+   ============================================================ */
+#homepage{
+  position:relative;z-index:1;
+  height:100%;display:flex;flex-direction:column;
+  padding:28px 32px;
+}
+#homepage.hidden{display:none;}
+
+.hp-topbar{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:auto;flex-shrink:0;
+}
+.hp-logo{
+  font-size:22px;font-weight:900;letter-spacing:-0.4px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hp-spacer{flex:1;}
+#hp-theme-toggle{
+  display:flex;align-items:center;gap:6px;background:var(--bg2);
+  border:2px solid var(--border);border-radius:24px;padding:6px 14px;
+  cursor:pointer;font-size:12px;font-weight:800;color:var(--text2);
+  transition:all 0.2s;font-family:'Nunito';
+}
+#hp-theme-toggle:hover{border-color:var(--primary);color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow);}
+
+.hp-hero{
+  text-align:center;margin:auto 0;padding:20px 0;
+}
+.hp-hero-icons{
+  display:flex;gap:18px;justify-content:center;margin-bottom:18px;
+}
+.hp-wi{font-size:36px;animation:hp-float 3s ease-in-out infinite;}
+.hp-wi:nth-child(2){animation-delay:.4s;}
+.hp-wi:nth-child(3){animation-delay:.8s;}
+.hp-wi:nth-child(4){animation-delay:1.2s;}
+.hp-wi:nth-child(5){animation-delay:1.6s;}
+@keyframes hp-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+
+.hp-hero h1{
+  font-size:44px;font-weight:900;line-height:1.1;letter-spacing:-1px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:14px;
+}
+.hp-hero p{
+  font-size:15px;color:var(--text2);font-weight:600;line-height:1.7;
+  max-width:540px;margin:0 auto;
+}
+
+.hp-cards{
+  display:grid;grid-template-columns:repeat(2,minmax(260px,360px));
+  gap:24px;justify-content:center;margin:32px auto;width:100%;max-width:820px;
+}
+.hp-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:20px;
+  padding:26px 24px;cursor:pointer;transition:all 0.28s cubic-bezier(.2,.8,.2,1);
+  box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:11px;
+  position:relative;overflow:hidden;
+}
+.hp-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--card-accent,var(--primary)),transparent 70%);
+  opacity:0;transition:opacity 0.28s;pointer-events:none;
+}
+.hp-card:hover{
+  transform:translateY(-6px);
+  border-color:var(--card-accent,var(--primary));
+  box-shadow:0 12px 36px rgba(0,0,0,0.12),0 0 0 3px var(--primary-glow);
+}
+[data-theme="dark"] .hp-card:hover{box-shadow:0 12px 36px rgba(0,0,0,0.5),0 0 0 3px var(--primary-glow);}
+.hp-card:hover::before{opacity:0.06;}
+.hp-card:active{transform:translateY(-3px) scale(0.99);}
+.hp-card.mouse-card{--card-accent:var(--primary);}
+.hp-card.keyboard-card{--card-accent:var(--secondary);}
+
+.hp-card-icon{
+  font-size:54px;line-height:1;margin-bottom:4px;
+  filter:drop-shadow(0 4px 10px rgba(0,0,0,0.10));
+}
+.hp-card h2{
+  font-size:22px;font-weight:900;color:var(--text);letter-spacing:-0.5px;
+}
+.hp-card-desc{
+  font-size:13px;color:var(--text2);font-weight:700;line-height:1.6;
+}
+.hp-card-tags{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;
+}
+.hp-tag{
+  font-size:10.5px;font-weight:800;color:var(--card-accent,var(--primary));
+  background:color-mix(in srgb,var(--card-accent,var(--primary)) 10%,transparent);
+  border:1px solid color-mix(in srgb,var(--card-accent,var(--primary)) 28%,transparent);
+  padding:3px 9px;border-radius:11px;font-family:'JetBrains Mono';letter-spacing:0.3px;
+}
+.hp-card-meta{
+  font-size:11px;font-weight:800;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.8px;
+  padding-top:11px;border-top:1px dashed var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.hp-card-cta{
+  display:inline-flex;align-items:center;gap:5px;
+  color:var(--card-accent,var(--primary));font-weight:900;font-size:13px;
+  transition:gap 0.2s;
+}
+.hp-card:hover .hp-card-cta{gap:9px;}
+
+.hp-footer{
+  text-align:center;font-size:12px;color:var(--text3);font-weight:700;
+  margin-top:auto;padding-top:18px;flex-shrink:0;
+}
+
+/* ============================================================
+   TRAINING VIEW (iframe + back nav)
+   ============================================================ */
+#training-view{
+  position:fixed;inset:0;z-index:10;
+  display:none;flex-direction:column;
+  background:var(--bg);
+}
+#training-view.show{display:flex;}
+
+#tv-navbar{
+  flex-shrink:0;height:44px;
+  display:flex;align-items:center;gap:14px;padding:0 16px;
+  background:var(--header-bg);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(14px);
+  font-family:'Nunito';
+}
+#btn-exit-trainer{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg3);border:1px solid var(--border);
+  color:var(--text2);border-radius:20px;padding:6px 14px;
+  font-family:'Nunito';font-size:12.5px;font-weight:800;cursor:pointer;
+  transition:all 0.18s;
+}
+#btn-exit-trainer:hover{
+  border-color:var(--primary);color:var(--primary);
+  background:rgba(14,165,233,0.06);
+  box-shadow:0 0 0 3px var(--primary-glow);
+}
+#btn-exit-trainer:active{transform:scale(0.96);}
+#tv-trainer-label{
+  font-size:13px;font-weight:900;letter-spacing:-0.2px;
+  background:linear-gradient(135deg,var(--primary),var(--secondary));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+#tv-divider{color:var(--text3);font-weight:700;font-size:12px;opacity:0.6;}
+#tv-hint{
+  margin-left:auto;font-size:11px;font-weight:700;color:var(--text3);
+}
+#tv-hint kbd{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:4px;padding:1px 6px;font-family:'JetBrains Mono';font-size:10px;
+  color:var(--text2);
+}
+#trainer-frame{
+  flex:1;width:100%;border:none;background:var(--bg);
+}
+
+/* Responsive: stack cards on narrow viewports */
+@media (max-width: 720px){
+  .hp-cards{grid-template-columns:1fr;max-width:380px;gap:18px;}
+  .hp-hero h1{font-size:32px;}
+  .hp-hero p{font-size:13px;}
+  .hp-wi{font-size:28px;}
+  #homepage{padding:18px 18px;}
+}
+@media (max-height: 700px){
+  .hp-hero{padding:8px 0;}
+  .hp-hero h1{font-size:32px;margin-bottom:8px;}
+  .hp-hero-icons{margin-bottom:10px;}
+  .hp-wi{font-size:28px;}
+  .hp-cards{margin:18px auto;gap:16px;}
+  .hp-card{padding:18px 18px;gap:8px;}
+  .hp-card-icon{font-size:42px;}
+  .hp-card h2{font-size:19px;}
+}
+
+::-webkit-scrollbar{width:7px;height:7px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<!-- HOMEPAGE -->
+<div id="homepage">
+  <div class="hp-topbar">
+    <div class="hp-logo">🎮 编程基础训练营</div>
+    <div class="hp-spacer"></div>
+    <div id="hp-theme-toggle" onclick="hpToggleTheme()">
+      <span id="hp-theme-icon">☀️</span>
+      <span id="hp-theme-label">浅色</span>
+    </div>
+  </div>
+
+  <div class="hp-hero">
+    <div class="hp-hero-icons">
+      <div class="hp-wi">🖱</div>
+      <div class="hp-wi">⌨</div>
+      <div class="hp-wi">🎯</div>
+      <div class="hp-wi">🏆</div>
+      <div class="hp-wi">🚀</div>
+    </div>
+    <h1>选择你的训练营</h1>
+    <p>掌握编程必备的鼠标和键盘操作。两个训练营各自独立，可以任意顺序完成。</p>
+  </div>
+
+  <div class="hp-cards">
+    <div class="hp-card mouse-card" onclick="openTrainer('mouse')">
+      <div class="hp-card-icon">🖱</div>
+      <h2>鼠标训练营</h2>
+      <div class="hp-card-desc">练习编程中最常用的 5 大鼠标操作，从点击到滚轮，每关一个主题。</div>
+      <div class="hp-card-tags">
+        <span class="hp-tag">左键点击</span>
+        <span class="hp-tag">双击</span>
+        <span class="hp-tag">拖拽</span>
+        <span class="hp-tag">右键菜单</span>
+        <span class="hp-tag">滚轮</span>
+      </div>
+      <div class="hp-card-meta">
+        <span>6 关 · 适合编程入门前</span>
+        <span class="hp-card-cta">进入训练 →</span>
+      </div>
+    </div>
+
+    <div class="hp-card keyboard-card" onclick="openTrainer('keyboard')">
+      <div class="hp-card-icon">⌨</div>
+      <h2>键盘训练营</h2>
+      <div class="hp-card-desc">从控制键到编程符号，掌握编程必备的快捷键，熟悉 Python 和 C++ 符号输入。</div>
+      <div class="hp-card-tags">
+        <span class="hp-tag">控制键</span>
+        <span class="hp-tag">方向键</span>
+        <span class="hp-tag">Ctrl+C/V</span>
+        <span class="hp-tag">Python 符号</span>
+        <span class="hp-tag">C++ 符号</span>
+      </div>
+      <div class="hp-card-meta">
+        <span>7 关 · 含语言专项</span>
+        <span class="hp-card-cta">进入训练 →</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hp-footer">💡 进入训练后，可随时点击左上角"返回主页"切换</div>
+</div>
+
+<!-- TRAINING VIEW -->
+<div id="training-view">
+  <div id="tv-navbar">
+    <button id="btn-exit-trainer" onclick="exitTrainer()">← 返回主页</button>
+    <span id="tv-divider">|</span>
+    <span id="tv-trainer-label">训练中</span>
+    <span id="tv-hint">提示：按 <kbd>Esc</kbd> 也可返回</span>
+  </div>
+  <iframe id="trainer-frame" title="训练区"></iframe>
+</div>
+
+<!-- Embedded trainer payloads -->
+<!-- Inside these <script type="text/template"> blocks the trainer source has '</script>' replaced with '<\/script>' so the HTML parser doesn't prematurely close the template. -->
+<script type="text/template" id="mouse-html"><!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鼠标操作训练工具 · MouseMaster</title>
+<style>
+
+
+/* ===== THEME VARIABLES ===== */
+:root,[data-theme="light"]{
+  --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef4;--card:#ffffff;
+  --border:#cbd5e1;--primary:#0ea5e9;--primary-glow:rgba(14,165,233,0.2);
+  --secondary:#8b5cf6;--accent:#10b981;--warn:#f59e0b;--danger:#ef4444;
+  --text:#1e293b;--text2:#475569;--text3:#94a3b8;
+  --shadow:0 4px 20px rgba(0,0,0,0.08);--shadow-md:0 8px 32px rgba(0,0,0,0.12);
+  --header-bg:rgba(255,255,255,0.97);--sidebar-bg:rgba(248,250,252,0.97);
+  --radius:14px;--radius-sm:8px;
+}
+[data-theme="dark"]{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1f2937;--card:#1a2332;
+  --border:#2d3748;--primary:#38bdf8;--primary-glow:rgba(56,189,248,0.2);
+  --secondary:#a78bfa;--accent:#34d399;--warn:#fbbf24;--danger:#f87171;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);--shadow-md:0 8px 32px rgba(0,0,0,0.5);
+  --header-bg:rgba(22,27,34,0.97);--sidebar-bg:rgba(26,35,50,0.97);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;transition:background 0.3s,color 0.3s;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 10% 10%,rgba(14,165,233,0.05),transparent 60%),
+             radial-gradient(ellipse 60% 60% at 90% 90%,rgba(139,92,246,0.05),transparent 60%);}
+[data-theme="dark"] body::before{
+  background:radial-gradient(ellipse 70% 50% at 10% 10%,rgba(56,189,248,0.06),transparent 60%),
+             radial-gradient(ellipse 60% 60% at 90% 90%,rgba(167,139,250,0.06),transparent 60%);}
+#app{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;}
+
+/* ===== HEADER ===== */
+#header{
+  display:flex;align-items:center;gap:14px;padding:10px 20px;
+  background:var(--header-bg);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);flex-shrink:0;transition:background 0.3s,border-color 0.3s;
+}
+.logo{font-size:18px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;letter-spacing:-0.3px;}
+#level-badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 13px;font-size:12px;font-weight:800;color:var(--primary);white-space:nowrap;}
+#progress-wrap{flex:1;max-width:320px;}
+#progress-label{font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:800;text-transform:uppercase;letter-spacing:0.7px;}
+#progress-bar-outer{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+#progress-bar-inner{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width 0.6s cubic-bezier(.2,.8,.2,1);width:0%;box-shadow:0 0 8px var(--primary-glow);}
+/* Theme toggle */
+#theme-toggle{
+  display:flex;align-items:center;gap:5px;background:var(--bg3);border:2px solid var(--border);
+  border-radius:24px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:800;
+  color:var(--text2);transition:all 0.2s;white-space:nowrap;flex-shrink:0;
+}
+#theme-toggle:hover{border-color:var(--primary);color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow);}
+.theme-icon{font-size:14px;}
+/* Restart button */
+#btn-restart-all-header{
+  display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--danger),#dc2626);
+  border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:800;color:#fff;
+  cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;font-family:'Nunito';
+  box-shadow:0 2px 8px rgba(239,68,68,0.3);
+}
+#btn-restart-all-header:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(239,68,68,0.4);}
+#btn-restart-all-header:active{transform:scale(0.96);}
+
+/* ===== MAIN LAYOUT ===== */
+#main{flex:1;display:grid;grid-template-columns:220px 1fr 185px;overflow:hidden;}
+
+/* ===== SIDEBARS ===== */
+#sidebar-left,#sidebar-right{
+  padding:11px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;
+  transition:background 0.3s,border-color 0.3s;
+}
+#sidebar-left{background:var(--sidebar-bg);border-right:1px solid var(--border);}
+#sidebar-right{background:var(--sidebar-bg);border-left:1px solid var(--border);}
+.side-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px;transition:all 0.3s;}
+.side-card h3{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;}
+#task-desc{font-size:12px;font-weight:700;color:var(--text);line-height:1.6;}
+#task-hint{margin-top:6px;padding:6px 8px;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);border-radius:var(--radius-sm);font-size:11px;color:var(--primary);line-height:1.5;}
+[data-theme="dark"] #task-hint{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);}
+#feedback-box{padding:8px 10px;border-radius:var(--radius-sm);font-size:11px;font-weight:700;line-height:1.5;min-height:40px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);color:var(--accent);transition:all 0.3s;}
+#feedback-box.error{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.3);color:var(--danger);}
+
+/* ===== LEVEL LIST (read-only progress) ===== */
+.level-list{display:flex;flex-direction:column;gap:3px;}
+.level-item{
+  display:flex;align-items:center;gap:7px;padding:8px 9px;border-radius:var(--radius-sm);
+  font-size:12px;font-weight:700;color:var(--text3);border:1px solid transparent;
+  cursor:default;transition:all 0.2s;
+}
+.level-item.active{color:var(--primary);background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.25);box-shadow:inset 2px 0 0 var(--primary);}
+.level-item.done{color:var(--accent);background:rgba(16,185,129,0.05);}
+.level-item.upcoming{opacity:0.5;}
+.li-num{font-family:'JetBrains Mono';font-size:10px;color:var(--text3);width:15px;font-weight:800;}
+.level-item.active .li-num{color:var(--primary);}
+.level-item.done .li-num{color:var(--accent);}
+.li-icon{font-size:13px;}
+.li-status{font-size:11px;margin-left:auto;opacity:0.85;font-weight:800;}
+.level-item.done .li-status{color:var(--accent);}
+.level-item.active .li-status{color:var(--primary);font-family:'JetBrains Mono';font-size:10px;}
+
+/* ===== LEFT SIDEBAR — MINI ROW (timer + progress) ===== */
+.side-card-compact{padding:8px 10px;}
+.mini-row{display:flex;gap:8px;}
+.mini-block{flex:1;text-align:center;padding:4px 2px;}
+.mini-block + .mini-block{border-left:1px solid var(--border);}
+.mini-label{font-size:10px;color:var(--text3);font-weight:800;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.5px;}
+.mini-val{font-size:20px;font-weight:900;font-family:'JetBrains Mono';color:var(--warn);line-height:1.1;letter-spacing:-0.5px;}
+.mini-block:nth-child(2) .mini-val{color:var(--primary);font-size:16px;}
+
+/* ===== SIDEBAR ACTION BUTTONS ===== */
+#sidebar-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto;}
+.btn-block{width:100%;justify-content:center;}
+
+/* ===== RIGHT SIDEBAR — OVERALL STATS ===== */
+.overall-stat{display:flex;flex-direction:column;gap:2px;}
+.os-row{display:flex;align-items:center;gap:8px;padding:8px 4px;border-radius:6px;transition:background 0.2s;}
+.os-row + .os-row{border-top:1px solid var(--border);}
+.os-icon{font-size:14px;width:18px;text-align:center;font-weight:900;}
+.os-name{flex:1;font-size:11px;color:var(--text2);font-weight:700;}
+.os-val{font-family:'JetBrains Mono';font-size:17px;font-weight:900;color:var(--text);letter-spacing:-0.5px;}
+
+/* ===== CENTER ===== */
+#center{display:flex;flex-direction:column;overflow:hidden;position:relative;}
+#training-area{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+
+.btn{padding:9px 22px;border-radius:30px;border:none;cursor:pointer;font-family:'Nunito';font-size:13px;font-weight:800;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:5px;}
+.btn:active{transform:scale(0.95);}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important;}
+.btn-primary{background:linear-gradient(135deg,var(--primary),#0284c7);color:#fff;box-shadow:0 3px 12px rgba(14,165,233,0.3);}
+.btn-primary:hover:not(:disabled){box-shadow:0 5px 20px rgba(14,165,233,0.45);transform:translateY(-1px);}
+.btn-secondary{background:var(--bg3);border:1px solid var(--border);color:var(--text2);}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary);}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#059669);color:#fff;box-shadow:0 3px 12px rgba(16,185,129,0.3);}
+.btn-accent:hover:not(:disabled){box-shadow:0 5px 20px rgba(16,185,129,0.45);transform:translateY(-1px);}
+
+/* ===== WELCOME ===== */
+#screen-welcome{flex-direction:column;text-align:center;gap:14px;padding:32px;}
+#screen-welcome h1{font-size:36px;font-weight:900;line-height:1.1;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#screen-welcome p{font-size:14px;color:var(--text2);max-width:400px;line-height:1.7;font-weight:600;}
+.welcome-icons{display:flex;gap:14px;justify-content:center;}
+.wi{font-size:30px;animation:float 3s ease-in-out infinite;}
+.wi:nth-child(2){animation-delay:.5s;}.wi:nth-child(3){animation-delay:1s;}
+.wi:nth-child(4){animation-delay:1.5s;}.wi:nth-child(5){animation-delay:2s;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* ===== LEVEL SCREEN BASE ===== */
+.level-screen{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:absolute;inset:0;}
+
+/* ===== LEVEL 1 ===== */
+#l1-area{width:100%;height:100%;position:relative;background:radial-gradient(ellipse at center,rgba(14,165,233,0.04),transparent 70%);}
+.click-ripple{position:absolute;border-radius:50%;border:2px solid var(--accent);pointer-events:none;animation:ripple-out 0.5s ease-out forwards;}
+@keyframes ripple-out{0%{width:16px;height:16px;opacity:1;}100%{width:72px;height:72px;opacity:0;}}
+@keyframes pulse-target{
+  0%,100%{box-shadow:0 0 0 7px rgba(14,165,233,0.18),0 0 26px rgba(14,165,233,0.4);}
+  50%{box-shadow:0 0 0 14px rgba(14,165,233,0.08),0 0 44px rgba(14,165,233,0.6);}
+}
+
+/* ===== LEVEL 2: TREASURE ===== */
+#l2-area{width:100%;height:100%;position:relative;}
+.treasure-wrap{position:absolute;cursor:pointer;display:flex;flex-direction:column;align-items:center;transition:transform 0.2s;}
+.treasure-wrap:hover{transform:scale(1.07)!important;}
+.chest-lid{
+  width:116px;height:40px;background:linear-gradient(160deg,#f59e0b,#d97706);
+  border-radius:7px 7px 0 0;border:3px solid #92400e;position:relative;
+  transform-origin:bottom center;transition:transform 0.4s cubic-bezier(.2,1.4,.6,1);
+  box-shadow:0 -3px 10px rgba(0,0,0,0.25),inset 0 3px 7px rgba(255,255,255,0.2);
+}
+.chest-lid.open{transform:rotateX(-115deg);}
+.chest-lid::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:17px;height:11px;background:#92400e;border-radius:50%;border:2px solid #78350f;}
+.chest-body{width:112px;height:80px;background:linear-gradient(160deg,#d97706,#b45309);border-radius:5px 5px 9px 9px;border:3px solid #92400e;position:relative;box-shadow:0 5px 18px rgba(0,0,0,0.4),inset 0 2px 6px rgba(255,255,255,0.12);}
+.chest-body::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:26px;height:14px;background:#92400e;border-radius:7px 7px 0 0;}
+.chest-glow{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:85px;height:14px;background:radial-gradient(ellipse,rgba(251,191,36,0.42),transparent);pointer-events:none;}
+.chest-reward{position:absolute;top:-42px;left:50%;transform:translateX(-50%);font-size:24px;opacity:0;transition:all 0.5s;pointer-events:none;}
+.chest-reward.show{opacity:1;transform:translateX(-50%) translateY(-12px);}
+
+/* ===== LEVEL 3: SCRATCH BLOCKS ===== */
+#l3-area{width:100%;height:100%;display:flex;gap:18px;padding:16px;align-items:center;}
+#blocks-source{
+  width:200px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:12px 10px;display:flex;flex-direction:column;gap:14px;
+  box-shadow:var(--shadow);overflow-y:auto;
+}
+#blocks-source h4{font-size:10px;color:var(--text3);font-weight:800;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:2px;}
+
+/* === Scratch 3.0 style blocks === */
+.scratch-block{
+  position:relative;display:inline-flex;align-items:center;
+  min-height:38px;padding:6px 12px 6px 14px;
+  cursor:grab;font-size:12px;font-weight:700;color:#fff;
+  border-radius:4px;transition:filter 0.12s,transform 0.12s;
+  user-select:none;margin-top:5px;margin-bottom:5px;
+  font-family:'Nunito',sans-serif;
+  /* notch shape via clip-path — Scratch 3.0 puzzle piece */
+  clip-path: polygon(
+    0% 0%,
+    10px 0%, 10px 4px, 26px 4px, 26px 0%,
+    100% 0%, 100% 100%,
+    26px 100%, 26px calc(100% - 4px), 10px calc(100% - 4px), 10px 100%,
+    0% 100%
+  );
+}
+.scratch-block::before{
+  content:'';position:absolute;top:-5px;left:10px;
+  width:16px;height:8px;border-radius:4px 4px 0 0;
+  background:inherit;filter:brightness(0.82);z-index:2;
+}
+.scratch-block::after{
+  content:'';position:absolute;bottom:-5px;left:10px;
+  width:16px;height:8px;border-radius:0 0 4px 4px;
+  background:inherit;filter:brightness(0.82);z-index:2;
+}
+.scratch-block:hover:not(.dragging){filter:brightness(1.1);transform:scale(1.03);}
+.scratch-block:active:not(.dragging){cursor:grabbing;}
+.scratch-block.dragging{opacity:0.32;cursor:grabbing;}
+
+/* Exact Scratch 3.0 category colours */
+.sb-motion {background:#4c97ff;box-shadow:0 3px 0 #3373cc,inset 0 1px 0 rgba(255,255,255,0.18);}
+.sb-looks  {background:#9966ff;box-shadow:0 3px 0 #7740e6,inset 0 1px 0 rgba(255,255,255,0.18);}
+.sb-sound  {background:#cf63cf;box-shadow:0 3px 0 #a94ea9,inset 0 1px 0 rgba(255,255,255,0.18);}
+.sb-control{background:#ffab19;box-shadow:0 3px 0 #cc8800,inset 0 1px 0 rgba(255,255,255,0.18);}
+.sb-sensing{background:#5cb1d6;box-shadow:0 3px 0 #3d8ea6,inset 0 1px 0 rgba(255,255,255,0.18);}
+
+/* Number input oval */
+.sb-input{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.3);border-radius:99px;
+  padding:1px 8px;font-size:11px;font-weight:800;
+  min-width:26px;margin:0 2px;color:#fff;
+  border:1px solid rgba(255,255,255,0.15);
+}
+/* String input rounded-rect */
+.sb-input-str{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.3);border-radius:3px;
+  padding:1px 7px;font-size:11px;font-weight:800;
+  min-width:30px;margin:0 2px;color:#fff;
+  border:1px solid rgba(255,255,255,0.15);
+}
+.scratch-block-ghost{
+  position:fixed;pointer-events:none;z-index:9999;
+  opacity:0.86;transform:rotate(3deg) scale(1.07);
+  box-shadow:0 8px 24px rgba(0,0,0,0.32);
+}
+#drop-zone{
+  flex:1;height:100%;background:rgba(14,165,233,0.03);border:2px dashed var(--border);
+  border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;transition:all 0.2s;position:relative;
+}
+#drop-zone.drag-over{border-color:var(--primary);background:rgba(14,165,233,0.07);box-shadow:inset 0 0 24px rgba(14,165,233,0.07);}
+#drop-zone.wrong-drop{border-color:var(--danger);background:rgba(239,68,68,0.05);animation:shake 0.4s;}
+#drop-zone.correct-drop{border-color:var(--accent);background:rgba(16,185,129,0.05);}
+.dz-label{font-size:14px;color:var(--text3);font-weight:700;text-align:center;}
+.dz-target{margin-top:10px;font-size:12px;color:var(--primary);font-weight:800;background:rgba(14,165,233,0.1);padding:5px 14px;border-radius:20px;display:flex;align-items:center;gap:6px;}
+#dropped-block-display{position:absolute;opacity:0;transform:scale(0.8);transition:all 0.3s;pointer-events:none;}
+#dropped-block-display.show{opacity:1;transform:scale(1);}
+#l3-arrow{font-size:26px;color:var(--text3);flex-shrink:0;animation:arrow-pulse 1.5s ease-in-out infinite;}
+@keyframes arrow-pulse{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+
+/* ===== LEVEL 4: RIGHT CLICK ===== */
+#l4-area{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:34px;}
+.file-card{
+  width:146px;height:184px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:8px;cursor:context-menu;transition:all 0.2s;box-shadow:var(--shadow);
+}
+.file-card:hover{border-color:var(--primary);box-shadow:0 6px 26px rgba(14,165,233,0.14);transform:translateY(-2px);}
+.file-card.wrong-click{animation:shake 0.4s;border-color:var(--danger);}
+.file-card-icon{font-size:44px;}
+.file-card-name{font-size:13px;font-weight:800;color:var(--text2);}
+.file-card-tag{font-size:10px;font-weight:700;color:var(--primary);background:rgba(14,165,233,0.1);padding:2px 7px;border-radius:10px;}
+#ctx-menu{
+  position:fixed;z-index:99999;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:4px 0;min-width:134px;
+  box-shadow:var(--shadow-md);display:none;animation:menu-appear 0.14s ease-out;
+}
+@keyframes menu-appear{from{opacity:0;transform:scale(0.93)}to{opacity:1;transform:scale(1)}}
+.ctx-item{padding:9px 13px;font-size:12px;font-weight:700;color:var(--text2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.1s;}
+.ctx-item:hover{background:rgba(14,165,233,0.07);color:var(--primary);}
+.ctx-divider{height:1px;background:var(--border);margin:2px 0;}
+.ctx-item.target-hint{color:var(--warn);}
+#l4-target-text{margin-top:10px;font-size:14px;font-weight:800;color:var(--warn);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);padding:7px 13px;border-radius:8px;}
+
+/* ===== LEVEL 5: SCROLL ===== */
+#l5-area{width:100%;height:100%;display:flex;gap:18px;padding:22px;align-items:center;justify-content:center;background:radial-gradient(ellipse at 70% 35%,rgba(14,165,233,0.04),transparent 60%);}
+#scroll-panel-wrap{flex:0 1 560px;height:min(340px,calc(100% - 28px));background:linear-gradient(180deg,var(--bg2),rgba(255,255,255,0.94));border:1px solid rgba(148,163,184,0.38);border-radius:18px;overflow:hidden;position:relative;box-shadow:0 18px 42px rgba(15,23,42,0.10),inset 0 1px 0 rgba(255,255,255,0.65);}
+[data-theme="dark"] #scroll-panel-wrap{background:linear-gradient(180deg,var(--bg2),rgba(26,35,50,0.96));box-shadow:0 18px 42px rgba(0,0,0,0.28),inset 0 1px 0 rgba(255,255,255,0.05);}
+#scroll-panel-wrap::after{content:'向下滚动查看更多';position:absolute;left:16px;right:16px;bottom:8px;height:46px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0),var(--bg2) 68%);font-size:11px;font-weight:900;color:var(--primary);letter-spacing:.5px;}
+[data-theme="dark"] #scroll-panel-wrap::after{background:linear-gradient(180deg,rgba(26,35,50,0),var(--bg2) 68%);}
+#scroll-panel-inner{height:100%;overflow-y:auto;padding:14px 16px 58px;scrollbar-width:thin;scrollbar-color:var(--border) transparent;scroll-behavior:smooth;}
+#scroll-panel-inner::-webkit-scrollbar{width:6px;}
+#scroll-panel-inner::-webkit-scrollbar-thumb{background:linear-gradient(var(--primary),var(--secondary));border-radius:10px;}
+.task-card-item{
+  min-height:54px;padding:11px 13px;border-radius:14px;border:1px solid rgba(148,163,184,0.36);
+  margin-bottom:10px;cursor:pointer;background:linear-gradient(180deg,var(--bg2),var(--bg3));
+  display:flex;align-items:center;gap:9px;transition:transform 0.18s,border-color 0.18s,box-shadow 0.18s,background 0.18s;font-size:13px;font-weight:800;box-shadow:0 4px 14px rgba(15,23,42,0.05);
+}
+.task-card-item:hover{border-color:var(--primary);transform:translateX(3px);box-shadow:0 8px 22px rgba(14,165,233,0.12);}
+.task-card-item.target-card{border-color:rgba(245,158,11,0.72);background:linear-gradient(180deg,rgba(245,158,11,0.12),var(--bg2));animation:card-glow 1.5s ease-in-out infinite;}
+@keyframes card-glow{0%,100%{box-shadow:0 6px 18px rgba(245,158,11,0.08);}50%{box-shadow:0 8px 24px rgba(245,158,11,0.24);}}
+.task-card-item.wrong-card{animation:shake 0.4s;border-color:var(--danger);}
+.task-card-item.correct-card{border-color:var(--accent);background:linear-gradient(180deg,rgba(16,185,129,0.14),var(--bg2));}
+.card-num{font-family:'JetBrains Mono';font-size:10px;color:var(--text3);width:28px;}
+.card-type-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 4px rgba(148,163,184,0.12);}
+.card-content{flex:1;}
+.card-lock{font-size:13px;color:var(--text3);opacity:.75;}
+#l5-hint-box{width:192px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;}
+#l5-target-display{background:linear-gradient(180deg,var(--bg2),rgba(248,250,252,0.92));border:1px solid rgba(148,163,184,0.38);border-radius:18px;padding:14px 12px;text-align:center;box-shadow:0 12px 28px rgba(15,23,42,0.08);}
+[data-theme="dark"] #l5-target-display{background:linear-gradient(180deg,var(--bg2),rgba(26,35,50,0.92));}
+#l5-target-display .t-label{font-size:10px;color:var(--text3);font-weight:900;margin-bottom:7px;letter-spacing:.8px;text-transform:uppercase;}
+#l5-target-name{font-size:16px;font-weight:900;color:var(--warn);line-height:1.35;}
+.l5-scroll-tip{font-size:11px;line-height:1.55;color:var(--text2);font-weight:800;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.18);border-radius:14px;padding:10px 11px;}
+#wheel-counter{background:linear-gradient(180deg,var(--bg2),rgba(248,250,252,0.92));border:1px solid rgba(148,163,184,0.38);border-radius:18px;padding:12px 10px;text-align:center;box-shadow:0 10px 24px rgba(15,23,42,0.06);}
+[data-theme="dark"] #wheel-counter{background:linear-gradient(180deg,var(--bg2),rgba(26,35,50,0.92));}
+#wheel-counter .wc-label{font-size:10px;color:var(--text3);font-weight:900;margin-bottom:3px;letter-spacing:.5px;}
+#wheel-count-val{font-size:24px;font-weight:900;font-family:'JetBrains Mono';color:var(--secondary);}
+
+/* ===== LEVEL 6: COMBINED ===== */
+#l6-area{width:100%;height:100%;padding:12px;display:flex;gap:12px;}
+#l6-workspace{
+  flex:1;height:100%;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;position:relative;
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);
+}
+#l6-steps{width:178px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px;box-shadow:var(--shadow);}
+#l6-steps h4{font-size:10px;color:var(--text3);font-weight:800;margin-bottom:7px;text-transform:uppercase;letter-spacing:0.8px;}
+.l6-step{display:flex;align-items:flex-start;gap:6px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text3);transition:color 0.3s;}
+.l6-step:last-child{border-bottom:none;}
+.l6-step.active{color:var(--primary);}
+.l6-step.done{color:var(--accent);}
+.l6-step-num{width:18px;height:18px;border-radius:50%;flex-shrink:0;background:var(--bg3);font-family:'JetBrains Mono';font-size:10px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;}
+.l6-step.active .l6-step-num{background:var(--primary);color:#fff;}
+.l6-step.done .l6-step-num{background:var(--accent);color:#fff;}
+#l6-complete-anim{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.88);border-radius:var(--radius);flex-direction:column;gap:13px;opacity:0;pointer-events:none;transition:opacity 0.5s;}
+[data-theme="dark"] #l6-complete-anim{background:rgba(13,17,23,0.88);}
+#l6-complete-anim.show{opacity:1;pointer-events:auto;}
+#l6-complete-anim .ce{font-size:52px;animation:bounce-in 0.5s;}
+#l6-complete-anim h2{font-size:20px;font-weight:900;color:var(--accent);}
+
+/* ===== LEVEL COMPLETE OVERLAY ===== */
+#screen-level-complete{
+  position:absolute;inset:0;z-index:100;background:rgba(255,255,255,0.88);backdrop-filter:blur(5px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:13px;text-align:center;
+}
+[data-theme="dark"] #screen-level-complete{background:rgba(13,17,23,0.9);}
+#screen-level-complete.show{display:flex;}
+.lc-big-emoji{font-size:60px;animation:bounce-in 0.5s;}
+#screen-level-complete h2{font-size:24px;font-weight:900;color:var(--accent);}
+.lc-stats{display:flex;gap:18px;}
+.lc-stat{text-align:center;}
+.lc-stat-val{font-size:24px;font-weight:900;font-family:'JetBrains Mono';color:var(--primary);}
+.lc-stat-lbl{font-size:10px;color:var(--text3);font-weight:700;}
+.lc-stat.bad .lc-stat-val{color:var(--danger);}
+
+/* ===== RESULT SCREEN — scrollable + responsive ===== */
+#screen-result{
+  position:fixed;inset:0;z-index:500;background:var(--bg);
+  overflow-y:auto;overflow-x:hidden;
+  display:none;
+}
+#screen-result.show{display:block;}
+.result-inner{
+  min-height:100%;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  padding:22px 18px 36px;
+  box-sizing:border-box;
+}
+#screen-result h1{font-size:24px;font-weight:900;flex-shrink:0;}
+.result-score-circle{
+  width:124px;height:124px;border-radius:50%;border:5px solid var(--primary);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle,rgba(14,165,233,0.08),transparent);
+  box-shadow:0 0 30px rgba(14,165,233,0.17);animation:bounce-in 0.6s;
+  flex-shrink:0;
+}
+.result-score-num{font-size:42px;font-weight:900;font-family:'JetBrains Mono';color:var(--primary);line-height:1;}
+.result-score-lbl{font-size:11px;color:var(--text3);font-weight:700;margin-top:3px;}
+.result-comment{max-width:520px;text-align:center;padding:12px 18px;border-radius:var(--radius);background:rgba(14,165,233,0.06);border:1px solid rgba(14,165,233,0.17);font-size:15px;font-weight:700;color:var(--text);line-height:1.6;flex-shrink:0;}
+.result-stats-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;flex-shrink:0;}
+.result-stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px 17px;text-align:center;min-width:82px;}
+.rsc-val{font-size:22px;font-weight:900;font-family:'JetBrains Mono';color:var(--text);line-height:1.1;}
+.rsc-lbl{font-size:12px;color:var(--text3);font-weight:700;margin-top:3px;}
+.result-levels-table{width:100%;max-width:580px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;flex-shrink:0;}
+.rlt-head,.rlt-row{display:grid;grid-template-columns:1fr 72px 72px 60px;padding:0 16px;font-size:15px;font-weight:700;min-height:42px;align-items:center;}
+.rlt-head{background:var(--bg3);color:var(--text3);font-size:12px;text-transform:uppercase;min-height:34px;}
+.rlt-row{border-top:1px solid var(--border);color:var(--text2);}
+.rlt-err{color:var(--danger);font-family:'JetBrains Mono';font-weight:800;}
+.rlt-done{color:var(--accent);font-size:16px;}
+.result-improve{max-width:580px;width:100%;padding:12px 18px;border-radius:var(--radius);background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.17);flex-shrink:0;}
+.result-improve h3{font-size:13px;color:var(--warn);font-weight:800;margin-bottom:6px;}
+.result-improve p{font-size:13px;color:var(--text2);font-weight:600;line-height:1.6;}
+
+/* Smaller-screen overrides — shrink gently, never fold the 6 level rows */
+@media (max-height: 820px){
+  .result-inner{gap:11px;padding:18px 16px 30px;}
+  #screen-result h1{font-size:21px;}
+  .result-score-circle{width:104px;height:104px;border-width:4px;}
+  .result-score-num{font-size:34px;}
+  .result-score-lbl{font-size:10px;}
+  .result-comment{font-size:14px;padding:10px 15px;line-height:1.5;}
+  .result-stat-card{padding:9px 14px;min-width:74px;}
+  .rsc-val{font-size:19px;}
+  .rsc-lbl{font-size:11px;}
+  .rlt-head,.rlt-row{min-height:38px;font-size:14px;}
+  .rlt-head{font-size:11px;}
+  .result-improve p{font-size:12.5px;}
+}
+@media (max-height: 680px){
+  .result-inner{gap:8px;padding:14px 14px 24px;}
+  #screen-result h1{font-size:19px;}
+  .result-score-circle{width:88px;height:88px;border-width:3px;}
+  .result-score-num{font-size:28px;}
+  .result-score-lbl{font-size:9px;}
+  .result-comment{font-size:13px;padding:8px 13px;line-height:1.45;}
+  .result-stat-card{padding:7px 12px;min-width:66px;}
+  .rsc-val{font-size:17px;}
+  .rsc-lbl{font-size:10px;}
+  .rlt-head,.rlt-row{min-height:33px;font-size:13px;padding:0 13px;}
+  .rlt-head{font-size:10px;}
+  .result-improve{padding:9px 14px;}
+  .result-improve p{font-size:12px;}
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes bounce-in{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes confetti-fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
+.confetti-piece{position:fixed;top:-14px;pointer-events:none;z-index:9998;animation:confetti-fall linear forwards;border-radius:2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- HEADER -->
+<div id="header">
+  <div class="logo">🖱 鼠标训练营</div>
+  <div id="level-badge">欢迎</div>
+  <div id="progress-wrap">
+    <div id="progress-label">总进度</div>
+    <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
+  </div>
+  <div style="flex:1;"></div>
+  <div id="theme-toggle" onclick="toggleTheme()">
+    <span class="theme-icon" id="theme-icon">☀️</span>
+    <span id="theme-label">浅色</span>
+  </div>
+  <button id="btn-restart-all-header" onclick="restartAll()">🔄 重新开始</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- SIDEBAR LEFT -->
+  <div id="sidebar-left">
+    <div class="side-card">
+      <h3>当前任务</h3>
+      <div id="task-desc">点击下方"开始训练"按钮开始挑战！</div>
+      <div id="task-hint">💡 完成 6 关，获得鼠标熟练度评分</div>
+    </div>
+    <div class="side-card side-card-compact">
+      <div class="mini-row">
+        <div class="mini-block">
+          <div class="mini-label">⏱ 本关用时</div>
+          <div class="mini-val" id="timer-value">0:00</div>
+        </div>
+        <div class="mini-block">
+          <div class="mini-label">📊 本关进度</div>
+          <div class="mini-val" id="level-progress-val">— / —</div>
+        </div>
+      </div>
+    </div>
+    <div class="side-card">
+      <h3>操作反馈</h3>
+      <div id="feedback-box">✅ 准备开始！</div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div id="center">
+    <div id="training-area">
+
+      <!-- WELCOME -->
+      <div id="screen-welcome" class="level-screen" style="position:relative;inset:auto;display:flex;flex-direction:column;text-align:center;gap:14px;padding:32px;">
+        <div class="welcome-icons">
+          <div class="wi">🖱</div><div class="wi">⌨</div><div class="wi">🎮</div><div class="wi">🏆</div><div class="wi">🚀</div>
+        </div>
+        <h1 style="font-size:36px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">鼠标操作<br>训练营</h1>
+        <p style="font-size:14px;color:var(--text2);max-width:400px;line-height:1.7;font-weight:600;">通过 6 个趣味关卡，掌握左键、双击、拖拽、右键、滚轮五大鼠标技能，为编程学习做好准备！</p>
+      </div>
+
+      <!-- LEVEL 1 -->
+      <div id="screen-l1" class="level-screen" style="display:none;">
+        <div id="l1-area"></div>
+      </div>
+
+      <!-- LEVEL 2 -->
+      <div id="screen-l2" class="level-screen" style="display:none;">
+        <div id="l2-area"></div>
+      </div>
+
+      <!-- LEVEL 3 -->
+      <div id="screen-l3" class="level-screen" style="display:none;">
+        <div id="l3-area">
+          <div id="blocks-source"><h4>📦 积木库</h4></div>
+          <div id="l3-arrow">→</div>
+          <div id="drop-zone">
+            <div class="dz-label">将积木拖到这里</div>
+            <div class="dz-target" id="l3-target-label">目标: —</div>
+            <div id="dropped-block-display"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL 4 -->
+      <div id="screen-l4" class="level-screen" style="display:none;">
+        <div id="l4-area">
+          <div id="l4-instruction" style="text-align:center;max-width:196px;">
+            <div style="font-size:24px;margin-bottom:7px;">🖱️</div>
+            <div style="font-size:13px;color:var(--text2);font-weight:700;">在代码卡片上点击<strong style="color:var(--primary)">鼠标右键</strong></div>
+            <div id="l4-target-text">然后选择 "复制"</div>
+          </div>
+          <div class="file-card" id="file-card">
+            <div class="file-card-icon">💻</div>
+            <div class="file-card-name">code.py</div>
+            <div class="file-card-tag">Python</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL 5 -->
+      <div id="screen-l5" class="level-screen" style="display:none;">
+        <div id="l5-area">
+          <div id="l5-hint-box">
+            <div id="l5-target-display"><div class="t-label">🔍 寻找目标</div><div id="l5-target-name">—</div></div>
+            <div class="l5-scroll-tip">把鼠标放在右侧列表上，向下滚动滚轮。目标卡片不一定在第一屏。</div>
+            <div id="wheel-counter"><div class="wc-label">⚙ 滚轮次数</div><div id="wheel-count-val">0</div></div>
+          </div>
+          <div id="scroll-panel-wrap"><div id="scroll-panel-inner"></div></div>
+        </div>
+      </div>
+
+      <!-- LEVEL 6 -->
+      <div id="screen-l6" class="level-screen" style="display:none;">
+        <div id="l6-area">
+          <div id="l6-workspace">
+            <div id="l6-complete-anim"><div class="ce">🏆</div><h2>综合挑战完成！</h2></div>
+          </div>
+          <div id="l6-steps">
+            <h4>📋 任务步骤</h4>
+            <div class="l6-step" id="l6s-1"><div class="l6-step-num">1</div><div>左键点击<br>开始任务</div></div>
+            <div class="l6-step" id="l6s-2"><div class="l6-step-num">2</div><div>双击打开<br>代码宝箱</div></div>
+            <div class="l6-step" id="l6s-3"><div class="l6-step-num">3</div><div>拖拽积木<br>到任务区</div></div>
+            <div class="l6-step" id="l6s-4"><div class="l6-step-num">4</div><div>右键卡片<br>选"复制"</div></div>
+            <div class="l6-step" id="l6s-5"><div class="l6-step-num">5</div><div>滚轮找到<br>完成卡片</div></div>
+            <div class="l6-step" id="l6s-6"><div class="l6-step-num">6</div><div>点击完成<br>按钮</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL COMPLETE OVERLAY -->
+      <div id="screen-level-complete">
+        <div class="lc-big-emoji" id="lc-emoji">🎉</div>
+        <h2>关卡完成！</h2>
+        <div class="lc-stats">
+          <div class="lc-stat"><div class="lc-stat-val" id="lc-time">0s</div><div class="lc-stat-lbl">本关用时</div></div>
+          <div class="lc-stat bad"><div class="lc-stat-val" id="lc-errors">0</div><div class="lc-stat-lbl">错误次数</div></div>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:5px;">
+          <button class="btn btn-secondary" id="btn-retry">🔄 重新练习</button>
+          <button class="btn btn-accent" id="btn-next-level">下一关 →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIDEBAR RIGHT -->
+  <div id="sidebar-right">
+    <div class="side-card">
+      <h3>整体进度</h3>
+      <div class="overall-stat">
+        <div class="os-row">
+          <span class="os-icon" style="color:var(--accent)">⏱</span>
+          <span class="os-name">总用时</span>
+          <span class="os-val" id="h-time">0:00</span>
+        </div>
+        <div class="os-row">
+          <span class="os-icon" style="color:var(--primary)">✓</span>
+          <span class="os-name">正确次数</span>
+          <span class="os-val" id="h-correct">0</span>
+        </div>
+        <div class="os-row">
+          <span class="os-icon" style="color:var(--danger)">✗</span>
+          <span class="os-name">错误次数</span>
+          <span class="os-val" id="h-error" style="color:var(--danger)">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="side-card">
+      <h3>关卡进度</h3>
+      <div class="level-list" id="level-list">
+        <div class="level-item" id="li-1"><span class="li-num">01</span><span class="li-icon">🖱</span>左键点击<span class="li-status" id="lock-1"></span></div>
+        <div class="level-item" id="li-2"><span class="li-num">02</span><span class="li-icon">⚡</span>双击宝箱<span class="li-status" id="lock-2"></span></div>
+        <div class="level-item" id="li-3"><span class="li-num">03</span><span class="li-icon">✋</span>拖拽积木<span class="li-status" id="lock-3"></span></div>
+        <div class="level-item" id="li-4"><span class="li-num">04</span><span class="li-icon">🖱</span>右键菜单<span class="li-status" id="lock-4"></span></div>
+        <div class="level-item" id="li-5"><span class="li-num">05</span><span class="li-icon">⚙</span>滚轮寻找<span class="li-status" id="lock-5"></span></div>
+        <div class="level-item" id="li-6"><span class="li-num">06</span><span class="li-icon">🏆</span>综合挑战<span class="li-status" id="lock-6"></span></div>
+      </div>
+    </div>
+    <div id="sidebar-actions">
+      <button class="btn btn-primary btn-block" id="btn-start">🚀 开始训练</button>
+      <button class="btn btn-secondary btn-block" id="btn-restart-level" style="display:none;">🔄 重试本关</button>
+    </div>
+    <!-- Hidden stat refs preserved for JS compatibility -->
+    <div style="display:none;">
+      <span id="s-click">0</span><span id="s-dblclick">0</span><span id="s-right">0</span><span id="s-drag">0</span><span id="s-wheel">0</span>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- CONTEXT MENU (global shared) -->
+<div id="ctx-menu">
+  <div class="ctx-item" data-action="copy">📋 复制</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" data-action="delete">🗑 删除</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" data-action="hint">💡 查看提示</div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="screen-result">
+  <div class="result-inner">
+    <h1>🏆 训练完成报告</h1>
+    <div class="result-score-circle">
+      <div class="result-score-num" id="final-score">—</div>
+      <div class="result-score-lbl">鼠标熟练度</div>
+    </div>
+    <div class="result-comment" id="result-comment">评价中...</div>
+    <div class="result-stats-row">
+      <div class="result-stat-card"><div class="rsc-val" id="rs-time">0:00</div><div class="rsc-lbl">总用时</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-correct">0</div><div class="rsc-lbl">正确次数</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-error">0</div><div class="rsc-lbl">总错误</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-click">0</div><div class="rsc-lbl">左键点击</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-wheel">0</div><div class="rsc-lbl">滚轮次数</div></div>
+    </div>
+    <div class="result-levels-table">
+      <div class="rlt-head"><div>关卡</div><div>用时</div><div>错误</div><div>状态</div></div>
+      <div id="rlt-body"></div>
+    </div>
+    <div class="result-improve"><h3>💡 建议加强</h3><p id="improve-tip">—</p></div>
+    <div style="display:flex;gap:11px;flex-shrink:0;">
+      <button class="btn btn-primary" onclick="restartAll()">🔄 重新开始</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =============================================
+   THEME
+   ============================================= */
+let isDark=false;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('theme-icon').textContent=isDark?'🌙':'☀️';
+  document.getElementById('theme-label').textContent=isDark?'深色':'浅色';
+}
+
+/* =============================================
+   DATA & STATS
+   ============================================= */
+const LEVEL_NAMES=['左键点击目标','双击打开宝箱','拖拽积木','右键菜单','滚轮寻找','综合挑战'];
+const stats={
+  totalTime:0,currentLevel:0,correctCount:0,errorCount:0,
+  hintCount:0,clickCount:0,doubleClickCount:0,rightClickCount:0,
+  dragSuccessCount:0,wheelCount:0,
+  levelData:LEVEL_NAMES.map(n=>({levelName:n,timeUsed:0,errors:0,completed:false}))
+};
+let unlockedUpTo=1;
+
+function updateHeaderStats(){
+  document.getElementById('h-correct').textContent=stats.correctCount;
+  document.getElementById('h-error').textContent=stats.errorCount;
+  document.getElementById('s-click').textContent=stats.clickCount;
+  document.getElementById('s-dblclick').textContent=stats.doubleClickCount;
+  document.getElementById('s-right').textContent=stats.rightClickCount;
+  document.getElementById('s-drag').textContent=stats.dragSuccessCount;
+  document.getElementById('s-wheel').textContent=stats.wheelCount;
+}
+
+/* =============================================
+   TIMERS
+   ============================================= */
+let globalTimer=null,levelTimer=null,globalSeconds=0,levelSeconds=0;
+function startGlobalTimer(){
+  if(globalTimer) return;
+  globalTimer=setInterval(()=>{
+    globalSeconds++;
+    const m=Math.floor(globalSeconds/60),s=globalSeconds%60;
+    document.getElementById('h-time').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
+}
+function startLevelTimer(){
+  levelSeconds=0;
+  document.getElementById('timer-value').textContent='0:00';
+  clearInterval(levelTimer);
+  levelTimer=setInterval(()=>{
+    levelSeconds++;
+    const m=Math.floor(levelSeconds/60),s=levelSeconds%60;
+    document.getElementById('timer-value').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
+}
+function stopLevelTimer(){ clearInterval(levelTimer); return levelSeconds; }
+
+/* =============================================
+   FEEDBACK
+   ============================================= */
+let fbTimeout=null;
+function showFeedback(msg,isError=false){
+  const el=document.getElementById('feedback-box');
+  el.textContent=msg; el.className=isError?'error':'';
+  clearTimeout(fbTimeout);
+  if(!isError) fbTimeout=setTimeout(()=>{el.textContent='✅ 继续加油！';el.className='';},2200);
+}
+
+/* =============================================
+   CONFETTI
+   ============================================= */
+function launchConfetti(){
+  const cols=['#38bdf8','#a78bfa','#34d399','#fbbf24','#f87171','#fff','#fb923c'];
+  for(let i=0;i<50;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.4+Math.random()*2}s;animation-delay:${Math.random()*0.6}s;transform:rotate(${Math.random()*360}deg);width:${4+Math.random()*8}px;height:${4+Math.random()*8}px;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+
+/* =============================================
+   GAME STATE
+   ============================================= */
+let currentLevel=0,levelActive=false,levelErrors=0;
+
+function setTaskInfo(desc,hint){
+  document.getElementById('task-desc').textContent=desc;
+  document.getElementById('task-hint').textContent=hint;
+}
+function setLevelProgress(text){ document.getElementById('level-progress-val').textContent=text; }
+
+function updateLevelBadge(n){
+  document.getElementById('level-badge').textContent=n>0&&n<=6?`第 ${n} 关`:(n>6?'完成！':'欢迎');
+  document.getElementById('progress-bar-inner').style.width=n>0?((n-1)/6*100)+'%':'0%';
+}
+
+function updateLevelList(activeLv){
+  for(let i=1;i<=6;i++){
+    const el=document.getElementById(`li-${i}`);
+    const statusEl=document.getElementById(`lock-${i}`);
+    const done=stats.levelData[i-1].completed;
+    const active=(i===activeLv);
+    let cls='level-item';
+    if(active) cls+=' active';
+    else if(done) cls+=' done';
+    else cls+=' upcoming';
+    el.className=cls;
+    if(done) statusEl.textContent='✓';
+    else if(active) statusEl.textContent='进行中';
+    else statusEl.textContent='';
+  }
+}
+
+/* =============================================
+   LEVEL COMPLETE
+   ============================================= */
+function completeLevel(levelIdx){
+  levelActive=false;
+  const t=stopLevelTimer();
+  stats.levelData[levelIdx-1].timeUsed=t;
+  stats.levelData[levelIdx-1].errors=levelErrors;
+  stats.levelData[levelIdx-1].completed=true;
+  stats.totalTime=globalSeconds;
+  if(levelIdx>=unlockedUpTo&&levelIdx<6) unlockedUpTo=levelIdx+1;
+  updateLevelList(levelIdx);
+  launchConfetti();
+  const lc=document.getElementById('screen-level-complete');
+  document.getElementById('lc-time').textContent=t+'s';
+  document.getElementById('lc-errors').textContent=levelErrors;
+  document.getElementById('lc-emoji').textContent=levelErrors===0?'🌟':'🎉';
+  lc.className='show';
+  const btnNext=document.getElementById('btn-next-level');
+  btnNext.textContent=levelIdx>=6?'查看结果 🏆':'下一关 →';
+  btnNext.onclick=()=>{ lc.className=''; if(levelIdx>=6) showResult(); else startLevel(levelIdx+1); };
+  document.getElementById('btn-retry').onclick=()=>{ lc.className=''; startLevel(levelIdx); };
+}
+
+function showScreen(id){
+  ['screen-welcome','screen-l1','screen-l2','screen-l3','screen-l4','screen-l5','screen-l6'].forEach(s=>{
+    document.getElementById(s).style.display='none';
+  });
+  document.getElementById(id).style.display='flex';
+}
+
+/* =============================================
+   LEVEL 1 — LEFT CLICK
+   ============================================= */
+let l1Count=0;
+const L1_TOTAL=10;
+
+function initLevel1(){
+  l1Count=0; levelErrors=0;
+  setTaskInfo('用鼠标左键点击发光的机器人目标！','💡 每次点击后目标会移动到新位置，共需点击 10 次。');
+  setLevelProgress(`0 / ${L1_TOTAL}`);
+  updateLevelBadge(1); updateLevelList(1);
+  document.getElementById('btn-restart-level').style.display='inline-block';
+  showScreen('screen-l1');
+  const area=document.getElementById('l1-area');
+  area.innerHTML='';
+  const target=document.createElement('div');
+  target.id='click-target-el';
+  target.style.cssText='position:absolute;width:66px;height:66px;border-radius:50%;background:radial-gradient(circle,#38bdf8 0%,#0ea5e9 60%,#0284c7 100%);box-shadow:0 0 0 7px rgba(14,165,233,0.18),0 0 26px rgba(14,165,233,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:26px;animation:pulse-target 1.5s ease-in-out infinite;transition:transform 0.14s;';
+  target.textContent='🤖';
+  area.appendChild(target);
+  target.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    if(!levelActive||currentLevel!==1) return;
+    stats.clickCount++; stats.correctCount++; l1Count++;
+    updateHeaderStats();
+    setLevelProgress(`${l1Count} / ${L1_TOTAL}`);
+    showFeedback(`✅ 第 ${l1Count} 次！继续！`);
+    const ripple=document.createElement('div');
+    ripple.className='click-ripple';
+    const r=target.getBoundingClientRect(),ar=area.getBoundingClientRect();
+    ripple.style.cssText=`left:${r.left-ar.left+33-36}px;top:${r.top-ar.top+33-36}px;`;
+    area.appendChild(ripple);
+    setTimeout(()=>ripple.remove(),600);
+    target.style.transform='scale(1.35)';
+    setTimeout(()=>{ if(l1Count>=L1_TOTAL) completeLevel(1); else moveTarget1(target,area); },180);
+  });
+  area.addEventListener('mousedown',(e)=>{
+    if(!levelActive||currentLevel!==1) return;
+    if(e.target===area){ stats.errorCount++; levelErrors++; stats.clickCount++; showFeedback('❌ 没有点到目标！请点击发光的机器人。',true); updateHeaderStats(); }
+  });
+  moveTarget1(target,area);
+  startLevelTimer();
+}
+
+function moveTarget1(target,area){
+  const W=area.clientWidth-80,H=area.clientHeight-80;
+  target.style.left=(20+Math.random()*(W-20))+'px';
+  target.style.top=(20+Math.random()*(H-20))+'px';
+  target.style.transform='scale(1)';
+}
+
+/* =============================================
+   LEVEL 2 — DOUBLE CLICK TREASURE (position changes each time)
+   ============================================= */
+let l2Count=0;
+const L2_TOTAL=5;
+
+function initLevel2(){
+  l2Count=0; levelErrors=0;
+  setTaskInfo('双击宝箱，把它打开！每次宝箱位置都会改变。','💡 双击 = 快速连续点击两下左键。');
+  setLevelProgress(`0 / ${L2_TOTAL}`);
+  updateLevelBadge(2); updateLevelList(2);
+  showScreen('screen-l2');
+  placeChest();
+  startLevelTimer();
+}
+
+function placeChest(){
+  const area=document.getElementById('l2-area');
+  area.innerHTML='';
+  const wrap=document.createElement('div');
+  wrap.className='treasure-wrap';
+  const W=Math.max(50,area.clientWidth-160);
+  const H=Math.max(50,area.clientHeight-200);
+  const x=30+Math.random()*W, y=30+Math.random()*H;
+  wrap.style.cssText=`left:${x}px;top:${y}px;`;
+  const reward=document.createElement('div'); reward.className='chest-reward'; reward.textContent='🎉✨💎';
+  const lid=document.createElement('div'); lid.className='chest-lid';
+  const body=document.createElement('div'); body.className='chest-body';
+  const glow=document.createElement('div'); glow.className='chest-glow';
+  wrap.append(reward,lid,body,glow);
+  area.appendChild(wrap);
+  let opened=false;
+  let clickTimer=null;  // delay single-click handling to disambiguate from double-click
+  wrap.addEventListener('click',(e)=>{
+    if(!levelActive||currentLevel!==2||opened) return;
+    // Already a click pending - ignore (the dblclick will arrive shortly)
+    if(clickTimer) return;
+    clickTimer=setTimeout(()=>{
+      clickTimer=null;
+      if(!levelActive||currentLevel!==2||opened) return;
+      // Confirmed single click (no dblclick within window)
+      stats.clickCount++; stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 单击不行哦！需要快速连续点击两下！',true);
+    },280);
+  });
+  wrap.addEventListener('dblclick',(e)=>{
+    // Cancel any pending single-click error
+    if(clickTimer){clearTimeout(clickTimer);clickTimer=null;}
+    if(!levelActive||currentLevel!==2||opened) return;
+    opened=true;
+    stats.doubleClickCount++; stats.correctCount++; l2Count++;
+    updateHeaderStats();
+    setLevelProgress(`${l2Count} / ${L2_TOTAL}`);
+    showFeedback(`✅ 太棒了！第 ${l2Count} 个宝箱打开！`);
+    lid.className='chest-lid open';
+    reward.className='chest-reward show';
+    setTimeout(()=>{ if(l2Count>=L2_TOTAL) completeLevel(2); else placeChest(); },750);
+  });
+}
+
+/* =============================================
+   LEVEL 3 — DRAG SCRATCH BLOCKS (Scratch 3.0 style)
+   ============================================= */
+/* Scratch 3.0 exact block definitions */
+const SCRATCH_BLOCKS=[
+  {id:'move',  parts:[{t:'移动'},{v:'10',oval:true},{t:'步'}],          cat:'sb-motion'},
+  {id:'turn',  parts:[{t:'右转 ↻'},{v:'15',oval:true},{t:'度'}],        cat:'sb-motion'},
+  {id:'say',   parts:[{t:'说'},{v:'你好！',str:true},{t:'2 秒'}],        cat:'sb-looks'},
+  {id:'wait',  parts:[{t:'等待'},{v:'1',oval:true},{t:'秒'}],            cat:'sb-control'},
+  {id:'sound', parts:[{t:'播放声音'},{v:'meow',str:true}],               cat:'sb-sound'},
+];
+
+let l3Count=0,l3TargetId='',l3DragId='',l3DragElRef=null,l3GhostEl=null;
+const L3_TOTAL=5;
+
+/* Build a Scratch 3.0-style block element */
+function buildScratchBlock(blockDef){
+  const el=document.createElement('div');
+  el.className=`scratch-block ${blockDef.cat}`;
+  el.dataset.blockId=blockDef.id;
+  let html='';
+  blockDef.parts.forEach(p=>{
+    if(p.oval) html+=`<span class="sb-input">${p.v}</span>`;
+    else if(p.str) html+=`<span class="sb-input-str">${p.v}</span>`;
+    else html+=`<span style="margin:0 1px;">${p.t}</span>`;
+  });
+  el.innerHTML=html;
+  return el;
+}
+
+function initLevel3(){
+  l3Count=0; levelErrors=0;
+  setTaskInfo('把指定的 Scratch 积木拖到右侧任务区！','💡 按住积木，拖动到右侧区域后松开鼠标。');
+  setLevelProgress(`0 / ${L3_TOTAL}`);
+  updateLevelBadge(3); updateLevelList(3);
+  showScreen('screen-l3');
+  const src=document.getElementById('blocks-source');
+  src.innerHTML='<h4>📦 积木库</h4>';
+  SCRATCH_BLOCKS.forEach(b=>{
+    const el=buildScratchBlock(b);
+    el.addEventListener('mousedown',startDrag3);
+    src.appendChild(el);
+  });
+  const dz=document.getElementById('drop-zone');
+  dz.className='';
+  document.getElementById('dropped-block-display').className='';
+  document.getElementById('dropped-block-display').innerHTML='';
+  setNextL3Target();
+  startLevelTimer();
+}
+
+function setNextL3Target(){
+  const idx=Math.floor(Math.random()*SCRATCH_BLOCKS.length);
+  l3TargetId=SCRATCH_BLOCKS[idx].id;
+  const mini=buildScratchBlock(SCRATCH_BLOCKS[idx]);
+  mini.style.cssText='pointer-events:none;cursor:default;margin:0;';
+  const lbl=document.getElementById('l3-target-label');
+  lbl.innerHTML='目标: ';
+  lbl.appendChild(mini);
+}
+
+function startDrag3(e){
+  if(!levelActive||currentLevel!==3) return;
+  e.preventDefault();
+  l3DragId=e.currentTarget.dataset.blockId;
+  l3DragElRef=e.currentTarget;
+  l3DragElRef.classList.add('dragging');
+  l3GhostEl=l3DragElRef.cloneNode(true);
+  l3GhostEl.className=`scratch-block ${l3DragElRef.dataset.cat||''} scratch-block-ghost`;
+  // preserve the category class
+  SCRATCH_BLOCKS.forEach(b=>{ if(b.id===l3DragId) l3GhostEl.className=`scratch-block ${b.cat} scratch-block-ghost`; });
+  l3GhostEl.style.width=l3DragElRef.offsetWidth+'px';
+  document.body.appendChild(l3GhostEl);
+  moveGhost3(e);
+  document.addEventListener('mousemove',moveGhost3);
+  document.addEventListener('mouseup',endDrag3);
+}
+function moveGhost3(e){
+  if(!l3GhostEl) return;
+  l3GhostEl.style.left=(e.clientX+8)+'px';
+  l3GhostEl.style.top=(e.clientY-16)+'px';
+  const dz=document.getElementById('drop-zone');
+  if(!dz) return;
+  const r=dz.getBoundingClientRect();
+  dz.className=(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom)?'drag-over':'';
+}
+function endDrag3(e){
+  document.removeEventListener('mousemove',moveGhost3);
+  document.removeEventListener('mouseup',endDrag3);
+  if(l3DragElRef) l3DragElRef.classList.remove('dragging');
+  if(l3GhostEl){l3GhostEl.remove();l3GhostEl=null;}
+  const dz=document.getElementById('drop-zone');
+  const r=dz.getBoundingClientRect();
+  const inZone=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
+  if(!inZone){dz.className='';showFeedback('❗ 请把积木拖到右侧任务区！',true);return;}
+  if(l3DragId===l3TargetId){
+    stats.dragSuccessCount++; stats.correctCount++; l3Count++;
+    updateHeaderStats();
+    dz.className='correct-drop';
+    setLevelProgress(`${l3Count} / ${L3_TOTAL}`);
+    showFeedback(`✅ 正确！第 ${l3Count} 个积木放对了！`);
+    const bd=SCRATCH_BLOCKS.find(b=>b.id===l3DragId);
+    const disp=document.getElementById('dropped-block-display');
+    disp.innerHTML='';
+    const dispBlock=buildScratchBlock(bd);
+    dispBlock.style.cssText='cursor:default;pointer-events:none;';
+    disp.appendChild(dispBlock);
+    disp.className='show';
+    setTimeout(()=>{
+      if(l3Count>=L3_TOTAL) completeLevel(3);
+      else{ dz.className=''; disp.className=''; disp.innerHTML=''; setNextL3Target(); }
+    },800);
+  } else {
+    stats.errorCount++; levelErrors++;
+    updateHeaderStats();
+    dz.className='wrong-drop';
+    showFeedback('❌ 拖错积木了！看清楚任务要求的积木颜色和文字！',true);
+    setTimeout(()=>dz.className='',500);
+  }
+}
+
+/* =============================================
+   LEVEL 4 — RIGHT CLICK MENU
+   ============================================= */
+const L4_ACTIONS=['copy','delete','hint'];
+const L4_LABELS={copy:'复制',delete:'删除',hint:'查看提示'};
+let l4Count=0,l4TargetAction='copy';
+const L4_TOTAL=5;
+let l4CardReady=false;
+
+function initLevel4(){
+  l4Count=0; levelErrors=0;
+  setTaskInfo('在代码卡片上点击鼠标右键，然后选择指定菜单项！','💡 右键就是按鼠标右侧的按键。');
+  setLevelProgress(`0 / ${L4_TOTAL}`);
+  updateLevelBadge(4); updateLevelList(4);
+  showScreen('screen-l4');
+  setNextL4Target();
+  if(!l4CardReady){ setupL4Card(); l4CardReady=true; }
+  startLevelTimer();
+}
+
+function setupL4Card(){
+  const card=document.getElementById('file-card');
+  card.addEventListener('contextmenu',(e)=>{
+    e.preventDefault(); e.stopPropagation();
+    if(!levelActive||currentLevel!==4) return;
+    stats.rightClickCount++; updateHeaderStats();
+    showCtxMenu(e.clientX,e.clientY,'l4');
+  });
+  card.addEventListener('click',(e)=>{
+    if(!levelActive||currentLevel!==4) return;
+    hideCtxMenu();
+    stats.clickCount++; stats.errorCount++; levelErrors++;
+    updateHeaderStats();
+    card.classList.add('wrong-click');
+    setTimeout(()=>card.classList.remove('wrong-click'),500);
+    showFeedback('❗ 这一关需要用鼠标右键！按右边那个键。',true);
+  });
+}
+
+function setNextL4Target(){
+  const idx=Math.floor(Math.random()*L4_ACTIONS.length);
+  l4TargetAction=L4_ACTIONS[idx];
+  document.getElementById('l4-target-text').textContent=`然后选择 "${L4_LABELS[l4TargetAction]}"`;
+  setTaskInfo(`在代码卡片上点击右键，选择 "${L4_LABELS[l4TargetAction]}"`, '💡 右键点击卡片会弹出操作菜单。');
+}
+
+/* ===== SHARED CONTEXT MENU ===== */
+let ctxMode='',ctxL6Callback=null;
+
+function showCtxMenu(x,y,mode,cb){
+  ctxMode=mode; ctxL6Callback=cb||null;
+  const menu=document.getElementById('ctx-menu');
+  document.querySelectorAll('.ctx-item').forEach(item=>{
+    const action=item.dataset.action;
+    item.className='ctx-item';
+    if(mode==='l4'&&action===l4TargetAction) item.classList.add('target-hint');
+    if(mode==='l6'&&action==='copy') item.classList.add('target-hint');
+    item.onclick=(e)=>{
+      e.stopPropagation();
+      hideCtxMenu();
+      if(mode==='l4') handleL4MenuAction(action);
+      else if(mode==='l6'&&ctxL6Callback) ctxL6Callback(action);
+    };
+  });
+  menu.style.display='block';
+  const mw=140,mh=120;
+  menu.style.left=Math.min(x,window.innerWidth-mw-4)+'px';
+  menu.style.top=Math.min(y,window.innerHeight-mh-4)+'px';
+}
+function hideCtxMenu(){ document.getElementById('ctx-menu').style.display='none'; }
+
+/* Global: block default right-click everywhere EXCEPT active right-click levels */
+document.addEventListener('contextmenu',(e)=>{
+  /* Allow contextmenu event to propagate naturally to file-card and l6-code-card listeners;
+     only prevent default when NOT on a game target element */
+  const target=e.target;
+  const isGameCard = target.id==='file-card' ||
+                     target.closest && (target.closest('#file-card') || target.closest('#l6-code-card-wrap'));
+  if(!isGameCard) e.preventDefault();
+});
+
+document.addEventListener('click',()=>hideCtxMenu());
+
+function handleL4MenuAction(action){
+  if(action===l4TargetAction){
+    stats.correctCount++; l4Count++;
+    updateHeaderStats();
+    setLevelProgress(`${l4Count} / ${L4_TOTAL}`);
+    showFeedback(`✅ 正确！选了"${L4_LABELS[action]}"！第 ${l4Count} 次！`);
+    setTimeout(()=>{ if(l4Count>=L4_TOTAL) completeLevel(4); else setNextL4Target(); },400);
+  } else {
+    stats.errorCount++; levelErrors++;
+    updateHeaderStats();
+    showFeedback(`❌ 选错了！应该选"${L4_LABELS[l4TargetAction]}"`,true);
+  }
+}
+
+/* =============================================
+   LEVEL 5 — SCROLL WHEEL
+   ============================================= */
+const L5_CARD_TYPES=[
+  {type:'Python',color:'#3b82f6',icon:'🐍'},
+  {type:'Scratch',color:'#f59e0b',icon:'🧩'},
+  {type:'C++',color:'#ef4444',icon:'💻'},
+  {type:'HTML',color:'#8b5cf6',icon:'🌐'},
+  {type:'Robot',color:'#10b981',icon:'🤖'},
+  {type:'Music',color:'#06b6d4',icon:'🎵'},
+  {type:'Game',color:'#f97316',icon:'🎮'},
+  {type:'Design',color:'#ec4899',icon:'🎨'},
+];
+let l5Count=0,l5TargetType='',l5TargetCardId='',l5LocalWheel=0,l5RoundIndex=0;
+const L5_TOTAL=5;
+
+function initLevel5(){
+  l5Count=0; levelErrors=0; l5LocalWheel=0; l5RoundIndex=0;
+  setTaskInfo('用鼠标滚轮上下滚动，找到唯一的目标任务卡并点击！','💡 右侧列表只放少量卡片，但目标不一定在第一屏，需要滚动查看。');
+  setLevelProgress(`0 / ${L5_TOTAL}`);
+  updateLevelBadge(5); updateLevelList(5);
+  showScreen('screen-l5');
+  setNextL5Round();
+  document.getElementById('wheel-count-val').textContent='0';
+  document.getElementById('scroll-panel-inner').onwheel=()=>{
+    if(!levelActive||currentLevel!==5) return;
+    l5LocalWheel++; stats.wheelCount++;
+    updateHeaderStats();
+    document.getElementById('wheel-count-val').textContent=l5LocalWheel;
+  };
+  startLevelTimer();
+}
+
+function shuffleL5(arr){
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+
+function setNextL5Round(){
+  l5RoundIndex++;
+  const target=L5_CARD_TYPES[Math.floor(Math.random()*L5_CARD_TYPES.length)];
+  l5TargetType=target.type;
+  l5TargetCardId=`target-${Date.now()}-${l5RoundIndex}`;
+  document.getElementById('l5-target-name').textContent=`${target.icon} ${target.type} 任务卡`;
+  setTaskInfo(`用滚轮找到唯一的 "${target.type} 任务卡" 并点击！`,'💡 如果第一眼没有看到目标，说明它在下面；把鼠标放在列表上滚动滚轮。');
+  buildL5Cards(target);
+  const panel=document.getElementById('scroll-panel-inner');
+  panel.scrollTop=0;
+}
+
+function buildL5Cards(target){
+  const panel=document.getElementById('scroll-panel-inner');
+  panel.innerHTML='';
+  const distractors=shuffleL5(L5_CARD_TYPES.filter(t=>t.type!==target.type).map(t=>({...t,isTarget:false,id:`d-${t.type}-${l5RoundIndex}`}))).slice(0,7);
+  const deck=distractors;
+  const targetIndex=5+Math.floor(Math.random()*3); // 目标固定放在下半段，学生必须意识到要滚动
+  deck.splice(Math.min(targetIndex,deck.length),0,{...target,isTarget:true,id:l5TargetCardId});
+  deck.forEach((card,i)=>{
+    const el=document.createElement('div');
+    el.className='task-card-item'+(card.isTarget?' target-card':'');
+    el.dataset.cardId=card.id;
+    el.dataset.type=card.type;
+    el.innerHTML=`<span class="card-num">#${String(i+1).padStart(2,'0')}</span><span class="card-type-dot" style="background:${card.color}"></span><span class="card-content">${card.icon} ${card.type} 任务卡</span><span class="card-lock">›</span>`;
+    el.onclick=()=>handleL5Click(el,card);
+    panel.appendChild(el);
+  });
+}
+
+function handleL5Click(el,card){
+  if(!levelActive||currentLevel!==5) return;
+  stats.clickCount++;
+  if(card.id===l5TargetCardId){
+    stats.correctCount++; l5Count++;
+    updateHeaderStats();
+    el.className='task-card-item correct-card';
+    setLevelProgress(`${l5Count} / ${L5_TOTAL}`);
+    showFeedback(`✅ 找到了！这是唯一的 ${l5TargetType} 任务卡！第 ${l5Count} 次！`);
+    setTimeout(()=>{
+      if(l5Count>=L5_TOTAL) completeLevel(5);
+      else setNextL5Round();
+    },650);
+  } else {
+    stats.errorCount++; levelErrors++;
+    updateHeaderStats();
+    el.classList.add('wrong-card');
+    setTimeout(()=>el.classList.remove('wrong-card'),500);
+    showFeedback(`❌ 不是这个！目标是唯一的 "${l5TargetType} 任务卡"。`,true);
+  }
+}
+
+/* =============================================
+   LEVEL 6 — COMBINED CHALLENGE
+   ============================================= */
+let l6Step=0,l6DragElRef6=null,l6Ghost6=null;
+
+function initLevel6(){
+  l6Step=0; levelErrors=0;
+  setTaskInfo('综合挑战！按照右侧步骤顺序完成所有操作！','💡 每步完成后自动进入下一步。');
+  setLevelProgress('0 / 6');
+  updateLevelBadge(6); updateLevelList(6);
+  showScreen('screen-l6');
+  document.getElementById('l6-complete-anim').className='';
+  renderL6Step(1);
+  startLevelTimer();
+}
+
+function updateL6Steps(step){
+  for(let i=1;i<=6;i++){
+    const el=document.getElementById(`l6s-${i}`);
+    el.className='l6-step'+(i<step?' done':i===step?' active':'');
+  }
+  setLevelProgress(`${step-1} / 6`);
+}
+
+/* Helper to create styled element */
+function el(tag,style=''){
+  const e=document.createElement(tag);
+  if(style) e.style.cssText=style;
+  return e;
+}
+
+function renderL6Step(step){
+  l6Step=step;
+  updateL6Steps(step);
+  const ws=document.getElementById('l6-workspace');
+  const anim=document.getElementById('l6-complete-anim');
+  ws.innerHTML='';
+  ws.appendChild(anim);
+  ws.style.flexDirection='column';
+  ws.style.gap='0';
+  ws.style.alignItems='center';
+  ws.style.justifyContent='center';
+  anim.className='';
+
+  if(step===1){
+    setTaskInfo('步骤1: 用左键点击"开始任务"按钮','💡 左键单击。');
+    const div=el('div','text-align:center;');
+    div.innerHTML='<div style="font-size:30px;margin-bottom:12px;">🚀</div><div style="font-size:13px;color:var(--text2);font-weight:700;margin-bottom:16px;">点击按钮开始综合任务</div>';
+    const btn=el('button');
+    btn.className='btn btn-primary'; btn.style.cssText='font-size:16px;padding:13px 34px;';
+    btn.textContent='开始任务';
+    btn.onclick=()=>{
+      if(!levelActive||currentLevel!==6) return;
+      stats.clickCount++; stats.correctCount++;
+      updateHeaderStats();
+      showFeedback('✅ 步骤1完成！');
+      setTimeout(()=>renderL6Step(2),400);
+    };
+    div.appendChild(btn); ws.appendChild(div);
+
+  } else if(step===2){
+    setTaskInfo('步骤2: 双击打开代码宝箱','💡 快速连续点击两下。');
+    let opened2=false;
+    let clickTimer2=null;  // delay single-click handling to disambiguate from double-click
+    const wrap=el('div','cursor:pointer;display:flex;flex-direction:column;align-items:center;');
+    const rw=el('div','font-size:22px;opacity:0;transition:opacity 0.4s;margin-bottom:4px;'); rw.textContent='💎';
+    const lid=el('div'); lid.className='chest-lid';
+    const body=el('div'); body.className='chest-body';
+    const hint=el('div','margin-top:10px;font-size:12px;color:var(--text2);font-weight:700;'); hint.textContent='双击我！';
+    wrap.append(rw,lid,body);
+    ws.append(wrap,hint);
+    wrap.onclick=()=>{
+      if(opened2) return;
+      if(clickTimer2) return;
+      clickTimer2=setTimeout(()=>{
+        clickTimer2=null;
+        if(opened2) return;
+        stats.clickCount++; stats.errorCount++; levelErrors++;
+        updateHeaderStats();
+        showFeedback('❗ 要双击哦！快速点击两下！',true);
+      },280);
+    };
+    wrap.ondblclick=()=>{
+      if(clickTimer2){clearTimeout(clickTimer2);clickTimer2=null;}
+      if(opened2) return;
+      opened2=true;
+      stats.doubleClickCount++; stats.correctCount++;
+      updateHeaderStats();
+      lid.className='chest-lid open'; rw.style.opacity='1';
+      showFeedback('✅ 步骤2完成！宝箱打开了！');
+      setTimeout(()=>renderL6Step(3),700);
+    };
+
+  } else if(step===3){
+    setTaskInfo('步骤3: 把"移动10步"积木拖到任务区','💡 按住积木拖到右侧区域。');
+    ws.style.flexDirection='row'; ws.style.gap='16px'; ws.style.alignItems='center';
+    const blockDef=SCRATCH_BLOCKS[0];
+    const blockEl=buildScratchBlock(blockDef);
+    blockEl.style.cursor='grab';
+    const arrow=el('div','font-size:24px;color:var(--text3);flex-shrink:0;'); arrow.textContent='→';
+    const dz6=el('div','width:185px;height:55px;background:rgba(14,165,233,0.04);border:2px dashed var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text3);font-weight:700;transition:all 0.18s;');
+    dz6.textContent='放到这里';
+    ws.append(blockEl,arrow,dz6);
+
+    blockEl.addEventListener('mousedown',(e)=>{
+      if(!levelActive||currentLevel!==6) return;
+      e.preventDefault();
+      l6DragElRef6=e.currentTarget;
+      l6DragElRef6.classList.add('dragging');
+      l6Ghost6=l6DragElRef6.cloneNode(true);
+      l6Ghost6.className=`scratch-block ${blockDef.cat} scratch-block-ghost`;
+      l6Ghost6.style.width=l6DragElRef6.offsetWidth+'px';
+      document.body.appendChild(l6Ghost6);
+      moveL6Ghost(e);
+      document.addEventListener('mousemove',moveL6Ghost);
+      document.addEventListener('mouseup',endL6Drag);
+    });
+
+    function moveL6Ghost(e){
+      if(!l6Ghost6) return;
+      l6Ghost6.style.left=(e.clientX+8)+'px'; l6Ghost6.style.top=(e.clientY-16)+'px';
+      const r=dz6.getBoundingClientRect();
+      const over=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
+      dz6.style.borderColor=over?'var(--primary)':'var(--border)';
+      dz6.style.background=over?'rgba(14,165,233,0.07)':'rgba(14,165,233,0.04)';
+    }
+    function endL6Drag(e){
+      document.removeEventListener('mousemove',moveL6Ghost);
+      document.removeEventListener('mouseup',endL6Drag);
+      if(l6DragElRef6) l6DragElRef6.classList.remove('dragging');
+      if(l6Ghost6){l6Ghost6.remove();l6Ghost6=null;}
+      const r=dz6.getBoundingClientRect();
+      const inZone=e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;
+      if(inZone){
+        stats.dragSuccessCount++; stats.correctCount++;
+        updateHeaderStats();
+        dz6.style.borderColor='var(--accent)'; dz6.style.background='rgba(16,185,129,0.06)';
+        dz6.innerHTML='';
+        const done=buildScratchBlock(blockDef); done.style.cssText='cursor:default;pointer-events:none;';
+        dz6.appendChild(done);
+        showFeedback('✅ 步骤3完成！积木放对了！');
+        setTimeout(()=>{ ws.style.flexDirection='column'; ws.style.gap='0'; renderL6Step(4); },700);
+      } else {
+        stats.errorCount++; levelErrors++;
+        updateHeaderStats();
+        dz6.style.borderColor='var(--border)';
+        showFeedback('❌ 没有拖进任务区！再试试。',true);
+      }
+    }
+
+  } else if(step===4){
+    setTaskInfo('步骤4: 右键点击代码卡片，选择"复制"','💡 按鼠标右键会弹出菜单。');
+    /* Wrap the card in a div with a known id so the global contextmenu check can find it */
+    const wrap=el('div','display:flex;flex-direction:column;align-items:center;gap:14px;');
+    wrap.id='l6-code-card-wrap';
+    const card=el('div','cursor:context-menu;');
+    card.className='file-card';
+    card.innerHTML='<div class="file-card-icon">💻</div><div class="file-card-name">main.py</div><div class="file-card-tag">Python</div>';
+    const hint6=el('div','display:flex;flex-direction:column;align-items:center;gap:6px;');
+    hint6.innerHTML=`
+      <div style="font-size:13px;color:var(--text2);font-weight:700;display:flex;align-items:center;gap:6px;">
+        <span style="font-size:16px;">🖱️</span>
+        <span>右键点击上方卡片</span>
+      </div>
+      <div style="font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--warn),#d97706);padding:7px 16px;border-radius:20px;box-shadow:0 3px 10px rgba(245,158,11,0.35);display:flex;align-items:center;gap:6px;">
+        <span>👉</span>
+        <span>然后选择 "复制"</span>
+      </div>
+    `;
+    wrap.append(card,hint6);
+    ws.appendChild(wrap);
+
+    /* IMPORTANT: Use addEventListener directly on the dynamically created card */
+    card.addEventListener('contextmenu',(e)=>{
+      e.preventDefault(); e.stopPropagation();
+      if(!levelActive||currentLevel!==6) return;
+      stats.rightClickCount++; updateHeaderStats();
+      showCtxMenu(e.clientX,e.clientY,'l6',(action)=>{
+        if(action==='copy'){
+          stats.correctCount++; updateHeaderStats();
+          showFeedback('✅ 步骤4完成！复制成功！');
+          setTimeout(()=>renderL6Step(5),400);
+        } else {
+          stats.errorCount++; levelErrors++;
+          updateHeaderStats();
+          showFeedback('❌ 要选"复制"！',true);
+        }
+      });
+    });
+    card.addEventListener('click',(e)=>{
+      if(!levelActive||currentLevel!==6) return;
+      hideCtxMenu();
+      stats.clickCount++; stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 这步要用右键！按鼠标右边那个键。',true);
+    });
+
+  } else if(step===5){
+    setTaskInfo('步骤5: 用滚轮找到"完成任务"卡片并点击','💡 拨动滚轮滚动列表。');
+    const scrollArea=el('div','width:100%;max-width:272px;');
+    const lbl=el('div','font-size:10px;color:var(--text3);font-weight:800;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.8px;');
+    lbl.textContent='📜 任务列表（滚轮上下滚动）';
+    const inner=el('div','height:146px;overflow-y:scroll;background:var(--bg3);border:1px solid var(--border);border-radius:11px;padding:6px;scrollbar-width:thin;');
+    inner.style.scrollbarColor='var(--border) transparent';
+    inner.onwheel=()=>{ if(levelActive&&currentLevel===6){stats.wheelCount++;updateHeaderStats();} };
+    const items=['Python 入门','Scratch 积木','HTML 网页','游戏编程','数学运算','机器人控制','完成任务','C++ 基础'];
+    items.forEach(t=>{
+      const c=el('div','padding:9px 11px;border:1px solid var(--border);border-radius:8px;margin-bottom:6px;cursor:pointer;font-size:11px;font-weight:800;color:var(--text2);transition:all 0.15s;background:var(--bg2);');
+      if(t==='完成任务'){c.style.borderColor='var(--warn)';c.style.color='var(--warn)';c.style.background='rgba(245,158,11,0.08)';}
+      c.textContent=t;
+      c.addEventListener('mouseenter',()=>{if(t!=='完成任务')c.style.borderColor='var(--primary)';});
+      c.addEventListener('mouseleave',()=>{if(t!=='完成任务')c.style.borderColor='var(--border)';});
+      c.onclick=()=>{
+        if(!levelActive||currentLevel!==6) return;
+        if(t==='完成任务'){
+          stats.correctCount++; updateHeaderStats();
+          showFeedback('✅ 步骤5完成！找到了！');
+          setTimeout(()=>renderL6Step(6),400);
+        } else {
+          stats.errorCount++; levelErrors++;
+          updateHeaderStats();
+          showFeedback('❌ 不是这个！找"完成任务"卡！',true);
+        }
+      };
+      inner.appendChild(c);
+    });
+    const cue=el('div','margin-top:6px;font-size:10px;color:var(--primary);font-weight:900;text-align:center;');
+    cue.textContent='向下滚动，目标只有一个';
+    scrollArea.append(lbl,inner,cue);
+    ws.appendChild(scrollArea);
+
+  } else if(step===6){
+    setTaskInfo('步骤6: 点击"完成任务"按钮，大功告成！','💡 最后一步，加油！');
+    const div=el('div','text-align:center;');
+    div.innerHTML='<div style="font-size:36px;margin-bottom:11px;">🏁</div><div style="font-size:13px;color:var(--text2);font-weight:700;margin-bottom:16px;">所有步骤完成！点击完成！</div>';
+    const btn=el('button');
+    btn.className='btn btn-accent'; btn.style.cssText='font-size:16px;padding:13px 34px;';
+    btn.textContent='🎉 完成任务！';
+    btn.onclick=()=>{
+      if(!levelActive||currentLevel!==6) return;
+      stats.clickCount++; stats.correctCount++;
+      updateHeaderStats();
+      updateL6Steps(7);
+      anim.className='show';
+      launchConfetti();
+      showFeedback('🏆 综合挑战全部完成！太厉害了！');
+      setTimeout(()=>{ anim.className=''; completeLevel(6); },2000);
+    };
+    div.appendChild(btn); ws.appendChild(div);
+  }
+}
+
+/* =============================================
+   START LEVEL
+   ============================================= */
+function startLevel(n){
+  hideCtxMenu();
+  currentLevel=n; levelActive=true; levelErrors=0;
+  document.getElementById('btn-start').style.display='none';
+  document.getElementById('btn-restart-level').style.display='inline-block';
+  document.getElementById('screen-level-complete').className='';
+  startGlobalTimer();
+  switch(n){
+    case 1: initLevel1(); break;
+    case 2: initLevel2(); break;
+    case 3: initLevel3(); break;
+    case 4: initLevel4(); break;
+    case 5: initLevel5(); break;
+    case 6: initLevel6(); break;
+  }
+}
+
+/* =============================================
+   RESULT SCREEN
+   ============================================= */
+function showResult(){
+  clearInterval(globalTimer);
+  document.getElementById('screen-result').className='show';
+  let score=100;
+  score-=stats.errorCount*2; score-=stats.hintCount*3;
+  const avg=globalSeconds/6;
+  if(avg>60) score-=Math.floor((avg-60)/15);
+  score=Math.max(60,Math.min(100,score));
+  const m=Math.floor(globalSeconds/60),s=globalSeconds%60;
+  document.getElementById('final-score').textContent=score;
+  document.getElementById('rs-time').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  document.getElementById('rs-correct').textContent=stats.correctCount;
+  document.getElementById('rs-error').textContent=stats.errorCount;
+  document.getElementById('rs-click').textContent=stats.clickCount;
+  document.getElementById('rs-wheel').textContent=stats.wheelCount;
+  const comments={90:'🌟 鼠标操作非常熟练，可以正式开始编程学习了！你是天生的程序员！',75:'👍 整体不错！建议再练习拖拽和右键，会更顺手哦！',60:'✅ 已完成全部挑战！鼠标操作还需多加练习，继续加油！',0:'💪 建议先重点练习左键点击和拖拽操作，打好基础！'};
+  document.getElementById('result-comment').textContent=Object.entries(comments).reverse().find(([k])=>score>=Number(k))[1];
+  const tbody=document.getElementById('rlt-body'); tbody.innerHTML='';
+  stats.levelData.forEach((ld,i)=>{
+    const row=document.createElement('div'); row.className='rlt-row';
+    row.innerHTML=`<div>第${i+1}关 ${ld.levelName}</div><div>${ld.timeUsed}s</div><div class="rlt-err">${ld.errors}</div><div class="rlt-done">${ld.completed?'✅':'—'}</div>`;
+    tbody.appendChild(row);
+  });
+  // 建议加强逻辑：先看总错误，0 错误给正面鼓励；有错误才指出具体关卡
+  const totalErr=stats.levelData.reduce((sum,ld)=>sum+ld.errors,0);
+  const maxErr=stats.levelData.reduce((a,b)=>a.errors>b.errors?a:b);
+  let improveText;
+  if(totalErr===0){
+    improveText='🎉 全程零失误，鼠标操作非常精准！继续保持，可以挑战更高难度的编程内容了。';
+  } else if(maxErr.errors>0){
+    improveText=`错误最多的是"${maxErr.levelName}"（${maxErr.errors}次），建议多练习这项操作。`;
+  } else {
+    improveText='整体表现很稳定，错误很少，继续保持就好！';
+  }
+  document.getElementById('improve-tip').textContent=improveText;
+  submitResult({score,totalTime:globalSeconds,stats:{...stats},levelData:stats.levelData});
+}
+
+/* =============================================
+   SUBMIT RESULT (预留接口)
+   ============================================= */
+function submitResult(resultData){
+  console.log('提交到平台的数据：',resultData);
+  // fetch('/api/submit',{method:'POST',body:JSON.stringify(resultData),headers:{'Content-Type':'application/json'}});
+}
+
+/* =============================================
+   RESTART ALL
+   ============================================= */
+function restartAll(){
+  clearInterval(globalTimer); clearInterval(levelTimer);
+  globalTimer=null; levelTimer=null; globalSeconds=0; levelSeconds=0;
+  currentLevel=0; levelActive=false; levelErrors=0;
+  unlockedUpTo=1; l4CardReady=false;
+  Object.assign(stats,{totalTime:0,currentLevel:0,correctCount:0,errorCount:0,
+    hintCount:0,clickCount:0,doubleClickCount:0,rightClickCount:0,dragSuccessCount:0,wheelCount:0});
+  stats.levelData=LEVEL_NAMES.map(n=>({levelName:n,timeUsed:0,errors:0,completed:false}));
+  updateHeaderStats();
+  document.getElementById('h-time').textContent='0:00';
+  document.getElementById('timer-value').textContent='0:00';
+  document.getElementById('progress-bar-inner').style.width='0%';
+  document.getElementById('level-badge').textContent='欢迎';
+  document.getElementById('screen-result').className='';
+  document.getElementById('screen-level-complete').className='';
+  document.getElementById('btn-start').style.display='inline-block';
+  document.getElementById('btn-restart-level').style.display='none';
+  hideCtxMenu(); setLevelProgress('— / —');
+  setTaskInfo('选择关卡或点击开始训练！','💡 完成 6 关，获得鼠标熟练度评分！');
+  showScreen('screen-welcome');
+  document.getElementById('screen-welcome').style.display='flex';
+  updateLevelList(0);
+}
+
+/* =============================================
+   INIT
+   ============================================= */
+document.getElementById('btn-start').onclick=()=>startLevel(1);
+document.getElementById('btn-restart-level').onclick=()=>{
+  document.getElementById('screen-level-complete').className='';
+  if(currentLevel>0) startLevel(currentLevel);
+};
+updateLevelList(0);
+<\/script>
+</body>
+</html></script>
+<script type="text/template" id="keyboard-html"><!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>键盘操作训练工具 · KeyboardLab</title>
+<style>
+
+
+/* ===== THEME VARIABLES (与鼠标训练器保持一致) ===== */
+:root,[data-theme="light"]{
+  --bg:#f0f4f8;--bg2:#ffffff;--bg3:#e8eef4;--card:#ffffff;
+  --border:#cbd5e1;--primary:#0ea5e9;--primary-glow:rgba(14,165,233,0.2);
+  --secondary:#8b5cf6;--accent:#10b981;--warn:#f59e0b;--danger:#ef4444;
+  --text:#1e293b;--text2:#475569;--text3:#94a3b8;
+  --shadow:0 4px 20px rgba(0,0,0,0.08);--shadow-md:0 8px 32px rgba(0,0,0,0.12);
+  --header-bg:rgba(255,255,255,0.97);--sidebar-bg:rgba(248,250,252,0.97);
+  --radius:14px;--radius-sm:8px;
+  --keycap-bg:linear-gradient(180deg,#ffffff,#e8eef4);
+  --keycap-shadow-base:#94a3b8;
+}
+[data-theme="dark"]{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#1f2937;--card:#1a2332;
+  --border:#2d3748;--primary:#38bdf8;--primary-glow:rgba(56,189,248,0.2);
+  --secondary:#a78bfa;--accent:#34d399;--warn:#fbbf24;--danger:#f87171;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --shadow:0 4px 24px rgba(0,0,0,0.4);--shadow-md:0 8px 32px rgba(0,0,0,0.5);
+  --header-bg:rgba(22,27,34,0.97);--sidebar-bg:rgba(26,35,50,0.97);
+  --keycap-bg:linear-gradient(180deg,#2d3748,#1a2332);
+  --keycap-shadow-base:#0d1117;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;user-select:none;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;transition:background 0.3s,color 0.3s;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 50% at 10% 10%,rgba(14,165,233,0.05),transparent 60%),
+             radial-gradient(ellipse 60% 60% at 90% 90%,rgba(139,92,246,0.05),transparent 60%);}
+[data-theme="dark"] body::before{
+  background:radial-gradient(ellipse 70% 50% at 10% 10%,rgba(56,189,248,0.06),transparent 60%),
+             radial-gradient(ellipse 60% 60% at 90% 90%,rgba(167,139,250,0.06),transparent 60%);}
+#app{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;}
+
+/* ===== HEADER ===== */
+#header{
+  display:flex;align-items:center;gap:14px;padding:10px 20px;
+  background:var(--header-bg);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);flex-shrink:0;transition:background 0.3s,border-color 0.3s;
+}
+.logo{font-size:18px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap;letter-spacing:-0.3px;}
+#level-badge{background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 13px;font-size:12px;font-weight:800;color:var(--primary);white-space:nowrap;}
+#progress-wrap{flex:1;max-width:320px;}
+#progress-label{font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:800;text-transform:uppercase;letter-spacing:0.7px;}
+#progress-bar-outer{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+#progress-bar-inner{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width 0.6s cubic-bezier(.2,.8,.2,1);width:0%;box-shadow:0 0 8px var(--primary-glow);}
+#theme-toggle{
+  display:flex;align-items:center;gap:5px;background:var(--bg3);border:2px solid var(--border);
+  border-radius:24px;padding:5px 12px;cursor:pointer;font-size:12px;font-weight:800;
+  color:var(--text2);transition:all 0.2s;white-space:nowrap;flex-shrink:0;
+}
+#theme-toggle:hover{border-color:var(--primary);color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow);}
+.theme-icon{font-size:14px;}
+#btn-restart-all-header{
+  display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--danger),#dc2626);
+  border:none;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:800;color:#fff;
+  cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;font-family:'Nunito';
+  box-shadow:0 2px 8px rgba(239,68,68,0.3);
+}
+#btn-restart-all-header:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(239,68,68,0.4);}
+#btn-restart-all-header:active{transform:scale(0.96);}
+
+/* ===== MAIN LAYOUT ===== */
+#main{flex:1;display:grid;grid-template-columns:220px 1fr 185px;overflow:hidden;}
+
+/* ===== SIDEBARS ===== */
+#sidebar-left,#sidebar-right{
+  padding:11px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;
+  transition:background 0.3s,border-color 0.3s;
+}
+#sidebar-left{background:var(--sidebar-bg);border-right:1px solid var(--border);}
+#sidebar-right{background:var(--sidebar-bg);border-left:1px solid var(--border);}
+.side-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px;transition:all 0.3s;}
+.side-card h3{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;}
+#task-desc{font-size:12px;font-weight:700;color:var(--text);line-height:1.6;}
+#task-hint{margin-top:6px;padding:6px 8px;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);border-radius:var(--radius-sm);font-size:11px;color:var(--primary);line-height:1.5;}
+[data-theme="dark"] #task-hint{background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);}
+#feedback-box{padding:8px 10px;border-radius:var(--radius-sm);font-size:11px;font-weight:700;line-height:1.5;min-height:40px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);color:var(--accent);transition:all 0.3s;}
+#feedback-box.error{background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.3);color:var(--danger);}
+
+/* ===== LEVEL LIST (read-only progress) ===== */
+.level-list{display:flex;flex-direction:column;gap:3px;}
+.level-item{
+  display:flex;align-items:center;gap:7px;padding:8px 9px;border-radius:var(--radius-sm);
+  font-size:12px;font-weight:700;color:var(--text3);border:1px solid transparent;
+  cursor:default;transition:all 0.2s;
+}
+.level-item.active{color:var(--primary);background:rgba(14,165,233,0.1);border-color:rgba(14,165,233,0.25);box-shadow:inset 2px 0 0 var(--primary);}
+.level-item.done{color:var(--accent);background:rgba(16,185,129,0.05);}
+.level-item.upcoming{opacity:0.5;}
+.li-num{font-family:'JetBrains Mono';font-size:10px;color:var(--text3);width:15px;font-weight:800;}
+.level-item.active .li-num{color:var(--primary);}
+.level-item.done .li-num{color:var(--accent);}
+.li-icon{font-size:13px;}
+.li-status{font-size:11px;margin-left:auto;opacity:0.85;font-weight:800;}
+.level-item.done .li-status{color:var(--accent);}
+.level-item.active .li-status{color:var(--primary);font-family:'JetBrains Mono';font-size:10px;}
+
+/* ===== LEFT SIDEBAR — MINI ROW (timer + progress) ===== */
+.side-card-compact{padding:8px 10px;}
+.mini-row{display:flex;gap:8px;}
+.mini-block{flex:1;text-align:center;padding:4px 2px;}
+.mini-block + .mini-block{border-left:1px solid var(--border);}
+.mini-label{font-size:10px;color:var(--text3);font-weight:800;margin-bottom:3px;text-transform:uppercase;letter-spacing:0.5px;}
+.mini-val{font-size:20px;font-weight:900;font-family:'JetBrains Mono';color:var(--warn);line-height:1.1;letter-spacing:-0.5px;}
+.mini-block:nth-child(2) .mini-val{color:var(--primary);font-size:16px;}
+
+/* ===== SIDEBAR ACTION BUTTONS ===== */
+#sidebar-actions{display:flex;flex-direction:column;gap:8px;margin-top:auto;flex-shrink:0;}
+.btn-block{width:100%;justify-content:center;}
+
+/* ===== RIGHT SIDEBAR — RESPONSIVE LAYOUT =====
+   On short viewports the start/hint/restart buttons must stay visible
+   without the user having to scroll. Strategy: outer sidebar no longer
+   scrolls; the 整体进度 card and the action buttons are pinned, and the
+   关卡进度 card shrinks to fit, with its level list scrolling internally
+   if there's still not enough room.
+*/
+#sidebar-right{overflow:hidden;}
+#sidebar-right > .side-card:nth-of-type(1){flex-shrink:0;}                /* 整体进度 — keep full size */
+#sidebar-right > .side-card:nth-of-type(2){                                /* 关卡进度 — shrinkable */
+  flex:1 1 auto;min-height:90px;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+#sidebar-right > .side-card:nth-of-type(2) > .level-list{
+  overflow-y:auto;flex:1;min-height:0;
+  margin:0 -3px;padding:0 3px 1px;
+}
+/* Slim scrollbar inside the level list so it doesn't look ugly */
+#sidebar-right > .side-card:nth-of-type(2) > .level-list::-webkit-scrollbar{width:5px;}
+#sidebar-right > .side-card:nth-of-type(2) > .level-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+
+/* ===== RIGHT SIDEBAR — OVERALL STATS ===== */
+.overall-stat{display:flex;flex-direction:column;gap:2px;}
+.os-row{display:flex;align-items:center;gap:8px;padding:8px 4px;border-radius:6px;transition:background 0.2s;}
+.os-row + .os-row{border-top:1px solid var(--border);}
+.os-icon{font-size:14px;width:18px;text-align:center;font-weight:900;}
+.os-name{flex:1;font-size:11px;color:var(--text2);font-weight:700;}
+.os-val{font-family:'JetBrains Mono';font-size:17px;font-weight:900;color:var(--text);letter-spacing:-0.5px;}
+
+/* ===== CENTER ===== */
+#center{display:flex;flex-direction:column;overflow:hidden;position:relative;}
+#training-area{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+
+.btn{padding:9px 22px;border-radius:30px;border:none;cursor:pointer;font-family:'Nunito';font-size:13px;font-weight:800;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:5px;}
+.btn:active{transform:scale(0.95);}
+.btn:disabled{opacity:0.35;cursor:not-allowed;transform:none!important;}
+.btn-primary{background:linear-gradient(135deg,var(--primary),#0284c7);color:#fff;box-shadow:0 3px 12px rgba(14,165,233,0.3);}
+.btn-primary:hover:not(:disabled){box-shadow:0 5px 20px rgba(14,165,233,0.45);transform:translateY(-1px);}
+.btn-secondary{background:var(--bg3);border:1px solid var(--border);color:var(--text2);}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary);}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#059669);color:#fff;box-shadow:0 3px 12px rgba(16,185,129,0.3);}
+.btn-accent:hover:not(:disabled){box-shadow:0 5px 20px rgba(16,185,129,0.45);transform:translateY(-1px);}
+.btn-warn{background:linear-gradient(135deg,var(--warn),#d97706);color:#fff;box-shadow:0 3px 12px rgba(245,158,11,0.3);}
+.btn-warn:hover:not(:disabled){box-shadow:0 5px 20px rgba(245,158,11,0.45);transform:translateY(-1px);}
+
+/* ===== WELCOME ===== */
+#screen-welcome{flex-direction:column;text-align:center;gap:14px;padding:32px;}
+#screen-welcome h1{font-size:36px;font-weight:900;line-height:1.1;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+#screen-welcome p{font-size:14px;color:var(--text2);max-width:440px;line-height:1.7;font-weight:600;}
+.welcome-icons{display:flex;gap:14px;justify-content:center;}
+.wi{font-size:30px;animation:float 3s ease-in-out infinite;}
+.wi:nth-child(2){animation-delay:.5s;}.wi:nth-child(3){animation-delay:1s;}
+.wi:nth-child(4){animation-delay:1.5s;}.wi:nth-child(5){animation-delay:2s;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+.level-screen{width:100%;height:100%;display:flex;align-items:center;justify-content:center;position:absolute;inset:0;}
+
+/* ============================================================
+   KEYCAP / SHORTCUT VISUALS  (核心通用键帽)
+   ============================================================ */
+.keycap{
+  display:inline-flex;align-items:center;justify-content:center;flex-direction:column;
+  min-width:46px;height:46px;padding:0 12px;
+  background:var(--keycap-bg);
+  border:1px solid var(--border);
+  border-bottom:4px solid var(--keycap-shadow-base);
+  border-radius:9px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--text2);
+  box-shadow:0 2px 5px rgba(0,0,0,0.06),inset 0 1px 0 rgba(255,255,255,0.55);
+  transition:all 0.12s;
+  position:relative;line-height:1.1;
+}
+[data-theme="dark"] .keycap{box-shadow:0 2px 6px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.05);}
+.keycap .kc-sub{font-size:9px;font-weight:700;color:var(--text3);margin-top:2px;letter-spacing:.5px;}
+.keycap.wide{min-width:72px;}
+.keycap.x-wide{min-width:100px;}
+.keycap.space-bar{min-width:220px;height:42px;font-size:11px;}
+.keycap.big{min-width:104px;height:104px;font-size:18px;border-bottom-width:6px;border-radius:16px;}
+.keycap.big .kc-sub{font-size:11px;margin-top:5px;}
+
+.keycap.target{
+  background:linear-gradient(180deg,var(--primary),#0284c7);
+  color:#fff;border-color:var(--primary);border-bottom-color:#0369a1;
+  box-shadow:0 0 0 4px var(--primary-glow),0 4px 16px rgba(14,165,233,0.35);
+  animation:keycap-pulse 1.4s ease-in-out infinite;
+}
+.keycap.target .kc-sub{color:rgba(255,255,255,0.78);}
+.keycap.pressed-correct{
+  background:linear-gradient(180deg,var(--accent),#059669)!important;
+  color:#fff!important;border-color:var(--accent)!important;border-bottom-color:#047857!important;
+  animation:keycap-bounce 0.4s ease;
+}
+.keycap.pressed-wrong{
+  background:linear-gradient(180deg,var(--danger),#dc2626)!important;
+  color:#fff!important;border-color:var(--danger)!important;border-bottom-color:#991b1b!important;
+  animation:shake 0.4s;
+}
+.keycap.dim{opacity:0.55;}
+@keyframes keycap-pulse{
+  0%,100%{box-shadow:0 0 0 4px var(--primary-glow),0 4px 16px rgba(14,165,233,0.35);}
+  50%{box-shadow:0 0 0 10px rgba(14,165,233,0.1),0 6px 24px rgba(14,165,233,0.6);}
+}
+@keyframes keycap-bounce{
+  0%{transform:scale(1);} 40%{transform:scale(1.15) translateY(-3px);} 100%{transform:scale(1);}
+}
+
+/* Shortcut combo: Ctrl + C */
+.shortcut-display{display:inline-flex;align-items:center;gap:10px;}
+.kc-plus{font-size:22px;font-weight:900;color:var(--text3);}
+
+/* ============================================================
+   LEVEL 1 — Control Keys
+   ============================================================ */
+#l1-area{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:24px;}
+#l1-target-row{display:flex;flex-direction:column;align-items:center;gap:12px;}
+#l1-target-label{font-size:13px;color:var(--text3);font-weight:800;letter-spacing:.8px;text-transform:uppercase;}
+#l1-target-keycap{}
+#l1-task-text{font-size:15px;font-weight:800;color:var(--text);text-align:center;max-width:520px;line-height:1.6;}
+#l1-keyboard-strip{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;}
+
+/* ============================================================
+   LEVEL 2 — Arrow Keys / Cursor
+   ============================================================ */
+#l2-area{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:18px;}
+#l2-task-text{font-size:14px;font-weight:800;color:var(--text);text-align:center;max-width:560px;}
+.code-editor{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 18px;font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;
+  color:var(--text);box-shadow:var(--shadow);position:relative;
+  min-width:380px;line-height:1.8;user-select:text;
+}
+.code-editor .ce-line{
+  position:relative;display:block;white-space:pre;min-height:1.8em;
+  padding:1px 4px;border-radius:4px;
+}
+.code-editor .ce-line.current{background:rgba(14,165,233,0.08);}
+.cursor-char{position:relative;}
+.cursor-char::after{
+  content:'';position:absolute;top:2px;bottom:2px;width:2px;background:var(--primary);
+  margin-left:-1px;animation:cursor-blink 1s step-end infinite;
+}
+@keyframes cursor-blink{50%{opacity:0;}}
+/* While the user is actively pressing arrow keys, suspend the blink so the cursor is always visible */
+.cursor-char.moving::after{
+  animation:none;
+  opacity:1;
+}
+.code-editor .target-marker{
+  position:absolute;width:2px;background:var(--warn);
+  box-shadow:0 0 8px var(--warn);opacity:0.55;
+}
+#l2-arrow-pad{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center;}
+#l2-arrow-pad .ap-empty{width:46px;height:46px;}
+
+/* ============================================================
+   LEVEL 3 — Copy / Paste
+   ============================================================ */
+#l3-area{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:18px;padding:14px;}
+/* Both columns share an identical grid row template so every row aligns
+   horizontally regardless of which column has which content. */
+#l3-left,#l3-right{
+  flex:1;max-width:380px;
+  display:grid;
+  grid-template-rows:20px 100px 30px auto auto auto;
+  /* row 1: panel title | row 2: card/editor (fixed 100px) | row 3: helper-btn / hint (fixed 30px)
+     row 4: step 1 / step 3 | row 5: step 2 / step 4 | row 6: empty / step 5 (modify task only) */
+  gap:10px;
+  align-content:start;
+}
+.l3-panel-title{font-size:11px;color:var(--text3);font-weight:800;text-transform:uppercase;letter-spacing:1px;align-self:end;}
+.code-card{
+  background:linear-gradient(160deg,var(--bg2),var(--bg3));
+  border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;
+  color:var(--text);box-shadow:var(--shadow);
+  height:100%;min-height:0;  /* fill the 100px grid row exactly */
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  user-select:text;cursor:text;transition:all 0.3s;
+  word-break:break-all;overflow:hidden;
+}
+.code-card.copied-glow{
+  border-color:var(--accent);box-shadow:0 0 0 4px rgba(16,185,129,0.18),0 6px 24px rgba(16,185,129,0.25);
+  animation:copy-pulse 0.7s;
+}
+@keyframes copy-pulse{
+  0%{box-shadow:0 0 0 0 rgba(16,185,129,0.4);} 100%{box-shadow:0 0 0 16px rgba(16,185,129,0);}
+}
+.l3-editor{
+  width:100%;height:100%;min-height:0;  /* fill the 100px grid row exactly */
+  border:2px dashed var(--border);border-radius:var(--radius);
+  background:var(--bg2);padding:14px 16px;font-family:'JetBrains Mono',monospace;
+  font-size:14px;font-weight:700;color:var(--text);resize:none;
+  transition:border-color 0.2s,box-shadow 0.2s;user-select:text;
+}
+.l3-editor:focus{outline:none;border-color:var(--primary);border-style:solid;box-shadow:0 0 0 3px var(--primary-glow);}
+.l3-editor.success{border-color:var(--accent);border-style:solid;background:rgba(16,185,129,0.04);}
+#l3-center-arrow{font-size:26px;color:var(--text3);animation:arrow-pulse 1.5s ease-in-out infinite;}
+@keyframes arrow-pulse{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.l3-helper-btn{
+  padding:5px 11px;font-size:11px;font-weight:800;border:1px solid var(--border);
+  background:var(--bg3);color:var(--text2);border-radius:14px;cursor:pointer;
+  justify-self:start;align-self:center;transition:all 0.15s;
+}
+.l3-helper-btn:hover{border-color:var(--primary);color:var(--primary);}
+/* Right-column placeholder occupying the same grid row as .l3-helper-btn on the left,
+   so step-3 lines up perfectly with step-1. */
+.l3-right-hint{
+  font-size:11px;color:var(--text3);font-weight:700;
+  align-self:center;justify-self:start;padding:5px 0;
+  font-style:italic;
+}
+.l3-task-step{font-size:11.5px;color:var(--text2);font-weight:700;line-height:1.6;padding:6px 9px;background:var(--bg3);border-radius:8px;}
+.l3-task-step .step-num{display:inline-flex;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;font-size:10px;align-items:center;justify-content:center;margin-right:6px;font-family:'JetBrains Mono';}
+.l3-task-step.done{color:var(--accent);}
+.l3-task-step.done .step-num{background:var(--accent);}
+
+/* ============================================================
+   LEVEL 4 — Undo / Select All / Save
+   ============================================================ */
+#l4-area{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;}
+#l4-shortcut-display{display:flex;align-items:center;gap:10px;}
+#l4-editor{
+  width:min(440px,80%);min-height:120px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:700;color:var(--text);box-shadow:var(--shadow);
+  white-space:pre-wrap;user-select:text;line-height:1.7;position:relative;outline:none;
+  transition:all 0.3s;
+}
+#l4-editor.select-all-highlight{background:rgba(14,165,233,0.10);border-color:var(--primary);}
+.l4-extra-text{color:var(--danger);text-decoration:underline wavy var(--danger);text-decoration-thickness:1.5px;}
+#l4-save-banner{
+  margin-top:6px;padding:8px 16px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);
+  border-radius:20px;font-size:13px;font-weight:800;color:var(--accent);
+  display:none;align-items:center;gap:8px;animation:bounce-in 0.4s;
+}
+#l4-save-banner.show{display:inline-flex;}
+
+/* ============================================================
+   LEVEL 5/6 — Symbols
+   ============================================================ */
+#l5-area,#l6-area{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:20px;}
+.symbol-task-card{
+  background:linear-gradient(160deg,var(--bg2),var(--bg3));
+  border:1px solid var(--border);border-radius:var(--radius);padding:22px 28px;
+  font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;
+  color:var(--text);box-shadow:var(--shadow);min-width:380px;
+  text-align:center;line-height:1.8;letter-spacing:1px;
+  white-space:pre;
+}
+.symbol-slot{
+  display:inline-block;min-width:32px;height:34px;padding:0 6px;
+  background:var(--bg3);border:2px dashed var(--border);border-radius:6px;
+  vertical-align:middle;color:var(--text3);text-align:center;
+  line-height:30px;margin:0 2px;transition:all 0.2s;
+}
+.symbol-slot.active{
+  border-color:var(--warn);background:rgba(245,158,11,0.1);color:var(--warn);
+  animation:slot-pulse 1.2s ease-in-out infinite;
+  border-style:solid;
+}
+@keyframes slot-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0.3);}
+  50%{box-shadow:0 0 0 6px rgba(245,158,11,0.05);}
+}
+.symbol-slot.filled{
+  border-color:var(--accent);background:rgba(16,185,129,0.08);color:var(--accent);
+  border-style:solid;
+}
+.symbol-slot.wrong{
+  animation:shake 0.4s;border-color:var(--danger);background:rgba(239,68,68,0.08);color:var(--danger);
+  border-style:solid;
+}
+.symbol-tab-row{display:block;padding-left:0;}
+.tab-indent-marker{
+  display:inline-block;min-width:34px;padding:1px 6px;text-align:center;
+  color:var(--text3);font-size:13px;font-family:'JetBrains Mono';font-weight:800;
+  border-radius:5px;border:1px dashed transparent;letter-spacing:1px;
+  vertical-align:middle;transition:all 0.25s;
+}
+.tab-indent-marker.active-tab{
+  color:var(--warn);background:rgba(245,158,11,0.12);
+  border:1px dashed var(--warn);
+  animation:tab-pulse 1.2s ease-in-out infinite;
+}
+@keyframes tab-pulse{
+  0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,0.3);}
+  50%{box-shadow:0 0 0 5px rgba(245,158,11,0.06);}
+}
+.tab-indent-marker.filled{
+  color:var(--accent);background:rgba(16,185,129,0.12);
+  border:1px solid rgba(16,185,129,0.4);
+  animation:tab-fill-pop 0.55s cubic-bezier(.2,1.4,.6,1);
+}
+@keyframes tab-fill-pop{
+  0%  {transform:scale(0.4);opacity:0;}
+  55% {transform:scale(1.18);opacity:1;}
+  100%{transform:scale(1);opacity:1;}
+}
+/* Brief green halo on the whole task card when a Tab is correctly inserted */
+.symbol-task-card.tab-flash{
+  animation:tab-card-flash 0.7s ease-out;
+}
+@keyframes tab-card-flash{
+  0%  {box-shadow:0 0 0 0 rgba(16,185,129,0.5),var(--shadow);}
+  40% {box-shadow:0 0 0 12px rgba(16,185,129,0.18),var(--shadow);}
+  100%{box-shadow:0 0 0 18px rgba(16,185,129,0),var(--shadow);}
+}
+/* Floating "↳ 缩进 +4" caption that briefly rises above the marker */
+.tab-indent-caption{
+  position:absolute;font-size:11px;font-weight:800;color:var(--accent);
+  background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.35);
+  padding:2px 8px;border-radius:12px;pointer-events:none;white-space:nowrap;
+  animation:tab-caption-rise 1.1s ease-out forwards;z-index:5;
+}
+@keyframes tab-caption-rise{
+  0%  {opacity:0;transform:translate(-50%,-4px) scale(0.7);}
+  20% {opacity:1;transform:translate(-50%,-22px) scale(1);}
+  80% {opacity:1;transform:translate(-50%,-32px) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-44px) scale(1);}
+}
+.symbol-task-card{position:relative;}  /* anchor for absolute caption */
+.symbol-task-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text2);font-weight:700;}
+.symbol-task-meta .lang-badge{background:var(--bg3);padding:4px 10px;border-radius:14px;border:1px solid var(--border);color:var(--primary);font-family:'JetBrains Mono';font-size:11px;}
+
+/* ============================================================
+   LEVEL 7 — Combined Code Workbench
+   ============================================================ */
+#l7-area{width:100%;height:100%;padding:14px;display:flex;gap:14px;}
+#l7-workspace{
+  flex:1;height:100%;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px;position:relative;display:flex;flex-direction:column;gap:12px;
+  box-shadow:var(--shadow);
+}
+#l7-mode-row{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--text2);}
+.l7-mode-btn{
+  padding:5px 12px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);
+  border-radius:14px;cursor:pointer;font-size:11px;font-weight:800;transition:all 0.15s;font-family:'Nunito';
+}
+.l7-mode-btn.active{background:linear-gradient(135deg,var(--primary),#0284c7);color:#fff;border-color:var(--primary);}
+#l7-code-editor{
+  flex:1;width:100%;background:#0f172a;color:#e2e8f0;border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:14px 16px 14px 48px;
+  font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.8;
+  resize:none;outline:none;user-select:text;tab-size:4;
+  background-image:linear-gradient(to right,#1e293b 36px,transparent 36px);
+  background-attachment:local;
+}
+#l7-code-editor:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow);}
+[data-theme="light"] #l7-code-editor{background:#1e293b;background-image:linear-gradient(to right,#0f172a 36px,transparent 36px);background-attachment:local;}
+#l7-steps{width:200px;flex-shrink:0;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);overflow-y:auto;}
+#l7-steps h4{font-size:10px;color:var(--text3);font-weight:800;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.8px;}
+.l7-step{display:flex;align-items:flex-start;gap:7px;padding:7px 0;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text3);transition:color 0.3s;line-height:1.5;}
+.l7-step:last-child{border-bottom:none;}
+.l7-step.active{color:var(--primary);}
+.l7-step.done{color:var(--accent);}
+.l7-step-num{width:20px;height:20px;border-radius:50%;flex-shrink:0;background:var(--bg3);font-family:'JetBrains Mono';font-size:10px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-weight:800;}
+.l7-step.active .l7-step-num{background:var(--primary);color:#fff;}
+.l7-step.done .l7-step-num{background:var(--accent);color:#fff;}
+#l7-complete-anim{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.92);border-radius:var(--radius);flex-direction:column;gap:13px;opacity:0;pointer-events:none;transition:opacity 0.5s;z-index:5;}
+[data-theme="dark"] #l7-complete-anim{background:rgba(13,17,23,0.92);}
+#l7-complete-anim.show{opacity:1;pointer-events:auto;}
+#l7-complete-anim .ce{font-size:56px;animation:bounce-in 0.5s;}
+#l7-complete-anim h2{font-size:22px;font-weight:900;color:var(--accent);}
+#l7-saved-pill{display:none;align-self:flex-start;padding:5px 14px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);border-radius:14px;font-size:11px;font-weight:800;color:var(--accent);}
+#l7-saved-pill.show{display:inline-flex;align-items:center;gap:6px;animation:bounce-in 0.4s;}
+
+/* ===== LEVEL COMPLETE OVERLAY ===== */
+#screen-level-complete{
+  position:absolute;inset:0;z-index:100;background:rgba(255,255,255,0.88);backdrop-filter:blur(5px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:13px;text-align:center;
+}
+[data-theme="dark"] #screen-level-complete{background:rgba(13,17,23,0.9);}
+#screen-level-complete.show{display:flex;}
+.lc-big-emoji{font-size:60px;animation:bounce-in 0.5s;}
+#screen-level-complete h2{font-size:24px;font-weight:900;color:var(--accent);}
+.lc-stats{display:flex;gap:18px;}
+.lc-stat{text-align:center;}
+.lc-stat-val{font-size:24px;font-weight:900;font-family:'JetBrains Mono';color:var(--primary);}
+.lc-stat-lbl{font-size:10px;color:var(--text3);font-weight:700;}
+.lc-stat.bad .lc-stat-val{color:var(--danger);}
+
+/* ===== RESULT SCREEN — scrollable + responsive ===== */
+#screen-result{
+  position:fixed;inset:0;z-index:500;background:var(--bg);
+  overflow-y:auto;overflow-x:hidden;
+  display:none;
+}
+#screen-result.show{display:block;}
+.result-inner{
+  min-height:100%;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  padding:22px 18px 36px;
+  box-sizing:border-box;
+}
+#screen-result h1{font-size:24px;font-weight:900;flex-shrink:0;}
+.result-score-circle{
+  width:124px;height:124px;border-radius:50%;border:5px solid var(--primary);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:radial-gradient(circle,rgba(14,165,233,0.08),transparent);
+  box-shadow:0 0 30px rgba(14,165,233,0.17);animation:bounce-in 0.6s;
+  flex-shrink:0;
+}
+.result-score-num{font-size:42px;font-weight:900;font-family:'JetBrains Mono';color:var(--primary);line-height:1;}
+.result-score-lbl{font-size:11px;color:var(--text3);font-weight:700;margin-top:3px;}
+.result-comment{max-width:520px;text-align:center;padding:12px 18px;border-radius:var(--radius);background:rgba(14,165,233,0.06);border:1px solid rgba(14,165,233,0.17);font-size:15px;font-weight:700;color:var(--text);line-height:1.6;flex-shrink:0;}
+.result-stats-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;flex-shrink:0;}
+.result-stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:11px 17px;text-align:center;min-width:82px;}
+.rsc-val{font-size:22px;font-weight:900;font-family:'JetBrains Mono';color:var(--text);line-height:1.1;}
+.rsc-lbl{font-size:12px;color:var(--text3);font-weight:700;margin-top:3px;}
+.result-levels-table{width:100%;max-width:580px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;flex-shrink:0;}
+.rlt-head,.rlt-row{display:grid;grid-template-columns:1fr 72px 72px 60px;padding:0 16px;font-size:15px;font-weight:700;min-height:42px;align-items:center;}
+.rlt-head{background:var(--bg3);color:var(--text3);font-size:12px;text-transform:uppercase;min-height:34px;}
+.rlt-row{border-top:1px solid var(--border);color:var(--text2);}
+.rlt-err{color:var(--danger);font-family:'JetBrains Mono';font-weight:800;}
+.rlt-done{color:var(--accent);font-size:16px;}
+.result-improve{max-width:580px;width:100%;padding:12px 18px;border-radius:var(--radius);background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.17);flex-shrink:0;}
+.result-improve h3{font-size:13px;color:var(--warn);font-weight:800;margin-bottom:6px;}
+.result-improve p{font-size:13px;color:var(--text2);font-weight:600;line-height:1.6;}
+
+/* Smaller-screen overrides */
+@media (max-height: 820px){
+  .result-inner{gap:11px;padding:18px 16px 30px;}
+  #screen-result h1{font-size:21px;}
+  .result-score-circle{width:104px;height:104px;border-width:4px;}
+  .result-score-num{font-size:34px;}
+  .result-score-lbl{font-size:10px;}
+  .result-comment{font-size:14px;padding:10px 15px;line-height:1.5;}
+  .result-stat-card{padding:9px 14px;min-width:74px;}
+  .rsc-val{font-size:19px;}
+  .rsc-lbl{font-size:11px;}
+  .rlt-head,.rlt-row{min-height:38px;font-size:14px;}
+  .rlt-head{font-size:11px;}
+  .result-improve p{font-size:12.5px;}
+}
+@media (max-height: 680px){
+  .result-inner{gap:8px;padding:14px 14px 24px;}
+  #screen-result h1{font-size:19px;}
+  .result-score-circle{width:88px;height:88px;border-width:3px;}
+  .result-score-num{font-size:28px;}
+  .result-score-lbl{font-size:9px;}
+  .result-comment{font-size:13px;padding:8px 13px;line-height:1.45;}
+  .result-stat-card{padding:7px 12px;min-width:66px;}
+  .rsc-val{font-size:17px;}
+  .rsc-lbl{font-size:10px;}
+  .rlt-head,.rlt-row{min-height:33px;font-size:13px;padding:0 13px;}
+  .rlt-head{font-size:10px;}
+  .result-improve{padding:9px 14px;}
+  .result-improve p{font-size:12px;}
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes bounce-in{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes confetti-fall{to{transform:translateY(110vh) rotate(360deg);opacity:0}}
+.confetti-piece{position:fixed;top:-14px;pointer-events:none;z-index:9998;animation:confetti-fall linear forwards;border-radius:2px;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- HEADER -->
+<div id="header">
+  <div class="logo">⌨ 键盘训练营</div>
+  <div id="level-badge">欢迎</div>
+  <div id="progress-wrap">
+    <div id="progress-label">总进度</div>
+    <div id="progress-bar-outer"><div id="progress-bar-inner"></div></div>
+  </div>
+  <div style="flex:1;"></div>
+  <div id="theme-toggle" onclick="toggleTheme()">
+    <span class="theme-icon" id="theme-icon">☀️</span>
+    <span id="theme-label">浅色</span>
+  </div>
+  <button id="btn-restart-all-header" onclick="restartAll()">🔄 重新开始</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- SIDEBAR LEFT -->
+  <div id="sidebar-left">
+    <div class="side-card">
+      <h3>当前任务</h3>
+      <div id="task-desc">选择关卡或点击开始训练！</div>
+      <div id="task-hint">💡 完成 7 关，掌握编程必备键盘操作！</div>
+    </div>
+    <div class="side-card side-card-compact">
+      <div class="mini-row">
+        <div class="mini-block">
+          <div class="mini-label">⏱ 本关用时</div>
+          <div class="mini-val" id="timer-value">0:00</div>
+        </div>
+        <div class="mini-block">
+          <div class="mini-label">📊 本关进度</div>
+          <div class="mini-val" id="level-progress-val">— / —</div>
+        </div>
+      </div>
+    </div>
+    <div class="side-card">
+      <h3>操作反馈</h3>
+      <div id="feedback-box">⌨️ 准备开始！</div>
+    </div>
+  </div>
+
+  <!-- CENTER -->
+  <div id="center">
+    <div id="training-area">
+
+      <!-- WELCOME -->
+      <div id="screen-welcome" class="level-screen" style="position:relative;inset:auto;display:flex;flex-direction:column;text-align:center;gap:14px;padding:32px;">
+        <div class="welcome-icons">
+          <div class="wi">⌨</div><div class="wi">📋</div><div class="wi">🐍</div><div class="wi">💻</div><div class="wi">🚀</div>
+        </div>
+        <h1 style="font-size:36px;font-weight:900;background:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">键盘操作<br>训练营</h1>
+        <p style="font-size:14px;color:var(--text2);max-width:460px;line-height:1.7;font-weight:600;">通过 7 个趣味关卡，掌握控制键、方向键、复制粘贴、撤销保存等快捷键，熟悉 Python / C++ 编程符号，为编程学习做好准备！</p>
+      </div>
+
+      <!-- LEVEL 1 -->
+      <div id="screen-l1" class="level-screen" style="display:none;">
+        <div id="l1-area">
+          <div id="l1-target-row">
+            <div id="l1-target-label">目标按键</div>
+            <div id="l1-target-keycap"></div>
+          </div>
+          <div id="l1-task-text">准备开始...</div>
+          <div id="l1-keyboard-strip"></div>
+        </div>
+      </div>
+
+      <!-- LEVEL 2 -->
+      <div id="screen-l2" class="level-screen" style="display:none;">
+        <div id="l2-area">
+          <div id="l2-task-text">请使用方向键移动光标</div>
+          <div class="code-editor" id="l2-code-editor"></div>
+          <div id="l2-arrow-pad">
+            <div class="ap-empty"></div>
+            <div class="keycap" data-arrow="ArrowUp">↑<div class="kc-sub">UP</div></div>
+            <div class="ap-empty"></div>
+            <div class="keycap" data-arrow="ArrowLeft">←<div class="kc-sub">LEFT</div></div>
+            <div class="keycap" data-arrow="ArrowDown">↓<div class="kc-sub">DOWN</div></div>
+            <div class="keycap" data-arrow="ArrowRight">→<div class="kc-sub">RIGHT</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL 3 -->
+      <div id="screen-l3" class="level-screen" style="display:none;">
+        <div id="l3-area">
+          <div id="l3-left">
+            <div class="l3-panel-title">📋 源代码卡片</div>
+            <div class="code-card" id="l3-source-card">—</div>
+            <button class="l3-helper-btn" id="l3-select-helper" onclick="l3SelectSource()">🎯 选中源代码</button>
+            <div class="l3-task-step" id="l3-step-1"><span class="step-num">1</span>选中左侧代码</div>
+            <div class="l3-task-step" id="l3-step-2"><span class="step-num">2</span>按 Ctrl + C 复制</div>
+          </div>
+          <div id="l3-center-arrow">→</div>
+          <div id="l3-right">
+            <div class="l3-panel-title">📝 编辑区</div>
+            <textarea class="l3-editor" id="l3-editor" spellcheck="false" placeholder="点击这里聚焦，再按 Ctrl + V 粘贴..."></textarea>
+            <div class="l3-right-hint">⌨️ 聚焦后用 Ctrl + V 粘贴</div>
+            <div class="l3-task-step" id="l3-step-3"><span class="step-num">3</span>点击右侧编辑区</div>
+            <div class="l3-task-step" id="l3-step-4"><span class="step-num">4</span>按 Ctrl + V 粘贴</div>
+            <div class="l3-task-step" id="l3-step-5" style="display:none;"><span class="step-num">5</span>修改 redPin 为 greenPin</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL 4 -->
+      <div id="screen-l4" class="level-screen" style="display:none;">
+        <div id="l4-area">
+          <div id="l4-shortcut-display"></div>
+          <div id="l4-editor" tabindex="0"></div>
+          <div id="l4-save-banner">💾 已保存到训练记录</div>
+        </div>
+      </div>
+
+      <!-- LEVEL 5 -->
+      <div id="screen-l5" class="level-screen" style="display:none;">
+        <div id="l5-area">
+          <div class="symbol-task-meta">
+            <span class="lang-badge">🐍 Python</span>
+            <span id="l5-round-label">第 1 / 12 题</span>
+          </div>
+          <div class="symbol-task-card" id="l5-task-card"></div>
+        </div>
+      </div>
+
+      <!-- LEVEL 6 -->
+      <div id="screen-l6" class="level-screen" style="display:none;">
+        <div id="l6-area">
+          <div class="symbol-task-meta">
+            <span class="lang-badge">💻 C++</span>
+            <span id="l6-round-label">第 1 / 12 题</span>
+          </div>
+          <div class="symbol-task-card" id="l6-task-card"></div>
+        </div>
+      </div>
+
+      <!-- LEVEL 7 -->
+      <div id="screen-l7" class="level-screen" style="display:none;">
+        <div id="l7-area">
+          <div id="l7-workspace">
+            <div id="l7-mode-row">
+              <span>选择语言：</span>
+              <button class="l7-mode-btn active" id="l7-mode-py" onclick="l7SwitchMode('py')">🐍 Python</button>
+              <button class="l7-mode-btn" id="l7-mode-cpp" onclick="l7SwitchMode('cpp')">💻 C++</button>
+              <span id="l7-saved-pill">💾 已保存</span>
+            </div>
+            <textarea id="l7-code-editor" spellcheck="false" placeholder="在这里按任务步骤输入..."></textarea>
+            <div id="l7-complete-anim"><div class="ce">🏆</div><h2>综合挑战完成！</h2></div>
+          </div>
+          <div id="l7-steps">
+            <h4>📋 任务步骤</h4>
+            <div class="l7-step" id="l7s-1"><div class="l7-step-num">1</div><div>输入第一行<br>print("红灯亮")</div></div>
+            <div class="l7-step" id="l7s-2"><div class="l7-step-num">2</div><div>全选第一行<br>按 Ctrl + A</div></div>
+            <div class="l7-step" id="l7s-3"><div class="l7-step-num">3</div><div>复制第一行<br>按 Ctrl + C</div></div>
+            <div class="l7-step" id="l7s-4"><div class="l7-step-num">4</div><div>光标到行末<br>按 Enter 换行</div></div>
+            <div class="l7-step" id="l7s-5"><div class="l7-step-num">5</div><div>粘贴第二行<br>按 Ctrl + V</div></div>
+            <div class="l7-step" id="l7s-6"><div class="l7-step-num">6</div><div>修改"红"为"绿"</div></div>
+            <div class="l7-step" id="l7s-7"><div class="l7-step-num">7</div><div>保存代码<br>按 Ctrl + S</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEVEL COMPLETE OVERLAY -->
+      <div id="screen-level-complete">
+        <div class="lc-big-emoji" id="lc-emoji">🎉</div>
+        <h2>关卡完成！</h2>
+        <div class="lc-stats">
+          <div class="lc-stat"><div class="lc-stat-val" id="lc-time">0s</div><div class="lc-stat-lbl">本关用时</div></div>
+          <div class="lc-stat bad"><div class="lc-stat-val" id="lc-errors">0</div><div class="lc-stat-lbl">错误次数</div></div>
+        </div>
+        <div style="display:flex;gap:9px;margin-top:5px;">
+          <button class="btn btn-secondary" id="btn-retry">🔄 重新练习</button>
+          <button class="btn btn-accent" id="btn-next-level">下一关 →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SIDEBAR RIGHT -->
+  <div id="sidebar-right">
+    <div class="side-card">
+      <h3>整体进度</h3>
+      <div class="overall-stat">
+        <div class="os-row">
+          <span class="os-icon" style="color:var(--accent)">⏱</span>
+          <span class="os-name">总用时</span>
+          <span class="os-val" id="h-time">0:00</span>
+        </div>
+        <div class="os-row">
+          <span class="os-icon" style="color:var(--primary)">✓</span>
+          <span class="os-name">正确次数</span>
+          <span class="os-val" id="h-correct">0</span>
+        </div>
+        <div class="os-row">
+          <span class="os-icon" style="color:var(--danger)">✗</span>
+          <span class="os-name">错误次数</span>
+          <span class="os-val" id="h-error" style="color:var(--danger)">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="side-card">
+      <h3>关卡进度</h3>
+      <div class="level-list" id="level-list">
+        <div class="level-item" id="li-1"><span class="li-num">01</span><span class="li-icon">⌨</span>基础控制键<span class="li-status" id="lock-1"></span></div>
+        <div class="level-item" id="li-2"><span class="li-num">02</span><span class="li-icon">⬅</span>方向键光标<span class="li-status" id="lock-2"></span></div>
+        <div class="level-item" id="li-3"><span class="li-num">03</span><span class="li-icon">📋</span>复制粘贴<span class="li-status" id="lock-3"></span></div>
+        <div class="level-item" id="li-4"><span class="li-num">04</span><span class="li-icon">↩</span>撤销全选保存<span class="li-status" id="lock-4"></span></div>
+        <div class="level-item" id="li-5"><span class="li-num">05</span><span class="li-icon">🐍</span>Python 符号<span class="li-status" id="lock-5"></span></div>
+        <div class="level-item" id="li-6"><span class="li-num">06</span><span class="li-icon">💻</span>C++ 符号<span class="li-status" id="lock-6"></span></div>
+        <div class="level-item" id="li-7"><span class="li-num">07</span><span class="li-icon">🏆</span>综合挑战<span class="li-status" id="lock-7"></span></div>
+      </div>
+    </div>
+    <div id="sidebar-actions">
+      <button class="btn btn-primary btn-block" id="btn-start">🚀 开始训练</button>
+      <button class="btn btn-warn btn-block" id="btn-hint" style="display:none;" onclick="useHint()">💡 提示</button>
+      <button class="btn btn-secondary btn-block" id="btn-restart-level" style="display:none;">🔄 重试本关</button>
+    </div>
+    <!-- Hidden stat refs preserved for JS compatibility -->
+    <div style="display:none;">
+      <span id="s-key">0</span><span id="s-shortcut">0</span><span id="s-copy">0</span><span id="s-paste">0</span><span id="s-symbol">0</span><span id="s-hint">0</span>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /app -->
+
+<!-- RESULT SCREEN -->
+<div id="screen-result">
+  <div class="result-inner">
+    <h1>🏆 训练完成报告</h1>
+    <div class="result-score-circle">
+      <div class="result-score-num" id="final-score">—</div>
+      <div class="result-score-lbl">键盘熟练度</div>
+    </div>
+    <div class="result-comment" id="result-comment">评价中...</div>
+    <div class="result-stats-row">
+      <div class="result-stat-card"><div class="rsc-val" id="rs-time">0:00</div><div class="rsc-lbl">总用时</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-correct">0</div><div class="rsc-lbl">正确次数</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-error">0</div><div class="rsc-lbl">总错误</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-key">0</div><div class="rsc-lbl">总按键</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-shortcut">0</div><div class="rsc-lbl">快捷键</div></div>
+      <div class="result-stat-card"><div class="rsc-val" id="rs-symbol">0</div><div class="rsc-lbl">符号正确</div></div>
+    </div>
+    <div class="result-levels-table">
+      <div class="rlt-head"><div>关卡</div><div>用时</div><div>错误</div><div>状态</div></div>
+      <div id="rlt-body"></div>
+    </div>
+    <div class="result-improve"><h3>💡 建议加强</h3><p id="improve-tip">—</p></div>
+    <div style="display:flex;gap:11px;flex-shrink:0;">
+      <button class="btn btn-primary" onclick="restartAll()">🔄 重新开始</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =============================================
+   THEME
+   ============================================= */
+let isDark=false;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('theme-icon').textContent=isDark?'🌙':'☀️';
+  document.getElementById('theme-label').textContent=isDark?'深色':'浅色';
+}
+
+/* =============================================
+   DATA & STATS
+   ============================================= */
+const LEVEL_NAMES=['基础控制键','方向键光标','复制粘贴','撤销/全选/保存','Python 符号','C++ 符号','综合挑战'];
+const TOTAL_LEVELS=7;
+
+const stats={
+  totalTime:0,currentLevel:0,correctCount:0,errorCount:0,hintCount:0,
+  keyPressCount:0,shortcutSuccessCount:0,
+  copySuccessCount:0,pasteSuccessCount:0,
+  undoSuccessCount:0,selectAllSuccessCount:0,saveSuccessCount:0,
+  symbolSuccessCount:0,
+  pythonSymbolErrors:0,cppSymbolErrors:0,
+  levelData:LEVEL_NAMES.map(n=>({levelName:n,timeUsed:0,errors:0,completed:false,weakPoint:''}))
+};
+let unlockedUpTo=1;
+
+function updateHeaderStats(){
+  document.getElementById('h-correct').textContent=stats.correctCount;
+  document.getElementById('h-error').textContent=stats.errorCount;
+  document.getElementById('s-key').textContent=stats.keyPressCount;
+  document.getElementById('s-shortcut').textContent=stats.shortcutSuccessCount;
+  document.getElementById('s-copy').textContent=stats.copySuccessCount;
+  document.getElementById('s-paste').textContent=stats.pasteSuccessCount;
+  document.getElementById('s-symbol').textContent=stats.symbolSuccessCount;
+  document.getElementById('s-hint').textContent=stats.hintCount;
+}
+
+/* =============================================
+   TIMERS
+   ============================================= */
+let globalTimer=null,levelTimer=null,globalSeconds=0,levelSeconds=0;
+function startGlobalTimer(){
+  if(globalTimer) return;
+  globalTimer=setInterval(()=>{
+    globalSeconds++;
+    const m=Math.floor(globalSeconds/60),s=globalSeconds%60;
+    document.getElementById('h-time').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
+}
+function startLevelTimer(){
+  levelSeconds=0;
+  document.getElementById('timer-value').textContent='0:00';
+  clearInterval(levelTimer);
+  levelTimer=setInterval(()=>{
+    levelSeconds++;
+    const m=Math.floor(levelSeconds/60),s=levelSeconds%60;
+    document.getElementById('timer-value').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  },1000);
+}
+function stopLevelTimer(){ clearInterval(levelTimer); return levelSeconds; }
+
+/* =============================================
+   FEEDBACK
+   ============================================= */
+let fbTimeout=null;
+function showFeedback(msg,isError=false){
+  const el=document.getElementById('feedback-box');
+  el.textContent=msg; el.className=isError?'error':'';
+  clearTimeout(fbTimeout);
+  if(!isError) fbTimeout=setTimeout(()=>{el.textContent='✅ 继续加油！';el.className='';},2200);
+}
+
+/* =============================================
+   CONFETTI
+   ============================================= */
+function launchConfetti(){
+  const cols=['#38bdf8','#a78bfa','#34d399','#fbbf24','#f87171','#fff','#fb923c'];
+  for(let i=0;i<50;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};animation-duration:${1.4+Math.random()*2}s;animation-delay:${Math.random()*0.6}s;transform:rotate(${Math.random()*360}deg);width:${4+Math.random()*8}px;height:${4+Math.random()*8}px;`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+
+/* =============================================
+   GAME STATE  &  HINTS
+   ============================================= */
+let currentLevel=0,levelActive=false,levelErrors=0;
+let currentHintFn=null;
+
+function setTaskInfo(desc,hint){
+  document.getElementById('task-desc').textContent=desc;
+  document.getElementById('task-hint').textContent=hint;
+}
+function setLevelProgress(text){ document.getElementById('level-progress-val').textContent=text; }
+function updateLevelBadge(n){
+  document.getElementById('level-badge').textContent=n>0&&n<=TOTAL_LEVELS?`第 ${n} 关`:(n>TOTAL_LEVELS?'完成！':'欢迎');
+  document.getElementById('progress-bar-inner').style.width=n>0?((n-1)/TOTAL_LEVELS*100)+'%':'0%';
+}
+function updateLevelList(activeLv){
+  for(let i=1;i<=TOTAL_LEVELS;i++){
+    const el=document.getElementById(`li-${i}`);
+    const statusEl=document.getElementById(`lock-${i}`);
+    const done=stats.levelData[i-1].completed;
+    const active=(i===activeLv);
+    let cls='level-item';
+    if(active) cls+=' active';
+    else if(done) cls+=' done';
+    else cls+=' upcoming';
+    el.className=cls;
+    if(done) statusEl.textContent='✓';
+    else if(active) statusEl.textContent='进行中';
+    else statusEl.textContent='';
+  }
+}
+function tryGoLevel(n){
+  if(n>unlockedUpTo){
+    showFeedback(`🔒 第${n}关还未解锁！请先完成第${n-1}关。`,true);
+    return;
+  }
+  document.getElementById('screen-level-complete').className='';
+  startLevel(n);
+}
+function useHint(){
+  stats.hintCount++;
+  updateHeaderStats();
+  if(currentHintFn){ currentHintFn(); }
+  else showFeedback('💡 当前关卡暂无提示。');
+}
+
+/* =============================================
+   LEVEL COMPLETE
+   ============================================= */
+function completeLevel(levelIdx){
+  levelActive=false;
+  const t=stopLevelTimer();
+  stats.levelData[levelIdx-1].timeUsed=t;
+  stats.levelData[levelIdx-1].errors=levelErrors;
+  stats.levelData[levelIdx-1].completed=true;
+  stats.totalTime=globalSeconds;
+  if(levelIdx>=unlockedUpTo&&levelIdx<TOTAL_LEVELS) unlockedUpTo=levelIdx+1;
+  updateLevelList(levelIdx);
+  launchConfetti();
+  const lc=document.getElementById('screen-level-complete');
+  document.getElementById('lc-time').textContent=t+'s';
+  document.getElementById('lc-errors').textContent=levelErrors;
+  document.getElementById('lc-emoji').textContent=levelErrors===0?'🌟':'🎉';
+  lc.className='show';
+  const btnNext=document.getElementById('btn-next-level');
+  btnNext.textContent=levelIdx>=TOTAL_LEVELS?'查看结果 🏆':'下一关 →';
+  btnNext.onclick=()=>{ lc.className=''; if(levelIdx>=TOTAL_LEVELS) showResult(); else startLevel(levelIdx+1); };
+  document.getElementById('btn-retry').onclick=()=>{ lc.className=''; startLevel(levelIdx); };
+}
+
+function showScreen(id){
+  ['screen-welcome','screen-l1','screen-l2','screen-l3','screen-l4','screen-l5','screen-l6','screen-l7'].forEach(s=>{
+    document.getElementById(s).style.display='none';
+  });
+  document.getElementById(id).style.display='flex';
+}
+
+/* =============================================
+   KEYCAP HELPERS
+   ============================================= */
+/** 创建一个键帽 DOM 元素 */
+function makeKeycap(label,opts={}){
+  const el=document.createElement('div');
+  el.className='keycap'+(opts.big?' big':'')+(opts.wide?' wide':'')+(opts.xWide?' x-wide':'')+(opts.space?' space-bar':'');
+  if(opts.target) el.classList.add('target');
+  el.innerHTML=`<div>${label}</div>${opts.sub?`<div class="kc-sub">${opts.sub}</div>`:''}`;
+  return el;
+}
+
+/* =============================================
+   LEVEL 1 — Basic Control Keys
+   ============================================= */
+const L1_KEYS=[
+  {key:'Enter',label:'⏎',sub:'Enter',desc:'确认任务开始',hint:'Enter 通常用于确认、换行或运行代码。在主键盘区右侧。',wide:true},
+  {key:' ',label:'␣',sub:'Space',desc:'让小机器人前进',hint:'Space 是最大的那条横键。',space:true},
+  {key:'Backspace',label:'⌫',sub:'Backspace',desc:'删除光标前一个字符',hint:'Backspace 在键盘右上方，Enter 上面。',wide:true},
+  {key:'Delete',label:'Del',sub:'Delete',desc:'删除光标后一个字符',hint:'Delete 通常在方向键上方一带。'},
+  {key:'Shift',label:'⇧',sub:'Shift',desc:'按住可输入大写字符',hint:'Shift 在键盘左右两侧，方便配合其他键。',wide:true},
+];
+let l1Round=0,l1TargetKey=null,l1Order=[];
+const L1_TOTAL=10;
+
+function initLevel1(){
+  l1Round=0; levelErrors=0;
+  // 10 轮 = 每个键 2 次，打乱顺序
+  l1Order=[];
+  L1_KEYS.forEach(k=>{l1Order.push(k);l1Order.push(k);});
+  l1Order.sort(()=>Math.random()-0.5);
+  setTaskInfo('按下提示的键盘控制键，完成 10 轮。','💡 按错时下方会显示你按下了什么、应该按什么。');
+  setLevelProgress(`已完成：0 / ${L1_TOTAL}`);
+  updateLevelBadge(1); updateLevelList(1);
+  document.getElementById('btn-hint').style.display='inline-block';
+  currentHintFn=()=>showFeedback('💡 '+l1TargetKey.hint);
+  showScreen('screen-l1');
+  // 底部展示所有 5 个键
+  const strip=document.getElementById('l1-keyboard-strip');
+  strip.innerHTML='';
+  L1_KEYS.forEach(k=>{
+    const cap=makeKeycap(k.label,{sub:k.sub,wide:k.wide,space:k.space});
+    cap.dataset.keyName=k.key;
+    strip.appendChild(cap);
+  });
+  l1NextRound();
+  startLevelTimer();
+}
+
+function l1NextRound(){
+  if(l1Round>=L1_TOTAL){ completeLevel(1); return; }
+  l1TargetKey=l1Order[l1Round];
+  // 中央大键帽
+  const big=document.getElementById('l1-target-keycap');
+  big.innerHTML='';
+  const cap=makeKeycap(l1TargetKey.label,{sub:l1TargetKey.sub,big:true,target:true});
+  big.appendChild(cap);
+  // 任务文案
+  document.getElementById('l1-task-text').textContent=`请按下 ${l1TargetKey.sub} 键，${l1TargetKey.desc}。`;
+  // 高亮底部对应键
+  document.querySelectorAll('#l1-keyboard-strip .keycap').forEach(k=>{
+    k.classList.remove('target','dim','pressed-correct','pressed-wrong');
+    if(k.dataset.keyName===l1TargetKey.key){ k.classList.add('target'); }
+    else { k.classList.add('dim'); }
+  });
+}
+
+function handleL1Key(e){
+  if(!l1TargetKey) return;
+  const pressed=e.key;
+  // 防止 Enter / Space 触发按钮等默认行为
+  if(['Enter',' ','Backspace','Delete','Tab'].includes(pressed)) e.preventDefault();
+  // Shift 单独按下时 e.key === 'Shift'
+  const isCorrect=(pressed===l1TargetKey.key);
+  const strip=document.getElementById('l1-keyboard-strip');
+  if(isCorrect){
+    stats.correctCount++;
+    updateHeaderStats();
+    // 中央键帽变绿弹跳
+    const cap=document.querySelector('#l1-target-keycap .keycap');
+    if(cap){ cap.classList.add('pressed-correct'); }
+    showFeedback(`✅ 答对了！${l1TargetKey.sub} 键。`);
+    l1Round++;
+    setLevelProgress(`已完成：${l1Round} / ${L1_TOTAL}`);
+    setTimeout(()=>l1NextRound(),420);
+  } else {
+    stats.errorCount++; levelErrors++;
+    updateHeaderStats();
+    // 显示按错的反馈
+    const pressedName=keyDisplayName(pressed);
+    showFeedback(`❌ 你按下的是 ${pressedName}，本轮需要按 ${l1TargetKey.sub}。`,true);
+    // 让目标键帽抖动
+    const cap=document.querySelector('#l1-target-keycap .keycap');
+    if(cap){ cap.classList.add('pressed-wrong'); setTimeout(()=>cap.classList.remove('pressed-wrong'),420); }
+  }
+}
+
+/** 把 e.key 转换为友好显示名 */
+function keyDisplayName(k){
+  const map={' ':'Space','Enter':'Enter','Backspace':'Backspace','Delete':'Delete','Shift':'Shift',
+    'ArrowUp':'↑','ArrowDown':'↓','ArrowLeft':'←','ArrowRight':'→','Tab':'Tab','Escape':'Esc',
+    'Control':'Ctrl','Alt':'Alt','Meta':'Meta'};
+  return map[k] || k;
+}
+
+/* =============================================
+   LEVEL 2 — Arrow Keys / Cursor
+   ============================================= */
+const L2_CODE_LINES=['print("red")','print("green")','print("blue")'];
+let l2Cursor={row:0,col:0};
+let l2TaskIdx=0,l2TargetState=null,l2InitialCursor={row:0,col:0};
+const L2_TASKS=[
+  {desc:'把光标移动到 green 这一行。',hint:'用 ↓ 向下移动一行。',target:{type:'row',row:1}},
+  {desc:'把光标移动到 blue 行的末尾。',hint:'先 ↓ 到 blue 行，再 → 到行尾。',target:{type:'pos',row:2,col:L2_CODE_LINES[2].length}},
+  {desc:'向左移动 3 次。',hint:'连续按 ← 三次即可。',target:{type:'count',key:'ArrowLeft',n:3}},
+  {desc:'向下移动 1 行。',hint:'按 ↓ 一次。',target:{type:'count',key:'ArrowDown',n:1}},
+  {desc:'把光标移动到 red 行第 7 个字符（"red"中 r 之前）。',hint:'到第一行，再 → 到 7。',target:{type:'pos',row:0,col:7}},
+  {desc:'把光标移动到第二行第 1 列。',hint:'回到第二行行首。',target:{type:'pos',row:1,col:0}},
+];
+let l2CountSoFar=0;
+let l2MoveTimer=null;  // debounce timer to mark "actively moving" state on the cursor
+
+function initLevel2(){
+  l2TaskIdx=0; levelErrors=0; l2Cursor={row:0,col:0}; l2CountSoFar=0;
+  setTaskInfo('使用 ↑ ↓ ← → 方向键控制光标完成 6 个任务。','💡 此关只接受方向键，按其他键会提示。');
+  setLevelProgress(`已完成：0 / 6`);
+  updateLevelBadge(2); updateLevelList(2);
+  document.getElementById('btn-hint').style.display='inline-block';
+  showScreen('screen-l2');
+  l2NextTask();
+  startLevelTimer();
+}
+function l2NextTask(){
+  if(l2TaskIdx>=L2_TASKS.length){ completeLevel(2); return; }
+  const t=L2_TASKS[l2TaskIdx];
+  l2TargetState=t.target;
+  l2CountSoFar=0;
+  // 随机初始光标
+  l2Cursor={row:Math.floor(Math.random()*3),col:0};
+  l2InitialCursor={...l2Cursor};
+  // 对于 count 类型，避免与目标方向冲突
+  document.getElementById('l2-task-text').textContent=`任务 ${l2TaskIdx+1}/6 ：${t.desc}`;
+  currentHintFn=()=>showFeedback('💡 '+t.hint);
+  l2RenderCode();
+}
+
+function l2RenderCode(){
+  const ed=document.getElementById('l2-code-editor');
+  ed.innerHTML='';
+  for(let r=0;r<L2_CODE_LINES.length;r++){
+    const line=L2_CODE_LINES[r];
+    const div=document.createElement('div');
+    div.className='ce-line'+(r===l2Cursor.row?' current':'');
+    // 构建带光标的行：在 col 位置插入光标
+    let html='';
+    for(let c=0;c<=line.length;c++){
+      if(c===l2Cursor.col && r===l2Cursor.row){
+        html+=`<span class="cursor-char"></span>`;
+      }
+      if(c<line.length) html+=escapeHtml(line[c]);
+    }
+    div.innerHTML=html;
+    ed.appendChild(div);
+  }
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function handleL2Key(e){
+  const k=e.key;
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(k)){
+    e.preventDefault();
+    // 移动光标
+    const oldCur={...l2Cursor};
+    if(k==='ArrowUp' && l2Cursor.row>0){ l2Cursor.row--; l2Cursor.col=Math.min(l2Cursor.col,L2_CODE_LINES[l2Cursor.row].length); }
+    else if(k==='ArrowDown' && l2Cursor.row<L2_CODE_LINES.length-1){ l2Cursor.row++; l2Cursor.col=Math.min(l2Cursor.col,L2_CODE_LINES[l2Cursor.row].length); }
+    else if(k==='ArrowLeft' && l2Cursor.col>0){ l2Cursor.col--; }
+    else if(k==='ArrowLeft' && l2Cursor.col===0 && l2Cursor.row>0){ l2Cursor.row--; l2Cursor.col=L2_CODE_LINES[l2Cursor.row].length; }
+    else if(k==='ArrowRight' && l2Cursor.col<L2_CODE_LINES[l2Cursor.row].length){ l2Cursor.col++; }
+    else if(k==='ArrowRight' && l2Cursor.col===L2_CODE_LINES[l2Cursor.row].length && l2Cursor.row<L2_CODE_LINES.length-1){ l2Cursor.row++; l2Cursor.col=0; }
+    // count 任务统计
+    if(l2TargetState.type==='count' && l2TargetState.key===k){ l2CountSoFar++; }
+    l2RenderCode();
+    // Keep cursor solid (not blinking) while the user is actively pressing arrow keys.
+    // After ~500ms of inactivity the .moving class is removed and the breathing blink resumes.
+    const movedCursor=document.querySelector('#l2-code-editor .cursor-char');
+    if(movedCursor) movedCursor.classList.add('moving');
+    clearTimeout(l2MoveTimer);
+    l2MoveTimer=setTimeout(()=>{
+      const c=document.querySelector('#l2-code-editor .cursor-char');
+      if(c) c.classList.remove('moving');
+    },500);
+    l2CheckCompletion(k);
+  } else {
+    stats.errorCount++; levelErrors++;
+    updateHeaderStats();
+    showFeedback('❗ 这一关只能用方向键 ↑ ↓ ← →。',true);
+  }
+}
+
+function l2CheckCompletion(pressedKey){
+  const t=l2TargetState;
+  let done=false;
+  if(t.type==='row'){ if(l2Cursor.row===t.row) done=true; }
+  else if(t.type==='pos'){ if(l2Cursor.row===t.row && l2Cursor.col===t.col) done=true; }
+  else if(t.type==='count'){ if(l2CountSoFar>=t.n) done=true; }
+  if(done){
+    stats.correctCount++;
+    updateHeaderStats();
+    showFeedback(`✅ 任务 ${l2TaskIdx+1} 完成！`);
+    l2TaskIdx++;
+    setLevelProgress(`已完成：${l2TaskIdx} / 6`);
+    setTimeout(()=>l2NextTask(),500);
+  }
+}
+
+/* =============================================
+   LEVEL 3 — Copy / Paste
+   ============================================= */
+const L3_TASKS=[
+  {source:'LED_PIN',expect:'LED_PIN',label:'复制一个变量名',modify:false},
+  {source:'print("红灯亮")',expect:'print("红灯亮")',label:'复制一行 Python 代码',modify:false},
+  {source:'digitalWrite(redPin, HIGH);',expect:'digitalWrite(redPin, HIGH);',label:'复制一行 C++ 代码',modify:false},
+  {source:'digitalWrite(redPin, HIGH);',expect:'digitalWrite(greenPin, HIGH);',label:'复制后把 redPin 改成 greenPin',modify:true},
+];
+let l3TaskIdx=0;
+/** L3 子任务状态：0=未选中 1=已选中 2=已复制 3=已聚焦编辑区 4=已粘贴 5=已修改(仅 task4) */
+let l3SubState=0;
+
+function initLevel3(){
+  l3TaskIdx=0; levelErrors=0; l3SubState=0;
+  setTaskInfo('完成 4 个复制粘贴小任务。','💡 步骤：选中 → Ctrl+C → 点击编辑区 → Ctrl+V。');
+  setLevelProgress(`已完成：0 / 4`);
+  updateLevelBadge(3); updateLevelList(3);
+  document.getElementById('btn-hint').style.display='inline-block';
+  currentHintFn=()=>{
+    const stepMsgs=['👉 先选中左侧代码（用鼠标拖选或点击辅助按钮）','👉 现在按 Ctrl + C 复制','👉 点击右侧编辑区聚焦','👉 按 Ctrl + V 粘贴',l3TaskIdx===3?'👉 把 redPin 改成 greenPin':'👉 检查粘贴内容'];
+    showFeedback('💡 '+stepMsgs[l3SubState]||'继续完成任务');
+  };
+  showScreen('screen-l3');
+  l3SetupTask();
+  startLevelTimer();
+}
+function l3SetupTask(){
+  const t=L3_TASKS[l3TaskIdx];
+  document.getElementById('l3-source-card').textContent=t.source;
+  document.getElementById('l3-source-card').classList.remove('copied-glow');
+  const ed=document.getElementById('l3-editor');
+  ed.value=''; ed.classList.remove('success');
+  ed.readOnly=!t.modify ? true : false; // 前 3 个任务编辑区只接受粘贴
+  // 实际上 readOnly 会阻止 paste，因此我们不要 readOnly，但用别的方式控制
+  ed.readOnly=false;
+  l3SubState=0;
+  // 显示步骤
+  ['l3-step-1','l3-step-2','l3-step-3','l3-step-4'].forEach(id=>document.getElementById(id).classList.remove('done'));
+  document.getElementById('l3-step-5').style.display=t.modify?'block':'none';
+  if(t.modify) document.getElementById('l3-step-5').classList.remove('done');
+  // 任务文案
+  document.getElementById('task-desc').textContent=`任务 ${l3TaskIdx+1}/4：${t.label}`;
+}
+
+/** 辅助按钮：自动选中源代码 */
+function l3SelectSource(){
+  const card=document.getElementById('l3-source-card');
+  const range=document.createRange();
+  range.selectNodeContents(card);
+  const sel=window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  l3SubState=Math.max(l3SubState,1);
+  document.getElementById('l3-step-1').classList.add('done');
+  showFeedback('✅ 已选中源代码，现在按 Ctrl + C 复制。');
+}
+
+/** 检查当前是否选中了源代码 */
+function l3IsSourceSelected(){
+  const sel=window.getSelection();
+  if(!sel||sel.rangeCount===0) return false;
+  const txt=sel.toString().trim();
+  const card=document.getElementById('l3-source-card');
+  // 必须在源代码范围内且文本匹配
+  const cardContains=card.contains(sel.anchorNode)||card.contains(sel.focusNode);
+  return cardContains && txt===L3_TASKS[l3TaskIdx].source;
+}
+
+function handleL3Key(e){
+  const t=L3_TASKS[l3TaskIdx];
+  const ed=document.getElementById('l3-editor');
+  // Ctrl + C
+  if(e.ctrlKey && (e.key==='c'||e.key==='C')){
+    if(l3IsSourceSelected()){
+      stats.copySuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      l3SubState=Math.max(l3SubState,2);
+      document.getElementById('l3-step-1').classList.add('done');
+      document.getElementById('l3-step-2').classList.add('done');
+      document.getElementById('l3-source-card').classList.add('copied-glow');
+      showFeedback('✅ Ctrl+C 复制成功！现在点击右侧编辑区。');
+    } else {
+      stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 复制前要先选中内容！可点击 "选中源代码" 辅助按钮。',true);
+    }
+    return;
+  }
+  // Ctrl + V
+  if(e.ctrlKey && (e.key==='v'||e.key==='V')){
+    // 必须先复制过
+    if(l3SubState<2){
+      stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 还没复制呢！先选中内容并按 Ctrl + C。',true);
+      e.preventDefault();
+      return;
+    }
+    // 必须焦点在编辑区
+    if(document.activeElement!==ed){
+      stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 请先点击右侧编辑区，再粘贴。',true);
+      e.preventDefault();
+      return;
+    }
+    // 允许原生粘贴发生，下面通过 paste 事件验证内容
+    // 不阻止默认，让浏览器写入
+    setTimeout(()=>{
+      const val=ed.value;
+      if(val===t.expect){
+        // 粘贴并已匹配目标（task 1-3）
+        l3CompleteTaskItem();
+      } else if(val===t.source){
+        // 粘贴正确但任务 4 还需要修改
+        stats.pasteSuccessCount++; stats.shortcutSuccessCount++;
+        updateHeaderStats();
+        l3SubState=Math.max(l3SubState,4);
+        document.getElementById('l3-step-3').classList.add('done');
+        document.getElementById('l3-step-4').classList.add('done');
+        if(t.modify){
+          showFeedback('✅ 粘贴成功！现在把 redPin 改成 greenPin。');
+        } else {
+          // 粘贴和期望一致就完成
+          l3CompleteTaskItem();
+        }
+      } else {
+        stats.errorCount++; levelErrors++;
+        updateHeaderStats();
+        showFeedback('❗ 粘贴内容与任务卡不一致，请重新复制。',true);
+        ed.value='';
+      }
+    },30);
+    return;
+  }
+  // Ctrl + X 在本工具中不练习，提示
+  if(e.ctrlKey && (e.key==='x'||e.key==='X')){
+    e.preventDefault();
+    showFeedback('💡 本工具不练习 Ctrl + X 剪切，请用 Ctrl + C 复制。',true);
+    return;
+  }
+}
+
+/** 监听编辑区输入变化，处理 task 4 的修改场景 */
+function l3SetupEditorListeners(){
+  const ed=document.getElementById('l3-editor');
+  ed.addEventListener('input',()=>{
+    const t=L3_TASKS[l3TaskIdx];
+    if(!t.modify) return;
+    if(l3SubState<4) return;
+    if(ed.value===t.expect){
+      l3CompleteTaskItem();
+    }
+  });
+  ed.addEventListener('focus',()=>{
+    if(l3SubState>=2){
+      l3SubState=Math.max(l3SubState,3);
+      document.getElementById('l3-step-3').classList.add('done');
+    }
+  });
+}
+function l3CompleteTaskItem(){
+  stats.pasteSuccessCount=Math.max(stats.pasteSuccessCount,stats.pasteSuccessCount); // 已统计
+  stats.correctCount++;
+  if(!document.getElementById('l3-step-4').classList.contains('done')){
+    stats.pasteSuccessCount++; stats.shortcutSuccessCount++;
+  }
+  document.getElementById('l3-step-3').classList.add('done');
+  document.getElementById('l3-step-4').classList.add('done');
+  if(L3_TASKS[l3TaskIdx].modify) document.getElementById('l3-step-5').classList.add('done');
+  document.getElementById('l3-editor').classList.add('success');
+  updateHeaderStats();
+  showFeedback(`🌟 任务 ${l3TaskIdx+1} 完成！`);
+  l3TaskIdx++;
+  setLevelProgress(`已完成：${l3TaskIdx} / 4`);
+  if(l3TaskIdx>=L3_TASKS.length){ setTimeout(()=>completeLevel(3),700); }
+  else setTimeout(()=>l3SetupTask(),700);
+}
+
+/* =============================================
+   LEVEL 4 — Undo / Select All / Save
+   ============================================= */
+const L4_ROUNDS=[
+  {type:'undo',  base:'print("hello")',extra:'xxx', task:'刚刚多打了几个字，请按 Ctrl + Z 撤销。',hint:'Ctrl + Z 常用于撤销上一步操作。'},
+  {type:'selectAll', base:'aaaaaa',task:'编辑区内容错误，请按 Ctrl + A 全选这段文本。',hint:'Ctrl + A 会全选编辑区所有内容。'},
+  {type:'save',  base:'print("ok")',task:'代码写好了，请按 Ctrl + S 保存到训练记录。',hint:'Ctrl + S 用于保存，浏览器默认会保存网页，本工具会拦截。'},
+  {type:'undo',  base:'cout << "hi";',extra:'???',task:'再练一次！多打了 ??? 请按 Ctrl + Z 撤销。',hint:'连续按 Ctrl + Z 可以多次撤销。'},
+  {type:'save',  base:'cout << "bye" << endl;',task:'最终代码完成，请按 Ctrl + S 保存。',hint:'记住：Ctrl + S 是程序员最常用的快捷键。'},
+];
+let l4Idx=0;
+let l4State=null; // 当前轮次状态
+
+function initLevel4(){
+  l4Idx=0; levelErrors=0;
+  setTaskInfo('练习撤销、全选、保存三个最重要的快捷键。','💡 共 5 轮，注意当前要按什么。');
+  setLevelProgress(`已完成：0 / 5`);
+  updateLevelBadge(4); updateLevelList(4);
+  document.getElementById('btn-hint').style.display='inline-block';
+  showScreen('screen-l4');
+  l4StartRound();
+  startLevelTimer();
+}
+function l4StartRound(){
+  if(l4Idx>=L4_ROUNDS.length){ completeLevel(4); return; }
+  const r=L4_ROUNDS[l4Idx];
+  l4State={...r,completed:false};
+  document.getElementById('l4-save-banner').className='';
+  document.getElementById('task-desc').textContent=`第 ${l4Idx+1}/5 轮：${r.task}`;
+  currentHintFn=()=>showFeedback('💡 '+r.hint);
+  // 渲染快捷键展示
+  const sd=document.getElementById('l4-shortcut-display');
+  sd.innerHTML='';
+  const map={undo:['Ctrl','Z'],selectAll:['Ctrl','A'],save:['Ctrl','S']};
+  const keys=map[r.type];
+  keys.forEach((k,i)=>{
+    if(i>0){const p=document.createElement('div');p.className='kc-plus';p.textContent='+';sd.appendChild(p);}
+    sd.appendChild(makeKeycap(k,{target:true,wide:k.length>1}));
+  });
+  // 渲染编辑器内容
+  const ed=document.getElementById('l4-editor');
+  ed.classList.remove('select-all-highlight');
+  if(r.type==='undo'){
+    ed.innerHTML=escapeHtml(r.base)+`<span class="l4-extra-text">${escapeHtml(r.extra)}</span>`;
+  } else {
+    ed.textContent=r.base;
+  }
+}
+
+function handleL4Key(e){
+  if(!l4State || l4State.completed) return;
+  const isCtrl=e.ctrlKey || e.metaKey;
+  // Ctrl + Z
+  if(isCtrl && (e.key==='z'||e.key==='Z')){
+    e.preventDefault();
+    if(l4State.type==='undo'){
+      // 成功，删除多余文本
+      const ed=document.getElementById('l4-editor');
+      ed.textContent=l4State.base;
+      stats.undoSuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      showFeedback('✅ Ctrl + Z 撤销成功！');
+      l4State.completed=true;
+      l4Idx++;
+      setLevelProgress(`已完成：${l4Idx} / 5`);
+      setTimeout(()=>l4StartRound(),700);
+    } else {
+      l4WrongShortcut('Ctrl + Z',l4State.type);
+    }
+    return;
+  }
+  // Ctrl + A
+  if(isCtrl && (e.key==='a'||e.key==='A')){
+    e.preventDefault();
+    if(l4State.type==='selectAll'){
+      const ed=document.getElementById('l4-editor');
+      ed.classList.add('select-all-highlight');
+      // 视觉上选中
+      const range=document.createRange();
+      range.selectNodeContents(ed);
+      const sel=window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      stats.selectAllSuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      showFeedback('✅ Ctrl + A 全选成功！');
+      l4State.completed=true;
+      l4Idx++;
+      setLevelProgress(`已完成：${l4Idx} / 5`);
+      setTimeout(()=>{ window.getSelection().removeAllRanges(); l4StartRound(); },800);
+    } else {
+      l4WrongShortcut('Ctrl + A',l4State.type);
+    }
+    return;
+  }
+  // Ctrl + S
+  if(isCtrl && (e.key==='s'||e.key==='S')){
+    e.preventDefault();
+    if(l4State.type==='save'){
+      stats.saveSuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      document.getElementById('l4-save-banner').className='show';
+      showFeedback('✅ Ctrl + S 保存成功！已保存到训练记录。');
+      l4State.completed=true;
+      l4Idx++;
+      setLevelProgress(`已完成：${l4Idx} / 5`);
+      setTimeout(()=>l4StartRound(),900);
+    } else {
+      l4WrongShortcut('Ctrl + S',l4State.type);
+    }
+    return;
+  }
+  // Ctrl + X 防止误用
+  if(isCtrl && (e.key==='x'||e.key==='X')){
+    e.preventDefault();
+    showFeedback('💡 本关不练习 Ctrl + X。',true);
+    return;
+  }
+}
+function l4WrongShortcut(pressed,expectedType){
+  stats.errorCount++; levelErrors++;
+  updateHeaderStats();
+  const map={undo:'Ctrl + Z',selectAll:'Ctrl + A',save:'Ctrl + S'};
+  showFeedback(`❌ 你按下的是 ${pressed}，本轮需要按 ${map[expectedType]}。`,true);
+}
+
+/* =============================================
+   LEVEL 5 — Python Symbols
+   ============================================= */
+const L5_TASKS=[
+  {template:'print<S0>"hello"<S1>',         slots:['(',')'], focus:'( )', hint:'括号 ( 和 ) 通常按 Shift + 9 / Shift + 0。'},
+  {template:'print(<S0>hello<S1>)',         slots:['"','"'], focus:'" "', hint:'双引号 " 通常需要按 Shift + \'。'},
+  {template:'name = <S0>Tom<S1>',           slots:["'","'"], focus:"' '", hint:"单引号 ' 通常在 Enter 键左边。"},
+  {template:'if age > 10<S0>',              slots:[':'],    focus:':',   hint:'冒号 : 通常需要按 Shift + ;。'},
+  {template:'name <S0> "Tom"',              slots:['='],    focus:'=',   hint:'等号 = 在退格键左边。'},
+  {template:'total = a <S0> b',             slots:['+'],    focus:'+',   hint:'加号 + 通常需要按 Shift + =。'},
+  {template:'count = x <S0> 1',             slots:['-'],    focus:'-',   hint:'减号 - 在数字 0 右边。'},
+  {template:'area = w <S0> h',              slots:['*'],    focus:'*',   hint:'星号 * 通常需要按 Shift + 8。'},
+  {template:'avg = total <S0> 2',           slots:['/'],    focus:'/',   hint:'斜杠 / 在右 Shift 左边。'},
+  {template:'student<S0>name = "Tom"',      slots:['_'],    focus:'_',   hint:'下划线 _ 通常需要按 Shift + -。'},
+  {template:'<S0> 这是一行注释',             slots:['#'],    focus:'#',   hint:'井号 # 通常需要按 Shift + 3。'},
+  {template:'if x > 0:\n<TAB>print("yes")', slots:['Tab'],  focus:'Tab', hint:'Tab 键在键盘左边，可插入缩进。'},
+];
+let l5Idx=0,l5SlotPos=0;
+
+function initLevel5(){
+  l5Idx=0; l5SlotPos=0; levelErrors=0;
+  setTaskInfo('为缺失符号的 Python 代码补全符号。','💡 共 12 题，按对一个就自动进入下一空。');
+  setLevelProgress(`已完成：0 / 12`);
+  updateLevelBadge(5); updateLevelList(5);
+  document.getElementById('btn-hint').style.display='inline-block';
+  showScreen('screen-l5');
+  l5RenderTask();
+  startLevelTimer();
+}
+function l5RenderTask(){
+  if(l5Idx>=L5_TASKS.length){ completeLevel(5); return; }
+  const t=L5_TASKS[l5Idx];
+  l5SlotPos=0;
+  document.getElementById('l5-round-label').textContent=`第 ${l5Idx+1} / 12 题  ·  关注符号  ${t.focus}`;
+  document.getElementById('task-desc').textContent=`题目 ${l5Idx+1}/12：补全代码中的 ${t.focus}`;
+  currentHintFn=()=>showFeedback('💡 '+t.hint);
+  renderSymbolCard('l5-task-card',t,l5SlotPos);
+}
+
+/** 渲染符号任务卡片（L5/L6 共用） */
+function renderSymbolCard(cardId,task,activeSlotIdx,filledArr=[]){
+  const card=document.getElementById(cardId);
+  let html=task.template;
+  // <TAB> 占位符：未填 + 当前活动 → 闪烁的 ⇥ Tab；已填 → 4 个绿色点（视觉上呈现缩进效果）
+  html=html.replace(/<TAB>/g,(()=>{
+    if(filledArr[0]) return '<span class="tab-indent-marker filled">····</span>';
+    if(activeSlotIdx===0) return '<span class="tab-indent-marker active-tab">⇥&nbsp;Tab</span>';
+    return '<span class="tab-indent-marker">⇥</span>';
+  })());
+  // <S0> <S1> ...
+  task.slots.forEach((s,i)=>{
+    let cls='symbol-slot';
+    if(filledArr[i]){ cls+=' filled'; }
+    else if(i===activeSlotIdx){ cls+=' active'; }
+    const content=filledArr[i]?escapeHtml(filledArr[i]):'?';
+    html=html.replace(`<S${i}>`,`<span class="${cls}" data-slot="${i}">${content}</span>`);
+  });
+  // 换行支持
+  html=html.replace(/\n/g,'<br>');
+  card.innerHTML=html;
+}
+let l5Filled=[];
+
+function handleL5Key(e){
+  if(l5Idx>=L5_TASKS.length) return;
+  const t=L5_TASKS[l5Idx];
+  // 在 L5 / L6 / L7 中阻止 Tab 默认行为
+  if(e.key==='Tab') e.preventDefault();
+  // 阻止 Backspace 在非编辑区的默认行为（避免后退页面）
+  if(e.key==='Backspace') e.preventDefault();
+  const expect=t.slots[l5SlotPos];
+  let got=null;
+  if(expect==='Tab'){ if(e.key==='Tab') got='Tab'; }
+  else if(e.key.length===1){ got=e.key; }
+  if(got===null) return; // 忽略修饰键等
+  if(got===expect){
+    stats.symbolSuccessCount++; stats.correctCount++;
+    updateHeaderStats();
+    l5Filled[l5SlotPos]=got==='Tab'?'    ':got;
+    renderSymbolCard('l5-task-card',t,l5SlotPos+1,l5Filled);
+    // Extra visual feedback when the user presses Tab correctly:
+    // briefly flash the whole card green and pop a "↳ 缩进 +4" caption above the new marker.
+    if(got==='Tab'){
+      const card=document.getElementById('l5-task-card');
+      card.classList.remove('tab-flash');
+      void card.offsetWidth;  // force reflow so the animation can restart on repeat
+      card.classList.add('tab-flash');
+      setTimeout(()=>card.classList.remove('tab-flash'),720);
+      const marker=card.querySelector('.tab-indent-marker.filled');
+      if(marker){
+        const cap=document.createElement('span');
+        cap.className='tab-indent-caption';
+        cap.textContent='↳ 缩进 +4';
+        // Position the caption horizontally over the marker, relative to the card.
+        const mr=marker.getBoundingClientRect();
+        const cr=card.getBoundingClientRect();
+        cap.style.left=(mr.left-cr.left+mr.width/2)+'px';
+        cap.style.top=(mr.top-cr.top)+'px';
+        card.appendChild(cap);
+        setTimeout(()=>cap.remove(),1150);
+      }
+    }
+    l5SlotPos++;
+    if(l5SlotPos>=t.slots.length){
+      showFeedback(`🌟 第 ${l5Idx+1} 题完成！`);
+      l5Idx++;
+      l5Filled=[];
+      setLevelProgress(`已完成：${l5Idx} / 12`);
+      setTimeout(()=>l5RenderTask(),550);
+    } else {
+      showFeedback(`✅ 答对了！再来一个。`);
+    }
+  } else {
+    stats.errorCount++; levelErrors++;
+    stats.pythonSymbolErrors++;
+    updateHeaderStats();
+    showFeedback(`❌ 不对！${t.hint}`,true);
+    // 让 slot 抖动
+    const slotEl=document.querySelector(`#l5-task-card .symbol-slot[data-slot="${l5SlotPos}"]`);
+    if(slotEl){ slotEl.classList.add('wrong'); setTimeout(()=>slotEl.classList.remove('wrong'),420); }
+  }
+}
+
+/* =============================================
+   LEVEL 6 — C++ Symbols
+   ============================================= */
+const L6_TASKS=[
+  {template:'cout << "hello" << endl<S0>', slots:[';'],     focus:';',   hint:'分号 ; 是 C++ 语句结束符，在 Enter 键左边。'},
+  {template:'int main() <S0>',             slots:['{'],     focus:'{',   hint:'大括号 { 通常需要按 Shift + [。'},
+  {template:'int main() {\n    return 0;\n<S0>', slots:['}'], focus:'}', hint:'大括号 } 通常需要按 Shift + ]。'},
+  {template:'cout <S0><S1> "hello"',       slots:['<','<'], focus:'<<',  hint:'<< 表示输出，按两次 Shift + ,。'},
+  {template:'cin <S0><S1> age',            slots:['>','>'], focus:'>>',  hint:'>> 表示输入，按两次 Shift + .。'},
+  {template:'if(a <S0><S1> b)',            slots:['=','='], focus:'==',  hint:'== 表示判断相等，是 = 按两次。不是赋值！'},
+  {template:'#include <S0>iostream<S1>',   slots:['<','>'], focus:'< >', hint:'< 按 Shift + ,，> 按 Shift + .。'},
+  {template:'int x = 10<S0>',              slots:[';'],     focus:';',   hint:'每一行 C++ 语句都要分号 ;。'},
+  {template:'cout << "hi" <S0><S1> endl;', slots:['<','<'], focus:'<<',  hint:'cout 用 << 连接多个内容。'},
+  {template:'int arr[5]<S0>',              slots:[';'],     focus:';',   hint:'声明语句也要分号 ;。'},
+  {template:'if(x <S0><S1> 10)',           slots:['=','='], focus:'==',  hint:'判断相等用 ==，单个 = 是赋值。'},
+  {template:'void func() <S0>\n    return;\n<S1>', slots:['{','}'], focus:'{ }', hint:'函数体用大括号包起来。'},
+];
+let l6Idx=0,l6SlotPos=0,l6Filled=[];
+
+function initLevel6(){
+  l6Idx=0; l6SlotPos=0; levelErrors=0; l6Filled=[];
+  setTaskInfo('为缺失符号的 C++ 代码补全符号。','💡 共 12 题，注意 ; { } << >> == 等。');
+  setLevelProgress(`已完成：0 / 12`);
+  updateLevelBadge(6); updateLevelList(6);
+  document.getElementById('btn-hint').style.display='inline-block';
+  showScreen('screen-l6');
+  l6RenderTask();
+  startLevelTimer();
+}
+function l6RenderTask(){
+  if(l6Idx>=L6_TASKS.length){ completeLevel(6); return; }
+  const t=L6_TASKS[l6Idx];
+  l6SlotPos=0; l6Filled=[];
+  document.getElementById('l6-round-label').textContent=`第 ${l6Idx+1} / 12 题  ·  关注符号  ${t.focus}`;
+  document.getElementById('task-desc').textContent=`题目 ${l6Idx+1}/12：补全代码中的 ${t.focus}`;
+  currentHintFn=()=>showFeedback('💡 '+t.hint);
+  renderSymbolCard('l6-task-card',t,l6SlotPos);
+}
+
+function handleL6Key(e){
+  if(l6Idx>=L6_TASKS.length) return;
+  const t=L6_TASKS[l6Idx];
+  if(e.key==='Tab') e.preventDefault();
+  if(e.key==='Backspace') e.preventDefault();
+  const expect=t.slots[l6SlotPos];
+  let got=null;
+  if(e.key.length===1) got=e.key;
+  if(got===null) return;
+  if(got===expect){
+    stats.symbolSuccessCount++; stats.correctCount++;
+    updateHeaderStats();
+    l6Filled[l6SlotPos]=got;
+    renderSymbolCard('l6-task-card',t,l6SlotPos+1,l6Filled);
+    l6SlotPos++;
+    if(l6SlotPos>=t.slots.length){
+      showFeedback(`🌟 第 ${l6Idx+1} 题完成！`);
+      l6Idx++;
+      setLevelProgress(`已完成：${l6Idx} / 12`);
+      setTimeout(()=>l6RenderTask(),550);
+    } else {
+      showFeedback(`✅ 答对了！再来一个。`);
+    }
+  } else {
+    stats.errorCount++; levelErrors++;
+    stats.cppSymbolErrors++;
+    updateHeaderStats();
+    showFeedback(`❌ 不对！${t.hint}`,true);
+    const slotEl=document.querySelector(`#l6-task-card .symbol-slot[data-slot="${l6SlotPos}"]`);
+    if(slotEl){ slotEl.classList.add('wrong'); setTimeout(()=>slotEl.classList.remove('wrong'),420); }
+  }
+}
+
+/* =============================================
+   LEVEL 7 — Combined Code Workbench
+   ============================================= */
+let l7Mode='py'; // 'py' | 'cpp'
+let l7Step=0;
+
+/* Normalize before comparing L7 user input against target string.
+   Handles TWO kinds of look-alike mismatches that block progression:
+
+   1) IME-induced full-width punctuation (looks identical on screen):
+      ;→；  "→"/"  (→（  etc.  When a user types 红灯亮 via Chinese IME,
+      the next punctuation key often still emits a full-width char.
+
+   2) Whitespace variants. In C++ both styles are valid:
+        cout << "红" << endl;     (Google style, with spaces)
+        cout<<"红"<<endl;          (condensed, also valid)
+      Stripping all ASCII spaces/tabs (newlines preserved) makes both
+      forms match the canonical target. Strings here contain no
+      meaningful whitespace, so collapsing is safe.
+
+   L7 is workflow-focused (Ctrl+A/C/V/S); strict char correctness was
+   taught in L5/L6. Apply this to BOTH sides of every comparison. */
+function l7Normalize(s){
+  return s
+    .replace(/[\u201C\u201D\u201E\u301D\u301E\u301F\uFF02]/g,'"')   // " " „ 〝 〞 〟 ＂  → "
+    .replace(/[\u2018\u2019\u201A\uFF07]/g,"'")                     // ' ' ‚ ＇  → '
+    .replace(/\uFF1B/g,';')                                          // ；  → ;
+    .replace(/\uFF1A/g,':')                                          // ：  → :
+    .replace(/\uFF0C/g,',')                                          // ，  → ,
+    .replace(/\u3002/g,'.')                                          // 。  → .
+    .replace(/\uFF08/g,'(').replace(/\uFF09/g,')')                  // （ ）→ ( )
+    .replace(/\uFF3B/g,'[').replace(/\uFF3D/g,']')                  // ［ ］→ [ ]
+    .replace(/\uFF5B/g,'{').replace(/\uFF5D/g,'}')                  // ｛ ｝→ { }
+    .replace(/\uFF1C/g,'<').replace(/\uFF1E/g,'>')                  // ＜ ＞→ < >
+    .replace(/\u3010/g,'[').replace(/\u3011/g,']')                  // 【 】→ [ ]
+    .replace(/\u300C/g,'"').replace(/\u300D/g,'"')                  // 「 」→ "
+    .replace(/\u3000/g,' ')                                          // ideographic space → ' '
+    .replace(/[ \t]+/g,'')                                           // strip all horizontal whitespace
+    ;
+}
+
+const L7_PLANS={
+  py:{
+    firstLine:'print("红灯亮")',
+    secondLine:'print("绿灯亮")',
+    finalCode:'print("红灯亮")\nprint("绿灯亮")',
+    stepNames:[
+      '输入第一行 print("红灯亮")',
+      '按 Ctrl + A 全选第一行',
+      '按 Ctrl + C 复制',
+      '光标到行末，按 Enter 换行',
+      '按 Ctrl + V 粘贴',
+      '把第二行的 "红" 改成 "绿"',
+      '按 Ctrl + S 保存',
+    ],
+  },
+  cpp:{
+    firstLine:'cout << "红灯亮" << endl;',
+    secondLine:'cout << "绿灯亮" << endl;',
+    finalCode:'cout << "红灯亮" << endl;\ncout << "绿灯亮" << endl;',
+    stepNames:[
+      '输入第一行 cout << "红灯亮" << endl;',
+      '按 Ctrl + A 全选第一行',
+      '按 Ctrl + C 复制',
+      '光标到行末，按 Enter 换行',
+      '按 Ctrl + V 粘贴',
+      '把第二行的 "红" 改成 "绿"',
+      '按 Ctrl + S 保存',
+    ],
+  }
+};
+
+function initLevel7(){
+  l7Step=1; levelErrors=0;
+  setTaskInfo('综合挑战：完成一段双行输出代码。','💡 按右侧步骤顺序操作。');
+  setLevelProgress(`步骤：0 / 7`);
+  updateLevelBadge(7); updateLevelList(7);
+  document.getElementById('btn-hint').style.display='inline-block';
+  showScreen('screen-l7');
+  document.getElementById('l7-complete-anim').className='';
+  document.getElementById('l7-saved-pill').className='';
+  const ed=document.getElementById('l7-code-editor');
+  ed.value='';
+  ed.focus();
+  l7UpdateStepsUI();
+  l7UpdateModeUI();
+  currentHintFn=()=>showFeedback('💡 当前应该：'+L7_PLANS[l7Mode].stepNames[l7Step-1]);
+  startLevelTimer();
+}
+
+function l7SwitchMode(mode){
+  if(levelActive && currentLevel===7){
+    // 重置进度
+    l7Mode=mode;
+    l7Step=1;
+    document.getElementById('l7-code-editor').value='';
+    document.getElementById('l7-saved-pill').className='';
+    l7UpdateModeUI();
+    l7UpdateStepsUI();
+    showFeedback(`✅ 已切换到 ${mode==='py'?'Python':'C++'} 综合任务。`);
+  } else {
+    l7Mode=mode;
+    l7UpdateModeUI();
+  }
+}
+function l7UpdateModeUI(){
+  document.getElementById('l7-mode-py').classList.toggle('active',l7Mode==='py');
+  document.getElementById('l7-mode-cpp').classList.toggle('active',l7Mode==='cpp');
+}
+function l7UpdateStepsUI(){
+  const names=L7_PLANS[l7Mode].stepNames;
+  for(let i=1;i<=7;i++){
+    const el=document.getElementById(`l7s-${i}`);
+    el.className='l7-step'+(i<l7Step?' done':i===l7Step?' active':'');
+    // 更新步骤文案（适配模式）
+    if(i===1){
+      el.children[1].innerHTML=l7Mode==='py'?'输入第一行<br>print("红灯亮")':'输入第一行<br>cout &lt;&lt; "红灯亮" &lt;&lt; endl;';
+    }
+  }
+  setLevelProgress(`步骤：${l7Step-1} / 7`);
+}
+
+/** L7 中处理键盘事件 */
+function handleL7Key(e){
+  const ed=document.getElementById('l7-code-editor');
+  const plan=L7_PLANS[l7Mode];
+  const isCtrl=e.ctrlKey || e.metaKey;
+  
+  // 拦截 Ctrl + S 默认行为
+  if(isCtrl && (e.key==='s'||e.key==='S')){ e.preventDefault(); }
+  // 拦截 Ctrl + X
+  if(isCtrl && (e.key==='x'||e.key==='X')){ e.preventDefault(); showFeedback('💡 本关不练习 Ctrl + X。',true); return; }
+  
+  // 不同步骤的关键处理
+  // Step 2: Ctrl + A
+  if(l7Step===2 && isCtrl && (e.key==='a'||e.key==='A')){
+    // 选中第一行（如果只有一行）或 selectAll
+    e.preventDefault();
+    // 程序化选中第一行
+    const lines=ed.value.split('\n');
+    if(l7Normalize(lines[0])===l7Normalize(plan.firstLine)){
+      ed.focus();
+      ed.setSelectionRange(0,lines[0].length);
+      stats.selectAllSuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      showFeedback('✅ 已选中第一行！');
+      l7Advance();
+    } else {
+      stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 请先完成第一行的输入。',true);
+    }
+    return;
+  }
+  // Step 3: Ctrl + C
+  if(l7Step===3 && isCtrl && (e.key==='c'||e.key==='C')){
+    const selected=ed.value.substring(ed.selectionStart,ed.selectionEnd);
+    if(l7Normalize(selected)===l7Normalize(plan.firstLine)){
+      stats.copySuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      showFeedback('✅ 复制成功！现在按 Enter 换行。');
+      l7Advance();
+    } else {
+      stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 请先全选第一行（Ctrl + A）再复制。',true);
+    }
+    // 允许浏览器原生复制
+    return;
+  }
+  // Step 4: Enter 换行
+  if(l7Step===4 && e.key==='Enter'){
+    // 先把光标移到末尾，再让 Enter 默认行为执行
+    setTimeout(()=>{
+      if(ed.value.endsWith('\n')){
+        stats.correctCount++;
+        updateHeaderStats();
+        showFeedback('✅ 已换行，现在按 Ctrl + V 粘贴。');
+        l7Advance();
+      }
+    },30);
+    return;
+  }
+  // Step 5: Ctrl + V
+  if(l7Step===5 && isCtrl && (e.key==='v'||e.key==='V')){
+    setTimeout(()=>{
+      if(l7Normalize(ed.value)===l7Normalize(plan.firstLine+'\n'+plan.firstLine)){
+        stats.pasteSuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+        updateHeaderStats();
+        showFeedback('✅ 粘贴成功！现在把第二行的"红"改成"绿"。');
+        l7Advance();
+      }
+    },30);
+    return;
+  }
+  // Step 7: Ctrl + S
+  if(l7Step===7 && isCtrl && (e.key==='s'||e.key==='S')){
+    if(l7Normalize(ed.value)===l7Normalize(plan.finalCode)){
+      stats.saveSuccessCount++; stats.shortcutSuccessCount++; stats.correctCount++;
+      updateHeaderStats();
+      document.getElementById('l7-saved-pill').className='show';
+      showFeedback('🌟 保存成功！综合挑战完成！');
+      l7Advance();
+      setTimeout(()=>{
+        document.getElementById('l7-complete-anim').className='show';
+      },300);
+      setTimeout(()=>completeLevel(7),1800);
+    } else {
+      stats.errorCount++; levelErrors++;
+      updateHeaderStats();
+      showFeedback('❗ 内容还不完整，请检查两行代码。',true);
+    }
+    return;
+  }
+  // 步骤错位提示
+  if(isCtrl && ['a','A','c','C','v','V','s','S'].includes(e.key)){
+    const map={2:'Ctrl + A',3:'Ctrl + C',4:'Enter',5:'Ctrl + V',7:'Ctrl + S'};
+    if(map[l7Step]){
+      showFeedback(`❗ 顺序不对！当前应该：${L7_PLANS[l7Mode].stepNames[l7Step-1]}`,true);
+    }
+  }
+}
+
+function l7Advance(){
+  l7Step++;
+  if(l7Step>7) l7Step=7;
+  l7UpdateStepsUI();
+  currentHintFn=()=>showFeedback('💡 当前应该：'+L7_PLANS[l7Mode].stepNames[l7Step-1]);
+}
+
+/** 监听 L7 编辑器输入，自动完成 Step 1 / Step 6 */
+function l7SetupEditorListeners(){
+  const ed=document.getElementById('l7-code-editor');
+  ed.addEventListener('input',()=>{
+    if(currentLevel!==7 || !levelActive) return;
+    const plan=L7_PLANS[l7Mode];
+    const raw=ed.value;
+    const norm=l7Normalize(raw);
+    const planFirstNorm=l7Normalize(plan.firstLine);
+    const planFinalNorm=l7Normalize(plan.finalCode);
+    if(l7Step===1 && norm===planFirstNorm){
+      stats.correctCount++; updateHeaderStats();
+      if(raw!==plan.firstLine){
+        // matched only after normalization — give a friendly hint
+        showFeedback('✅ 第一行输入完成！(提示：编程中标点和间距通常更规范，例如 cout << "x" << endl;)');
+      } else {
+        showFeedback('✅ 第一行输入完成！现在按 Ctrl + A 全选。');
+      }
+      l7Advance();
+    }
+    if(l7Step===6 && norm===planFinalNorm){
+      stats.correctCount++; updateHeaderStats();
+      if(raw!==plan.finalCode){
+        showFeedback('✅ 修改完成！(提示：编程中标点和间距通常更规范)');
+      } else {
+        showFeedback('✅ 修改完成！现在按 Ctrl + S 保存。');
+      }
+      l7Advance();
+    }
+  });
+}
+
+/* =============================================
+   GLOBAL KEY ROUTER  (全局键盘事件分发)
+   ============================================= */
+document.addEventListener('keydown',(e)=>{
+  // 拦截可能干扰训练的浏览器快捷键
+  const isCtrl=e.ctrlKey || e.metaKey;
+  
+  // 永远拦截 Ctrl + S（避免触发浏览器保存对话框）
+  if(isCtrl && (e.key==='s'||e.key==='S')){ e.preventDefault(); }
+  
+  // 在训练激活时也防止 Ctrl + A 选中全部页面文本（但 L4/L7 自己会处理）
+  // 防止 Ctrl + P / Ctrl + D 等其它干扰
+  if(isCtrl && ['p','P','d','D','f','F'].includes(e.key)){ /* 不强制阻止 */ }
+  
+  // 训练未激活时不分发
+  if(!levelActive) return;
+  
+  // 统计总按键（修饰键单独按下不算）
+  if(!['Control','Shift','Alt','Meta'].includes(e.key)){
+    stats.keyPressCount++;
+  }
+  
+  // 分发到当前关卡处理函数
+  switch(currentLevel){
+    case 1: handleL1Key(e); break;
+    case 2: handleL2Key(e); break;
+    case 3: handleL3Key(e); break;
+    case 4: handleL4Key(e); break;
+    case 5: handleL5Key(e); break;
+    case 6: handleL6Key(e); break;
+    case 7: handleL7Key(e); break;
+  }
+  updateHeaderStats();
+});
+
+// 防止整页 Ctrl+A 选中
+document.addEventListener('selectstart',(e)=>{
+  // 允许特定容器内的选中（L3 源代码卡 / L3 编辑区 / L4 编辑器 / L7 编辑器）
+  const allowSelectionContainers=['l3-source-card','l3-editor','l4-editor','l7-code-editor'];
+  let node=e.target;
+  while(node && node!==document.body){
+    if(node.id && allowSelectionContainers.includes(node.id)) return; // 允许
+    if(node.classList && node.classList.contains('code-card')) return;
+    node=node.parentNode;
+  }
+  // 其它区域不允许选中（保持 user-select:none 在 *上）
+});
+
+/* =============================================
+   START LEVEL
+   ============================================= */
+function startLevel(n){
+  currentLevel=n; levelActive=true; levelErrors=0;
+  document.getElementById('btn-start').style.display='none';
+  document.getElementById('btn-restart-level').style.display='inline-block';
+  document.getElementById('btn-hint').style.display='inline-block';
+  document.getElementById('screen-level-complete').className='';
+  startGlobalTimer();
+  switch(n){
+    case 1: initLevel1(); break;
+    case 2: initLevel2(); break;
+    case 3: initLevel3(); break;
+    case 4: initLevel4(); break;
+    case 5: initLevel5(); break;
+    case 6: initLevel6(); break;
+    case 7: initLevel7(); break;
+  }
+}
+
+/* =============================================
+   RESULT SCREEN  &  SCORING
+   ============================================= */
+/**
+ * 计分规则：
+ *  基础分 100；
+ *  每次错误 -2，每次提示 -3；
+ *  平均每关用时超过 90s，额外按比例扣分；
+ *  关键快捷键未完成 -5；
+ *  最低 60。
+ */
+function showResult(){
+  clearInterval(globalTimer);
+  document.getElementById('screen-result').className='show';
+  let score=100;
+  score-=stats.errorCount*2;
+  score-=stats.hintCount*3;
+  const avg=globalSeconds/TOTAL_LEVELS;
+  if(avg>90) score-=Math.floor((avg-90)/15);
+  // 关键快捷键检查
+  if(stats.copySuccessCount===0) score-=5;
+  if(stats.pasteSuccessCount===0) score-=5;
+  if(stats.saveSuccessCount===0) score-=5;
+  score=Math.max(60,Math.min(100,score));
+  const m=Math.floor(globalSeconds/60),s=globalSeconds%60;
+  document.getElementById('final-score').textContent=score;
+  document.getElementById('rs-time').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+  document.getElementById('rs-correct').textContent=stats.correctCount;
+  document.getElementById('rs-error').textContent=stats.errorCount;
+  document.getElementById('rs-key').textContent=stats.keyPressCount;
+  document.getElementById('rs-shortcut').textContent=stats.shortcutSuccessCount;
+  document.getElementById('rs-symbol').textContent=stats.symbolSuccessCount;
+  // 评价文案
+  const comments={
+    90:'🌟 键盘操作非常熟练，可以进入编程学习啦！',
+    75:'👍 整体不错，建议继续练习编程符号和快捷键。',
+    60:'✅ 已经完成挑战，但符号输入还需要多练习。',
+    0:'💪 建议先从基础控制键和复制粘贴开始重复练习。'
+  };
+  document.getElementById('result-comment').textContent=Object.entries(comments).reverse().find(([k])=>score>=Number(k))[1];
+  // 关卡明细
+  const tbody=document.getElementById('rlt-body'); tbody.innerHTML='';
+  stats.levelData.forEach((ld,i)=>{
+    const row=document.createElement('div'); row.className='rlt-row';
+    row.innerHTML=`<div>第${i+1}关 ${ld.levelName}</div><div>${ld.timeUsed}s</div><div class="rlt-err">${ld.errors}</div><div class="rlt-done">${ld.completed?'✅':'—'}</div>`;
+    tbody.appendChild(row);
+  });
+  // 改进建议
+  const maxErr=stats.levelData.reduce((a,b)=>a.errors>b.errors?a:b);
+  let tip=`错误最多的是"${maxErr.levelName}"（${maxErr.errors}次），建议多练习这项操作。`;
+  if(stats.pythonSymbolErrors>stats.cppSymbolErrors && stats.pythonSymbolErrors>3) tip+=' Python 符号错误较多，建议加强 Shift+数字 组合按键。';
+  else if(stats.cppSymbolErrors>3) tip+=' C++ 符号错误较多，建议练习 ; { } << >> 的输入。';
+  if(stats.copySuccessCount<3) tip+=' 复制粘贴使用次数偏少，建议加强。';
+  document.getElementById('improve-tip').textContent=tip;
+  // 提交给平台
+  submitResult({score,totalTime:globalSeconds,stats:{...stats},levelData:stats.levelData});
+}
+
+/* =============================================
+   SUBMIT RESULT (预留接口，便于接入平台后端)
+   ============================================= */
+function submitResult(resultData){
+  console.log('提交到平台的数据：',resultData);
+  // 后续可改为：
+  // fetch('/api/submit',{method:'POST',body:JSON.stringify(resultData),headers:{'Content-Type':'application/json'}});
+}
+
+/* =============================================
+   RESTART ALL
+   ============================================= */
+function restartAll(){
+  clearInterval(globalTimer); clearInterval(levelTimer);
+  globalTimer=null; levelTimer=null; globalSeconds=0; levelSeconds=0;
+  currentLevel=0; levelActive=false; levelErrors=0;
+  unlockedUpTo=1;
+  Object.assign(stats,{
+    totalTime:0,currentLevel:0,correctCount:0,errorCount:0,hintCount:0,
+    keyPressCount:0,shortcutSuccessCount:0,
+    copySuccessCount:0,pasteSuccessCount:0,
+    undoSuccessCount:0,selectAllSuccessCount:0,saveSuccessCount:0,
+    symbolSuccessCount:0,
+    pythonSymbolErrors:0,cppSymbolErrors:0,
+  });
+  stats.levelData=LEVEL_NAMES.map(n=>({levelName:n,timeUsed:0,errors:0,completed:false,weakPoint:''}));
+  updateHeaderStats();
+  document.getElementById('h-time').textContent='0:00';
+  document.getElementById('timer-value').textContent='0:00';
+  document.getElementById('progress-bar-inner').style.width='0%';
+  document.getElementById('level-badge').textContent='欢迎';
+  document.getElementById('screen-result').className='';
+  document.getElementById('screen-level-complete').className='';
+  document.getElementById('btn-start').style.display='inline-block';
+  document.getElementById('btn-restart-level').style.display='none';
+  document.getElementById('btn-hint').style.display='none';
+  setLevelProgress('— / —');
+  setTaskInfo('选择关卡或点击开始训练！','💡 完成 7 关，掌握编程必备键盘操作！');
+  showScreen('screen-welcome');
+  document.getElementById('screen-welcome').style.display='flex';
+  updateLevelList(0);
+}
+
+/* =============================================
+   INIT
+   ============================================= */
+document.getElementById('btn-start').onclick=()=>startLevel(1);
+document.getElementById('btn-restart-level').onclick=()=>{
+  document.getElementById('screen-level-complete').className='';
+  if(currentLevel>0) startLevel(currentLevel);
+};
+// 一次性设置 L3 / L7 编辑器的输入监听
+l3SetupEditorListeners();
+l7SetupEditorListeners();
+updateLevelList(0);
+<\/script>
+</body>
+</html>
+</script>
+
+<script>
+/* ============================================================
+   HOMEPAGE THEME (independent from each trainer's theme)
+   ============================================================ */
+let hpDark=false;
+function hpToggleTheme(){
+  hpDark=!hpDark;
+  document.documentElement.setAttribute('data-theme',hpDark?'dark':'light');
+  document.getElementById('hp-theme-icon').textContent=hpDark?'🌙':'☀️';
+  document.getElementById('hp-theme-label').textContent=hpDark?'深色':'浅色';
+}
+
+/* ============================================================
+   TRAINER NAVIGATION
+   ============================================================ */
+const TRAINER_LABELS={
+  mouse:   '🖱 鼠标训练营',
+  keyboard:'⌨ 键盘训练营',
+};
+
+function openTrainer(which){
+  const tplId=which+'-html';
+  const tpl=document.getElementById(tplId);
+  if(!tpl){ console.error('Trainer template not found:',tplId); return; }
+  // Restore the closing-script tags from the escaped form used to embed inside the template.
+  const html=tpl.textContent.replace(/<\\\/script>/g,'</'+'script>');
+  const frame=document.getElementById('trainer-frame');
+  frame.srcdoc=html;
+  document.getElementById('tv-trainer-label').textContent=TRAINER_LABELS[which]||'训练中';
+  document.getElementById('homepage').classList.add('hidden');
+  document.getElementById('training-view').classList.add('show');
+  // Focus the iframe once loaded so keyboard input works immediately
+  // (especially important for the keyboard trainer).
+  frame.addEventListener('load',()=>{
+    try{ frame.contentWindow.focus(); }catch(e){}
+  },{once:true});
+}
+
+function exitTrainer(){
+  const frame=document.getElementById('trainer-frame');
+  // Setting srcdoc to a blank document destroys the iframe's document
+  // and clears all timers / listeners inside the trainer.
+  frame.srcdoc='';
+  document.getElementById('training-view').classList.remove('show');
+  document.getElementById('homepage').classList.remove('hidden');
+}
+
+// Esc as a shortcut to return to homepage. Works when the parent has focus.
+// When the iframe has focus, Esc still bubbles to the parent in most browsers
+// unless the trainer captures it (neither trainer does).
+window.addEventListener('keydown',(e)=>{
+  if(e.key==='Escape' && document.getElementById('training-view').classList.contains('show')){
+    exitTrainer();
+  }
+});
+// Also listen inside the iframe once it's loaded.
+document.getElementById('trainer-frame').addEventListener('load',function(){
+  try{
+    this.contentWindow.addEventListener('keydown',(e)=>{
+      if(e.key==='Escape'){ exitTrainer(); }
+    });
+  }catch(err){ /* same-origin srcdoc should allow this */ }
+});
+</script>
+</body>
+</html>
