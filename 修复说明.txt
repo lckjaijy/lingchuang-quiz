@@ -1,0 +1,26 @@
+【岭创工具包 · 最后一步上传（超简单）】
+
+好消息：不用新建文件夹！您之前传的 3 个工具已经在仓库根目录了，题库首页也恢复了。
+现在只需要再传【1 个文件】：
+
+一、上传 tools.html（唯一要做的）
+  1. 打开 https://github.com/lckjaijy/lingchuang-quiz
+  2. 点 【Add file】→ 【Upload files】（页面右上角，绿色按钮）
+  3. 把本文件夹里的 tools.html 拖进页面中间那个大方框
+  4. 往下滚，点绿色按钮 【Commit changes】
+  5. 完成！等 1-2 分钟
+
+二、上传完成后，三个地址（都不用变）：
+  工具包入口（发给学生/扫码）：
+    https://lckjaijy.github.io/lingchuang-quiz/tools.html
+  鼠标键盘练习：
+    https://lckjaijy.github.io/lingchuang-quiz/trainer.html
+  打字练习：
+    https://lckjaijy.github.io/lingchuang-quiz/typing.html
+  编程单词卡：
+    https://lckjaijy.github.io/lingchuang-quiz/card.html
+  题库首页（已恢复，不受影响）：
+    https://lckjaijy.github.io/lingchuang-quiz/index.html
+
+三、二维码
+  本文件夹里的 工具包_二维码.png 已指向工具包入口，上传后即可扫码使用。
