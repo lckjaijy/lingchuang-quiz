@@ -318,7 +318,7 @@ function renderQ(){
   var isMulti = mode==='mock' && q.type===2;
   var h = '<div class="qbox"><span class="qtag">'+(mode==='daily'?(q[3]||''):(q.type===2?'多选题':'单选题'))+'</span><span class="qnum">'+(curQ+1)+' / '+qTotal()+'</span>';
   if(isMulti) h += '<span class="mtag">可多选 · 选好后点「提交本题」</span>';
-  h += '<div class="qt">'+q.q+'</div><div class="opts">';
+  h += '<div class="qt">'+(mode==='daily'?q[0]:q.q)+'</div><div class="opts">';
   var opts = mode==='daily' ? q[1] : q.opts;
   var ansIdx = mode==='daily' ? q[2] : null;
   opts.forEach(function(op, i){
